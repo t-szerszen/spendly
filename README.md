@@ -1,0 +1,2 @@
+# spendly
+Ewidencja budżetu domowego
