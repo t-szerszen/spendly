@@ -1,0 +1,70 @@
+<?php
+$title = $data['title'] ?? 'O nas - Spendly';
+?>
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?php echo htmlspecialchars($title); ?></title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+    <!-- Nasz styl css -->
+    <link rel="stylesheet" href="/styles/style.css">
+</head>
+
+<body>
+
+    <!-- Nawigacja -->
+    <header>
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <img src="/logo-napis.png" alt="Spendly Logo">
+            </a>
+            <nav class="nav-links">
+                <a href="/">Strona Główna</a>
+                <a href="/about">O nas</a>
+                <a href="/contact">Kontakt</a>
+                <a href="/login" class="btn-primary">Zaloguj się</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Sekcja O nas -->
+    <main class="about-section">
+        <div class="about-header">
+            <h1>Czym jest Spendly?</h1>
+            <p>Projekt zrodzony z potrzeby prostego i zautomatyzowanego kontrolowania finansów osobistych bez ogromnych,
+                przytłaczających tabel w Excelu.</p>
+        </div>
+
+        <div class="about-content">
+            <div class="about-text-block">
+                <h2>Nasza Misja</h2>
+                <p>Uważamy, że każdy powinien mieć możliwość świadomego zarządzania swoimi pieniędzmi. Spendly powstało,
+                    aby zapewnić przyjazny, szybki i przede wszystkim bezpieczny sposób na monitorowanie wydatków.
+                    Koniec z zastanawianiem się "Gdzie podziały się moje pieniądze?". Z nami każdy grosz ma swoje
+                    miejsce.</p>
+            </div>
+
+            <div class="about-text-block">
+                <h2>Dlaczego stworzyliśmy aplikację?</h2>
+                <p>Istniejące rozwiązania były albo zbyt skomplikowane i naszpikowane setkami zbędnych ustawień, albo
+                    zbyt proste, by cokolwiek z nich wywnioskować. Zdecydowaliśmy się zbudować system "dokładnie w
+                    punkt" – piękny, nowoczesny, przypisujący transakcje do elastycznych kategorii i dający klarowne,
+                    wykresowe analizy w czasie rzeczywistym.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Stopka -->
+    <footer>
+        <p>&copy; <?php echo date('Y'); ?> Spendly. Wszelkie prawa zastrzeżone.</p>
+    </footer>
+
+</body>
+
+</html>
