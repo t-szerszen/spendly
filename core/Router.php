@@ -27,6 +27,10 @@ class Router
                 (new ContactController())->show();
                 break;
 
+            case 'rejestracja':
+                $regController = new RegisterController();
+                $regController->showRegisterForm();
+
             default:
                 // Jeśli nie znaleziono dopasowania wywołaj ErrorController
                 (new ErrorController())->show404();
