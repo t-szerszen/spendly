@@ -19,19 +19,7 @@ $title = $data['title'] ?? 'Błąd 404 - Strona nie istnieje';
 <body>
 
     <!-- Nawigacja -->
-    <header>
-        <div class="nav-container">
-            <a href="/" class="logo">
-                <img src="/logo-napis.png" alt="Spendly Logo">
-            </a>
-            <nav class="nav-links">
-                <a href="/">Strona Główna</a>
-                <a href="/about">O nas</a>
-                <a href="/contact">Kontakt</a>
-                <a href="/login" class="btn-primary">Zaloguj się</a>
-            </nav>
-        </div>
-    </header>
+        <?php include 'components/nav.php'; ?>
 
     <!-- Sekcja 404 -->
     <main class="error-section">
