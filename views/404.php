@@ -13,13 +13,13 @@ $title = $data['title'] ?? 'Błąd 404 - Strona nie istnieje';
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
     <!-- Nasz styl css -->
-    <link rel="stylesheet" href="/styles/style.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="<?= url('styles/style.css') ?>?v=<?= time() ?>">
 </head>
 
 <body>
 
     <!-- Nawigacja -->
-        <?php include 'components/nav.php'; ?>
+    <?php include 'components/nav.php'; ?>
 
     <!-- Sekcja 404 -->
     <main class="error-section">
