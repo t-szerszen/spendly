@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 // Załączenie klasy Routera
 require_once __DIR__ . '/core/Router.php';
 

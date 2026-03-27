@@ -33,6 +33,15 @@ class Router
                 (new HomeController())->show();
                 break;
 
+            case 'transactions':
+                require_once __DIR__ . '/../controllers/TransactionsController.php';
+                (new TransactionsController())->show();
+                break;
+            case 'transaction/delete':
+                require_once __DIR__ . '/../controllers/TransactionsController.php';
+                (new TransactionsController())->destroy();
+                break;
+
             case 'about':
                 (new AboutController())->show();
                 break;
@@ -64,10 +73,16 @@ class Router
                 (new DashboardController())->show();
                 break;
 
+            case 'transaction/add':
+                require_once __DIR__ . '/../controllers/TransactionsController.php';
+                (new TransactionsController())->store();
+                break;
+
             case 'logout':
                 require_once __DIR__ . '/../controllers/LogoutController.php';
                 (new LogoutController())->index();
                 break;
+                
 
             default:
                 // Jeśli nie znaleziono dopasowania wywołaj ErrorController
