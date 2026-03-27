@@ -27,8 +27,8 @@ $title = $data['title'] ?? 'Spendly - Mądrze zarządzaj swoimi finansami';
         <p>Spendly to nowoczesne narzędzie, z którym w łatwy i przyjemny sposób przeanalizujesz swoje wydatki, ustalisz
             plany oszczędnościowe i osiągniesz wolność finansową.</p>
         <div class="hero-buttons">
-            <a href="/register" class="btn-primary">Załóż darmowe konto</a>
-            <a href="/about" class="btn-secondary">Dowiedz się więcej</a>
+            <a href="<?= url('register') ?>" class="btn-primary">Załóż darmowe konto</a>
+            <a href="<?= url('about') ?>" class="btn-secondary">Dowiedz się więcej</a>
         </div>
     </section>
 

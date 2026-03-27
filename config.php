@@ -1,2 +1,2 @@
 <?php
-define('BASE_URL', 'http://spendly.test/');
+define('BASE_URL', '/spendly');
