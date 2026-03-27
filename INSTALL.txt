@@ -1,0 +1,4 @@
+Instrukcja instalacji środowiska:
+1. Stwórz plik .env na wzór pliku .env.example z danymi dostępu do lokalnej bazy danych.
+2. Stwórz plik config.php na wzór pliku config_example.php, gdzie zdefiniujesz bazową ściekę do tworzenia linków dla całej aplikacji, dzięki funkcji url() w helpers.php 
+3. 

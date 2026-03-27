@@ -1,8 +1,0 @@
-1. config.php podmienić:
-
-<?php
-define('BASE_URL', '/spendly');
-
-2. router podmienić:
-
-$path = trim($path, 'spendly/');
