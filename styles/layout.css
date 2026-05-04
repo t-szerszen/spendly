@@ -47,3 +47,24 @@ footer {
     border-top: 1px solid var(--glass-border);
     margin-top: auto;
 }
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-left: 1rem;
+}
+
+.user-info-text {
+    color: var(--color-text-mutated);
+    font-size: 0.9rem;
+}
+
+.user-info-name {
+    color: var(--color-blue);
+}
+
+.btn-logout {
+    padding: 0.4rem 1rem;
+    font-size: 0.85rem;
+}

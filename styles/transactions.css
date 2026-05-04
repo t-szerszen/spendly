@@ -1,0 +1,113 @@
+.transactions-section {
+    align-items: flex-start;
+    padding-top: 2rem;
+}
+
+.transactions-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.transactions-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.transactions-title {
+    color: var(--color-blue);
+}
+
+.transactions-card {
+    max-width: 100%;
+    text-align: left;
+}
+
+.transactions-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.transactions-table thead tr {
+    border-bottom: 2px solid var(--glass-border);
+    color: var(--color-text-mutated);
+}
+
+.transactions-table th {
+    padding: 1rem;
+}
+
+.transactions-table th.text-left {
+    text-align: left;
+}
+
+.transactions-table th.text-right {
+    text-align: right;
+}
+
+.transactions-table tbody tr {
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    transition: background 0.2s;
+}
+
+.transactions-table tbody tr:hover {
+    background: rgba(255,255,255,0.05);
+}
+
+.transactions-table td {
+    padding: 1rem;
+}
+
+.category-badge {
+    background: var(--glass-border);
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+}
+
+.desc-cell {
+    color: var(--color-text-mutated);
+}
+
+.amount-cell {
+    text-align: right;
+    font-weight: bold;
+}
+
+.amount-expense {
+    color: #ff4d4d;
+}
+
+.amount-income {
+    color: var(--color-green);
+}
+
+.action-cell {
+    text-align: right;
+}
+
+.delete-form {
+    margin: 0;
+    display: inline;
+}
+
+.btn-delete {
+    background: none;
+    border: none;
+    color: #ff4d4d;
+    cursor: pointer;
+    font-size: 0.85rem;
+    text-decoration: underline;
+    padding: 0;
+}
+
+.no-transactions {
+    text-align: center;
+    padding: 3rem;
+}
+
+.no-transactions-text {
+    color: var(--color-text-mutated);
+}

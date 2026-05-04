@@ -1,0 +1,106 @@
+.dashboard-section {
+    align-items: flex-start;
+    padding-top: 4rem;
+}
+
+.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.dashboard-title {
+    color: var(--color-blue);
+    margin-bottom: 2rem;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card.stat-balance {
+    border-left: 5px solid var(--color-blue);
+}
+
+.stat-balance-amount {
+    color: var(--color-blue);
+}
+
+.stat-card.stat-income {
+    border-left: 5px solid var(--color-green);
+}
+
+.stat-income-amount {
+    color: var(--color-green);
+}
+
+.stat-card.stat-expense {
+    border-left: 5px solid #ff4d4d;
+}
+
+.stat-expense-amount {
+    color: #ff4d4d;
+}
+
+.dashboard-card {
+    max-width: 100%;
+    text-align: left;
+}
+
+.quick-add-form {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+.flex-2 {
+    flex: 2;
+}
+
+.recent-transactions-card {
+    margin-top: 2rem;
+}
+
+.recent-transactions-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.recent-transactions-table thead tr {
+    border-bottom: 1px solid var(--glass-border);
+    color: var(--color-text-mutated);
+}
+
+.recent-transactions-table th {
+    padding: 1rem;
+}
+
+.recent-transactions-table th.text-left {
+    text-align: left;
+}
+
+.recent-transactions-table th.text-right {
+    text-align: right;
+}
+
+.recent-transactions-table tbody tr {
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.recent-transactions-table td {
+    padding: 1rem;
+}
+
+.no-recent-transactions {
+    margin-top: 1rem;
+    color: var(--color-text-mutated);
+}

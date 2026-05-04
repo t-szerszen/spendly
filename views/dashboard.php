@@ -8,9 +8,9 @@
 <body>
     <?php include 'components/navDashboard.php'; ?>
 
-    <main class="auth-section" style="align-items: flex-start; padding-top: 4rem;">
-        <div class="container" style="max-width: 1200px; margin: 0 auto; width: 100%;">
-            <h1 style="color: var(--color-blue); margin-bottom: 2rem;">Witaj w Spendly, <?= $_SESSION['first_name'] ?>!</h1>
+    <main class="auth-section dashboard-section">
+        <div class="container dashboard-container">
+            <h1 class="dashboard-title">Witaj w Spendly, <?= $_SESSION['first_name'] ?>!</h1>
             
             <?php
 // Na początku widoku dashboard.php pobierzemy sumy (uproszczone dla przykładu)
@@ -30,69 +30,70 @@ $totalIncome = $stmtInc->fetch()['total'] ?? 0;
 $balance = $totalIncome - $totalExpense;
 ?>
 
-<div class="stats-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 2rem;">
-    <div class="auth-card" style="border-left: 5px solid var(--color-blue);">
+<div class="stats-grid">
+    <div class="auth-card stat-card stat-balance">
         <h4>Stan konta</h4>
-        <h2 style="color: var(--color-blue);"><?= number_format($balance, 2) ?> zł</h2>
+        <h2 class="stat-amount stat-balance-amount"><?= number_format($balance, 2) ?> zł</h2>
     </div>
-    <div class="auth-card" style="border-left: 5px solid var(--color-green);">
+    <div class="auth-card stat-card stat-income">
         <h4>Wpływy</h4>
-        <h2 style="color: var(--color-green);"><?= number_format($totalIncome, 2) ?> zł</h2>
+        <h2 class="stat-amount stat-income-amount"><?= number_format($totalIncome, 2) ?> zł</h2>
     </div>
-    <div class="auth-card" style="border-left: 5px solid #ff4d4d;">
+    <div class="auth-card stat-card stat-expense">
         <h4>Wydatki</h4>
-        <h2 style="color: #ff4d4d;"><?= number_format($totalExpense, 2) ?> zł</h2>
+        <h2 class="stat-amount stat-expense-amount"><?= number_format($totalExpense, 2) ?> zł</h2>
     </div>
 </div>
 
-<div class="auth-card" style="max-width: 100%; text-align: left;">
+<div class="auth-card dashboard-card">
     <h3>Szybkie dodawanie</h3>
-    <form action="<?= url('transaction/add') ?>" method="POST" class="auth-form" style="display: flex; flex-direction: row; gap: 1rem; flex-wrap: wrap;">
-        <input type="number" step="0.01" name="amount" placeholder="Kwota" required class="auth-input" style="flex: 1;">
+    <form action="<?= url('transaction/add') ?>" method="POST" class="auth-form quick-add-form">
+        <input type="number" step="0.01" name="amount" placeholder="Kwota" required class="auth-input flex-1">
         
-        <select name="type" class="auth-input" style="flex: 1;">
+        <select name="type" class="auth-input flex-1">
             <option value="expense">Wydatek</option>
             <option value="income">Przychód</option>
         </select>
 
-        <select name="category_id" class="auth-input" style="flex: 1;" required>
+        <select name="category_id" class="auth-input flex-1" required>
             <option value="" disabled selected>Wybierz kategorię</option>
             <?php foreach ($data['categories'] as $cat): ?>
                 <option value="<?= $cat['id'] ?>"><?= $cat['name'] ?></option>
             <?php endforeach; ?>
         </select>
 
-        <input type="text" name="description" placeholder="Opis (opcjonalnie)" class="auth-input" style="flex: 2;">
+        <input type="text" name="description" placeholder="Opis (opcjonalnie)" class="auth-input flex-2">
         
         <button type="submit" class="btn-primary">Dodaj</button>
     </form>
 </div>
-<div class="auth-card" style="max-width: 100%; text-align: left; margin-top: 2rem;">
+<div class="auth-card dashboard-card recent-transactions-card">
     <h3>Ostatnie transakcje</h3>
     
     <?php if (!empty($data['recentTransactions'])): ?>
-        <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <table class="recent-transactions-table">
             <thead>
-                <tr style="border-bottom: 1px solid var(--glass-border); color: var(--color-text-mutated);">
-                    <th style="padding: 1rem; text-align: left;">Data</th>
-                    <th style="padding: 1rem; text-align: left;">Kategoria</th>
-                    <th style="padding: 1rem; text-align: left;">Opis</th>
-                    <th style="padding: 1rem; text-align: right;">Kwota</th>
-                    <th style="padding: 1rem; text-align: right;">Akcja</th> </tr>
+                <tr>
+                    <th class="text-left">Data</th>
+                    <th class="text-left">Kategoria</th>
+                    <th class="text-left">Opis</th>
+                    <th class="text-right">Kwota</th>
+                    <th class="text-right">Akcja</th>
+                </tr>
             </thead>
             <tbody>
                 <?php foreach ($data['recentTransactions'] as $t): ?>
-                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                        <td style="padding: 1rem;"><?= $t['date'] ?></td>
-                        <td style="padding: 1rem;"><?= htmlspecialchars($t['category_name']) ?></td>
-                        <td style="padding: 1rem; color: var(--color-text-mutated);"><?= htmlspecialchars($t['description']) ?></td>
-                        <td style="padding: 1rem; text-align: right; font-weight: bold; color: <?= $t['type'] === 'expense' ? '#ff4d4d' : 'var(--color-green)' ?>;">
+                    <tr>
+                        <td><?= $t['date'] ?></td>
+                        <td><?= htmlspecialchars($t['category_name']) ?></td>
+                        <td class="desc-cell"><?= htmlspecialchars($t['description']) ?></td>
+                        <td class="amount-cell <?= $t['type'] === 'expense' ? 'amount-expense' : 'amount-income' ?>">
                             <?= $t['type'] === 'expense' ? '-' : '+' ?> <?= number_format($t['amount'], 2) ?> zł
                         </td>
-                        <td style="padding: 1rem; text-align: right;">
-                            <form action="<?= url('transaction/delete') ?>" method="POST" style="margin: 0;">
+                        <td class="action-cell">
+                            <form action="<?= url('transaction/delete') ?>" method="POST" class="delete-form">
                                 <input type="hidden" name="id" value="<?= $t['id'] ?>">
-                                <button type="submit" style="background: none; border: none; color: #ff4d4d; cursor: pointer; font-size: 0.85rem; text-decoration: underline; padding: 0;">
+                                <button type="submit" class="btn-delete">
                                     Usuń
                                 </button>
                             </form>
@@ -102,7 +103,7 @@ $balance = $totalIncome - $totalExpense;
             </tbody>
         </table>
     <?php else: ?>
-        <p style="margin-top: 1rem; color: var(--color-text-mutated);">Brak zarejestrowanych transakcji.</p>
+        <p class="no-recent-transactions">Brak zarejestrowanych transakcji.</p>
     <?php endif; ?>
 </div>
     </main>
