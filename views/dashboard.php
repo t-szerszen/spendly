@@ -23,21 +23,9 @@
             <h1 class="dashboard-title">Witaj w Spendly, <?= $_SESSION['first_name'] ?>!</h1>
 
             <?php
-            // Na początku widoku dashboard.php pobierzemy sumy (uproszczone dla przykładu)
-            $db = Database::getInstance()->getConnection();
-            $userId = $_SESSION['user_id'];
-
-            // Liczymy sumę wydatków
-            $stmtExp = $db->prepare("SELECT SUM(amount) as total FROM transactions WHERE user_id = ? AND type = 'expense'");
-            $stmtExp->execute([$userId]);
-            $totalExpense = $stmtExp->fetch()['total'] ?? 0;
-
-            // Liczymy sumę przychodów
-            $stmtInc = $db->prepare("SELECT SUM(amount) as total FROM transactions WHERE user_id = ? AND type = 'income'");
-            $stmtInc->execute([$userId]);
-            $totalIncome = $stmtInc->fetch()['total'] ?? 0;
-
-            $balance = $totalIncome - $totalExpense;
+            $totalExpense = $data['stats']['totalExpense'];
+            $totalIncome = $data['stats']['totalIncome'];
+            $balance = $data['stats']['balance'];
             ?>
 
             <div class="stats-grid">

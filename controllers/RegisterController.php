@@ -1,6 +1,8 @@
 <?php
 // controllers/RegisterController.php
 
+require_once __DIR__ . '/../services/AuthService.php';
+
 /**
  * Klasa RegisterController
  * 
@@ -11,6 +13,13 @@
  */
 class RegisterController
 {
+    private $authService;
+
+    public function __construct()
+    {
+        $this->authService = new AuthService();
+    }
+
     public function show()
     {
         require_once __DIR__ . '/../views/register.php';
@@ -31,21 +40,18 @@ class RegisterController
                 return;
             }
 
-            // Hashowanie hasła (BCRYPT)
-            $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+            $result = $this->authService->register([
+                'first_name' => $firstName,
+                'last_name' => $lastName,
+                'email' => $email,
+                'password' => $password
+            ]);
 
-            try {
-                $db = Database::getInstance()->getConnection();
-
-                $stmt = $db->prepare("INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)");
-                $stmt->execute([$firstName, $lastName, $email, $hashedPassword]);
-
-                // Po sukcesie przekieruj do logowania
+            if ($result['success']) {
                 header('Location: ' . url('login?registered=success'));
                 exit;
-
-            } catch (PDOException $e) {
-                $error = "Ten email jest już zajęty.";
+            } else {
+                $error = $result['error'];
                 require_once __DIR__ . '/../views/register.php';
             }
         }

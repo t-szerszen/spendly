@@ -1,6 +1,8 @@
 <?php
 // controllers/LogoutController.php
 
+require_once __DIR__ . '/../services/AuthService.php';
+
 /**
  * Klasa LogoutController
  * 
@@ -10,15 +12,16 @@
  */
 class LogoutController
 {
+    private $authService;
+
+    public function __construct()
+    {
+        $this->authService = new AuthService();
+    }
+
     public function index()
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-        
-        session_unset();
-        session_destroy();
-        
+        $this->authService->logout();
         header('Location: ' . url('home'));
         exit;
     }

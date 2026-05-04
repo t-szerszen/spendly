@@ -1,6 +1,8 @@
 <?php
 // controllers/LoginController.php
 
+require_once __DIR__ . '/../services/AuthService.php';
+
 /**
  * Klasa LoginController
  * 
@@ -11,18 +13,23 @@
  */
 class LoginController
 {
-    public function show() {
-    if (session_status() === PHP_SESSION_NONE) session_start();
-    
-    // Jeśli już jest zalogowany, przenieś go na dashboard
-    if (isset($_SESSION['user_id'])) {
-        header('Location: ' . url('dashboard'));
-        exit;
+    private $authService;
+
+    public function __construct()
+    {
+        $this->authService = new AuthService();
     }
 
-    $data = ['title' => 'Logowanie'];
-    require_once __DIR__ . '/../views/login.php';
-}
+    public function show()
+    {
+        if ($this->authService->isLoggedIn()) {
+            header('Location: ' . url('dashboard'));
+            exit;
+        }
+
+        $data = ['title' => 'Logowanie'];
+        require_once __DIR__ . '/../views/login.php';
+    }
 
     public function login()
     {
@@ -30,21 +37,12 @@ class LoginController
             $email = $_POST['email'] ?? '';
             $password = $_POST['password'] ?? '';
 
-            $db = Database::getInstance()->getConnection();
-            $stmt = $db->prepare("SELECT * FROM users WHERE email = ?");
-            $stmt->execute([$email]);
-            $user = $stmt->fetch();
-
-            if ($user && password_verify($password, $user['password'])) {
-                // Sukces: Start sesji
-                session_start();
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['first_name'] = $user['first_name'];
-                
+            if ($this->authService->login($email, $password)) {
                 header('Location: ' . url('dashboard'));
                 exit;
             } else {
                 $error = "Błędny email lub hasło.";
+                $data = ['title' => 'Logowanie'];
                 require_once __DIR__ . '/../views/login.php';
             }
         }
