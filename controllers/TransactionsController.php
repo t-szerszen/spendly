@@ -1,8 +1,18 @@
 <?php
 // controllers/TransactionsController.php
 
-class TransactionsController {
-    public function show() {
+/**
+ * Klasa TransactionsController
+ * 
+ * Obsługuje operacje związane z transakcjami zalogowanego użytkownika.
+ * Umożliwia wyświetlanie pełnej historii transakcji, dodawanie nowych
+ * rekordów (przychodów i wydatków) oraz usuwanie istniejących transakcji.
+ * Chroni akcje przed dostępem niezalogowanych osób.
+ */
+class TransactionsController
+{
+    public function show()
+    {
         if (!isset($_SESSION['user_id'])) {
             header('Location: ' . url('login'));
             exit;
@@ -28,8 +38,10 @@ class TransactionsController {
         ];
         require_once __DIR__ . '/../views/transactions.php';
     }
-        public function store() {
-        if (session_status() === PHP_SESSION_NONE) session_start();
+    public function store()
+    {
+        if (session_status() === PHP_SESSION_NONE)
+            session_start();
         if (!isset($_SESSION['user_id'])) {
             header('Location: ' . url('login'));
             exit;
@@ -37,9 +49,9 @@ class TransactionsController {
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $db = Database::getInstance()->getConnection();
-            
+
             $stmt = $db->prepare("INSERT INTO transactions (user_id, category_id, amount, type, description, date) VALUES (?, ?, ?, ?, ?, ?)");
-            
+
             $stmt->execute([
                 $_SESSION['user_id'],
                 $_POST['category_id'],
@@ -53,9 +65,9 @@ class TransactionsController {
             exit;
         }
     }
-    // controllers/TransactionController.php
 
-    public function destroy() {
+    public function destroy()
+    {
         if (!isset($_SESSION['user_id'])) {
             header('Location: ' . url('login'));
             exit;

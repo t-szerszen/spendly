@@ -1,3 +1,12 @@
+<?php
+/**
+ * Komponent: Nawigacja Panelu Głównego (Zalogowany)
+ * 
+ * Górny pasek nawigacyjny wyświetlany w widokach, które wymagają zalogowania
+ * (jak Dashboard, Transakcje). Wyświetla powitanie, odnośniki do głównych sekcji
+ * zarządzania budżetem oraz przycisk wylogowania.
+ */
+?>
 <header>
     <div class="nav-container">
         <a href="<?= url('dashboard') ?>" class="logo">

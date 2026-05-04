@@ -1,4 +1,10 @@
 <?php
+/**
+ * Widok: O nas (About)
+ * 
+ * Statyczna strona informacyjna przedstawiająca misję projektu Spendly oraz 
+ * powody jego powstania. Prezentowana niezalogowanym użytkownikom.
+ */
 $title = $data['title'] ?? 'O nas - Spendly';
 ?>
 <!DOCTYPE html>
@@ -12,7 +18,7 @@ $title = $data['title'] ?? 'O nas - Spendly';
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
-    <!-- Nasz styl css -->
+    <!-- Styl CSS -->
     <link rel="stylesheet" href="<?= url('styles/style.css') ?>?v=<?= time() ?>">
 </head>
 

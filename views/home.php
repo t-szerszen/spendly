@@ -1,4 +1,10 @@
 <?php
+/**
+ * Widok: Strona Główna (Home)
+ * 
+ * Odpowiada za prezentację publicznej strony głównej (landing page) aplikacji Spendly.
+ * Zawiera sekcję Hero, listę kluczowych funkcjonalności oraz odnośniki do logowania/rejestracji.
+ */
 $title = $data['title'] ?? 'Spendly - Mądrze zarządzaj swoimi finansami';
 ?>
 <!DOCTYPE html>
@@ -8,11 +14,11 @@ $title = $data['title'] ?? 'Spendly - Mądrze zarządzaj swoimi finansami';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo htmlspecialchars($title); ?></title>
-    <!-- Google Fonts for modern typography -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
-    <!-- Nasz styl css -->
+    <!-- Styl CSS -->
     <link rel="stylesheet" href="<?= url('styles/style.css') ?>?v=<?= time() ?>">
 </head>
 
@@ -40,7 +46,7 @@ $title = $data['title'] ?? 'Spendly - Mądrze zarządzaj swoimi finansami';
             <!-- Karta 1 -->
             <div class="feature-card">
                 <div class="feature-icon">
-                    <!-- Ikona SVG (przykładowy portfel) -->
+                    <!-- Ikona SVG (portfel) -->
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z">

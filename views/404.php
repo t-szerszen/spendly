@@ -1,4 +1,10 @@
 <?php
+/**
+ * Widok: Błąd 404 (Not Found)
+ * 
+ * Strona błędu wyświetlana, gdy użytkownik próbuje wejść na nieistniejący URL.
+ * Oferuje przyciski pozwalające wrócić na stronę główną lub skontaktować się z pomocą.
+ */
 $title = $data['title'] ?? 'Błąd 404 - Strona nie istnieje';
 ?>
 <!DOCTYPE html>
@@ -12,7 +18,7 @@ $title = $data['title'] ?? 'Błąd 404 - Strona nie istnieje';
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
-    <!-- Nasz styl css -->
+    <!-- Styl CSS -->
     <link rel="stylesheet" href="<?= url('styles/style.css') ?>?v=<?= time() ?>">
 </head>
 

@@ -1,10 +1,26 @@
+<?php
+/**
+ * Widok: Historia transakcji (Transactions)
+ * 
+ * Wyświetla pełną listę wszystkich transakcji (przychodów i wydatków) 
+ * zalogowanego użytkownika w formie tabeli. Zawiera możliwość usunięcia 
+ * wybranej operacji z systemu.
+ */
+?>
 <!DOCTYPE html>
 <html lang="pl">
+
 <head>
     <meta charset="UTF-8">
     <title><?= $data['title'] ?></title>
-    <link rel="stylesheet" href="<?= url('styles/style.css') ?>">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+    <!-- Styl CSS -->
+    <link rel="stylesheet" href="<?= url('styles/style.css') ?>?v=<?= time() ?>">
 </head>
+
 <body>
     <?php include 'components/navDashboard.php'; ?>
 
@@ -37,8 +53,9 @@
                                         </span>
                                     </td>
                                     <td class="desc-cell"><?= htmlspecialchars($t['description']) ?></td>
-                                    <td class="amount-cell <?= $t['type'] === 'expense' ? 'amount-expense' : 'amount-income' ?>">
-                                        <?= $t['type'] === 'expense' ? '-' : '+' ?> <?= number_format($t['amount'], 2) ?> zł
+                                    <td
+                                        class="amount-cell <?= $t['type'] === 'expense' ? 'amount-expense' : 'amount-income' ?>">
+                                        <?= $t['type'] === 'expense' ? '-' : '+' ?>         <?= number_format($t['amount'], 2) ?> zł
                                     </td>
                                     <td class="action-cell">
                                         <form action="<?= url('transaction/delete') ?>" method="POST" class="delete-form">
@@ -63,4 +80,5 @@
         </div>
     </main>
 </body>
+
 </html>

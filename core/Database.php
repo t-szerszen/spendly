@@ -1,4 +1,12 @@
 <?php
+/**
+ * Klasa Database
+ * 
+ * Implementuje wzorzec projektowy Singleton, zapewniając tylko jedno aktywne 
+ * połączenie z bazą danych w całym cyklu życia żądania. Wykorzystuje PDO 
+ * do bezpiecznej komunikacji z bazą danych MySQL, pobierając dane 
+ * konfiguracyjne ze zmiennych środowiskowych ($_ENV).
+ */
 class Database
 {
 	private static ?self $instance = null;
@@ -31,8 +39,8 @@ class Database
 		return self::$instance;
 	}
 	public function getConnection(): PDO
-{
-    return $this->pdo;
-}
+	{
+		return $this->pdo;
+	}
 }
 

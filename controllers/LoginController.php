@@ -1,6 +1,14 @@
 <?php
 // controllers/LoginController.php
 
+/**
+ * Klasa LoginController
+ * 
+ * Zarządza procesem uwierzytelniania użytkowników. Wyświetla formularz logowania,
+ * weryfikuje poprawność wprowadzonych danych (email i hasło weryfikowane
+ * funkcją password_verify), a po udanym logowaniu inicjuje sesję i przekierowuje
+ * na panel główny.
+ */
 class LoginController
 {
     public function show() {

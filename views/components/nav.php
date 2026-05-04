@@ -1,3 +1,11 @@
+<?php
+/**
+ * Komponent: Nawigacja Publiczna (Nav)
+ * 
+ * Górny pasek nawigacyjny dołączany do widoków przeznaczonych dla niezalogowanych
+ * użytkowników (strona główna, o nas, kontakt). Zawiera logo oraz odnośniki.
+ */
+?>
 <header>
 	<div class="nav-container">
 		<a href="<?= url('/') ?>" class="logo">

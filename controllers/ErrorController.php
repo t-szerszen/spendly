@@ -1,4 +1,12 @@
 <?php
+
+/**
+ * Klasa ErrorController
+ * 
+ * Obsługuje wyświetlanie stron błędów, w szczególności błędu 404 (nie znaleziono strony).
+ * Odpowiada za prawidłowe ustawienie nagłówka HTTP (np. 404 Not Found) i załadowanie 
+ * odpowiedniego widoku ('404.php').
+ */
 class ErrorController
 {
     public function show404()
