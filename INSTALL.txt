@@ -1,4 +1,5 @@
 Instrukcja instalacji środowiska:
 1. Stwórz plik .env na wzór pliku .env.example z danymi dostępu do lokalnej bazy danych.
 2. Stwórz plik config.php na wzór pliku config_example.php, gdzie zdefiniujesz bazową ściekę do tworzenia linków dla całej aplikacji, dzięki funkcji url() w helpers.php 
-3. 
+3. Zainstaluj dbmate (https://github.com/amacneil/dbmate) lokalnie (np. przez `brew install dbmate` na macOS).
+5. Uruchom polecenie `dbmate up` w terminalu, aby utworzyć bazę danych i wgrać tabele oraz dane startowe. Plik `db/schema.sql` będzie aktualizowany automatycznie po każdej migracji.
