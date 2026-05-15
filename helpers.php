@@ -17,3 +17,17 @@ if (!function_exists('url')) {
         return rtrim(BASE_URL, '/') . '/' . ltrim($path, '/');
     }
 }
+
+if (!function_exists('asset')) {
+    /**
+     * Generuje pełny adres URL do zasobów (domyślnie w folderze images).
+     * 
+     * @param string $path Ścieżka do pliku wewnątrz folderu images (np. 'logo.png').
+     * 
+     * @return string Pełny adres URL do zasobu.
+     */
+    function asset(string $path = ''): string
+    {
+        return url('images/' . ltrim($path, '/'));
+    }
+}
