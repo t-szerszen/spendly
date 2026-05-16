@@ -1,0 +1,115 @@
+.summary-year-nav {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.year-arrow {
+    font-size: 1.8rem;
+    color: var(--color-blue);
+    text-decoration: none;
+    transition: transform 0.2s, color 0.2s;
+    user-select: none;
+}
+
+.year-arrow:hover {
+    color: #fff;
+    transform: scale(1.2);
+}
+
+.summary-sub {
+    text-align: left;
+}
+
+.summary-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.summary-header {
+    color: var(--color-blue);
+    margin-bottom: 0.5rem;
+}
+
+.summary-sub {
+    color: var(--color-text-mutated);
+    margin-bottom: 2rem;
+}
+
+
+.total-card {
+    max-width: 100%;
+    margin-bottom: 2rem;
+    border-left: 5px solid #ff4d4d;
+    padding: 1.5rem 2rem;
+}
+
+.total-card-title {
+    margin: 0;
+    color: var(--color-text-mutated);
+}
+
+.total-card-amount {
+    margin: 0.5rem 0 0 0;
+    color: #ff4d4d;
+    font-size: 2.2rem;
+}
+
+.summary-layout {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.summary-col {
+    flex: 1;
+    min-width: 300px;
+    text-align: left;
+    padding: 2rem;
+}
+
+.summary-chart-col {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.summary-title {
+    margin-bottom: 1.5rem;
+}
+
+.category-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.category-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.category-name {
+    color: var(--color-blue);
+}
+
+.category-value {
+    text-align: right;
+    font-weight: bold;
+}
+
+
+.chart-wrapper {
+    width: 100%;
+    max-width: 320px;
+    margin-top: 1.5rem;
+}

@@ -19,21 +19,15 @@ class Router
 {
     public function dispatch($uri)
     {
-        // Wyciągnięcie samej ścieżki (bez parametrów zapytań ?param=wartosc)
-        // 1. Pobieramy samą ścieżkę bez parametrów ?id=...
         $path = parse_url($uri, PHP_URL_PATH);
 
-        // 2. Pobieramy ścieżkę do folderu, w którym znajduje się index.php
         $scriptName = dirname($_SERVER['SCRIPT_NAME']);
 
-        // 3. Usuwamy folder projektu z adresu URL
         if ($scriptName !== '/') {
             $path = str_replace($scriptName, '', $path);
         }
 
-        // 4. Czyścimy ukośniki z początku i końca
         $path = trim($path, '/');
-        // Router oparty o switch używający kontrolerów
         switch ($path) {
             case '':
             case 'home':
@@ -88,6 +82,12 @@ class Router
             case 'logout':
                 require_once __DIR__ . '/../controllers/LogoutController.php';
                 (new LogoutController())->index();
+                break;
+            
+            
+            case 'summary':
+                require_once __DIR__ . '/../controllers/SummaryController.php';
+                (new SummaryController())->show();
                 break;
 
 
