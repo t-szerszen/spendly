@@ -1,14 +1,8 @@
 <!DOCTYPE html>
-<html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <title><?= $data['title'] ?></title>
-    <?php include 'components/head.php'; ?>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
+<?php include 'components/head.php'; ?>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <body>
     <?php include 'components/navDashboard.php'; ?>
-
     <main class="auth-section summary-main">
         <div class="container summary-container">
             
@@ -59,48 +53,17 @@
             </div>
         </div>
     </main>
-
-    <script>
-        const categories = [];
-        const amounts = [];
-
+<script>
+        window.chartData = {
+            categories: [],
+            amounts: []
+        };
         <?php foreach ($data['summary'] as $row): ?>
-            categories.push(<?= json_encode($row['category_name']) ?>);
-            amounts.push(<?= floatval($row['total_amount']) ?>);
+            window.chartData.categories.push(<?= json_encode($row['category_name']) ?>);
+            window.chartData.amounts.push(<?= floatval($row['total_amount']) ?>);
         <?php endforeach; ?>
-
-        if (amounts.length > 0) {
-            const ctx = document.getElementById('expenseChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: categories,
-                    datasets: [{
-                        data: amounts,
-                        backgroundColor: [
-                            '#ff4d4d', '#269b8a', '#2980b9', '#f1c40f', '#9b59b6', '#e67e22', '#1abc9c'
-                        ],
-                        borderWidth: 1,
-                        borderColor: 'rgba(255, 255, 255, 0.2)'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                color: '#b2bec3',
-                                font: {
-                                    family: "'Inter', sans-serif",
-                                    size: 12
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
     </script>
+
+    <script src="<?= url('scripts/summary.js') ?>"></script>
 </body>
 </html>

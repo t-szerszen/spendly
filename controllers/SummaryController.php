@@ -1,23 +1,40 @@
 <?php
 // controllers/SummaryController.php
+require_once __DIR__ . '/../services/AuthService.php';
+
+/**
+ * Klasa SummaryController
+ * 
+ * Odpowiada za generowanie i wyświetlanie rocznych podsumowań finansowych użytkownika.
+ * Przed załadowaniem danych weryfikuje status zalogowania za pomocą serwisu autoryzacji.
+ * Pobiera z bazy danych sumaryczne wydatki z podziałem na kategorie dla wybranego roku,
+ * oblicza łączny roczny bilans oraz bezpiecznie przekazuje te informacje do widoku,
+ * umożliwiając dynamiczną nawigację i prezentację struktury wydatków na wykresie.
+ */
 
 class SummaryController
 {
+    private $db;
+    private $authService;
+    public function __construct()
+    {
+        $this->db = Database::getInstance()->getConnection();
+        $this->authService = new AuthService();
+    }
+
     public function show()
     {
-        if (!isset($_SESSION['user_id'])) {
+
+        if (!$this->authService->isLoggedIn()) {
             header('Location: ' . url('login'));
             exit;
         }
 
-        $db = Database::getInstance()->getConnection();
         $userId = $_SESSION['user_id'];
-
-        // Pobieramy rok z adresu URL (np. ?year=2025), a jeśli go nie ma, bierzemy obecny
         $currentYear = isset($_GET['year']) ? intval($_GET['year']) : intval(date('Y'));
 
         // Pobieramy sumy wydatków dla wybranego roku
-        $stmt = $db->prepare("
+        $stmt = $this->db->prepare("
             SELECT c.name as category_name, SUM(t.amount) as total_amount
             FROM transactions t
             JOIN categories c ON t.category_id = c.id
