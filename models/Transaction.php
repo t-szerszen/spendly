@@ -15,6 +15,13 @@ class Transaction
         $this->db = Database::getInstance()->getConnection();
     }
 
+    public function getRecord($tId)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM transactions WHERE id = ?");
+        $stmt->execute([$tId]);
+        return $stmt->fetch();
+    }
+
     /**
      * Pobiera sumę transakcji danego typu (income/expense) dla użytkownika.
      */
@@ -42,6 +49,33 @@ class Transaction
         return $stmt->fetchAll();
     }
 
+    public function getTotalByTypeAndMonth($userId, $month, $type)
+    {
+        $stmt = $this->db->prepare("
+            SELECT SUM(amount) as total
+            FROM transactions
+            WHERE user_id = ?
+              AND date LIKE ?
+              AND type = ?
+        ");
+        $stmt->execute([$userId, $month . '%', $type]);
+        return $stmt->fetch()['total'] ?? 0;
+    }
+
+    public function getByMonth($userId, $month)
+    {
+        $stmt = $this->db->prepare("
+            SELECT t.*, c.name as category_name 
+            FROM transactions t 
+            JOIN categories c ON t.category_id = c.id 
+            WHERE t.user_id = ? AND t.date LIKE ?
+            ORDER BY t.date DESC, t.id DESC 
+        ");
+
+        $stmt->execute([$userId, $month . '%']);
+        return $stmt->fetchAll();
+    }
+
     /**
      * Pobiera wszystkie transakcje użytkownika.
      */
@@ -64,6 +98,7 @@ class Transaction
     public function add($data)
     {
         $stmt = $this->db->prepare("INSERT INTO transactions (user_id, category_id, amount, type, description, date) VALUES (?, ?, ?, ?, ?, ?)");
+
         return $stmt->execute([
             $data['user_id'],
             $data['category_id'],
@@ -80,6 +115,7 @@ class Transaction
     public function delete($id, $userId)
     {
         $stmt = $this->db->prepare("DELETE FROM transactions WHERE id = ? AND user_id = ?");
+
         return $stmt->execute([$id, $userId]);
     }
 }

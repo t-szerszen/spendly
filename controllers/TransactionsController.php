@@ -48,16 +48,19 @@ class TransactionsController
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $month = $this->getFormattedMonth($_POST['date']);
+            $_SESSION['last_added_date'] = $_POST['date'];
+
             $this->transactionModel->add([
                 'user_id' => $_SESSION['user_id'],
+                'date' => $_POST['date'],
                 'category_id' => $_POST['category_id'],
                 'amount' => $_POST['amount'],
                 'type' => $_POST['type'],
                 'description' => $_POST['description'],
-                'date' => date('Y-m-d')
             ]);
 
-            header('Location: ' . url('dashboard'));
+            header('Location: ' . url('dashboard?month=' . $month));
             exit;
         }
     }
@@ -69,17 +72,29 @@ class TransactionsController
             exit;
         }
 
+        $month = '';
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $transactionId = $_POST['id'] ?? null;
             $userId = $_SESSION['user_id'];
 
             if ($transactionId) {
+                $date = $this->transactionModel->getRecord($transactionId)['date'];
+                $month = $this->getFormattedMonth($date);
                 $this->transactionModel->delete($transactionId, $userId);
             }
         }
 
-        $referer = $_SERVER['HTTP_REFERER'] ?? url('dashboard');
-        header('Location: ' . $referer);
+        header('Location: ' . url('dashboard?month=' . $month));
         exit;
+    }
+
+    private function getFormattedMonth($date)
+    {
+        $month = (new DateTimeImmutable('first day of this month'))->format('Y-m');
+
+        $savedDate = DateTimeImmutable::createFromFormat('Y-m-d', $date);
+        if ($savedDate !== false) {
+            return $savedDate->format('Y-m');
+        }
     }
 }
