@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Widok: Panel główny (Dashboard)
  * 
@@ -6,6 +7,11 @@
  * (stan konta, wpływy, wydatki) pobierane z bazy danych, formularz szybkiego 
  * dodawania nowej transakcji oraz listę ostatnich operacji finansowych.
  */
+
+$totalExpense = $data['stats']['totalExpense'];
+$totalIncome = $data['stats']['totalIncome'];
+$balance = $data['stats']['balance'];
+$months = $data['months'];
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -20,13 +26,18 @@
 
     <main class="auth-section dashboard-section">
         <div class="container dashboard-container">
+            <form action="<?= url('dashboard'); ?>" method="GET">
+                <p> Wybierz miesiąc </p>
+                <select name="month">
+                    <?php foreach ($months as $value => $label): ?>
+                        <option value="<?= htmlspecialchars($value) ?>" <?= $value === ($data['selectedMonth'] ?? '') ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($label) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <button type="submit">Załaduj dane z tego miesiąca</button>
+            </form>
             <h1 class="dashboard-title">Witaj w Spendly, <?= $_SESSION['first_name'] ?>!</h1>
-
-            <?php
-            $totalExpense = $data['stats']['totalExpense'];
-            $totalIncome = $data['stats']['totalIncome'];
-            $balance = $data['stats']['balance'];
-            ?>
 
             <div class="stats-grid">
                 <div class="auth-card stat-card stat-balance">
@@ -46,6 +57,8 @@
             <div class="auth-card dashboard-card">
                 <h3>Szybkie dodawanie</h3>
                 <form action="<?= url('transaction/add') ?>" method="POST" class="auth-form quick-add-form">
+                    <input value="<?= htmlspecialchars($_SESSION['last_added_date'] ?? date('Y-m-d')) ?>" type="date" name="date" required class="auth-input flex-1">
+
                     <input type="number" step="0.01" name="amount" placeholder="Kwota" required
                         class="auth-input flex-1">
 
@@ -88,7 +101,7 @@
                                     <td class="desc-cell"><?= htmlspecialchars($t['description']) ?></td>
                                     <td
                                         class="amount-cell <?= $t['type'] === 'expense' ? 'amount-expense' : 'amount-income' ?>">
-                                        <?= $t['type'] === 'expense' ? '-' : '+' ?>         <?= number_format($t['amount'], 2) ?> zł
+                                        <?= $t['type'] === 'expense' ? '-' : '+' ?> <?= number_format($t['amount'], 2) ?> zł
                                     </td>
                                     <td class="action-cell">
                                         <form action="<?= url('transaction/delete') ?>" method="POST" class="delete-form">
