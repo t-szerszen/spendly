@@ -1,8 +1,6 @@
 <?php
 // controllers/RegisterController.php
 
-require_once __DIR__ . '/../services/AuthService.php';
-
 /**
  * Klasa RegisterController
  * 

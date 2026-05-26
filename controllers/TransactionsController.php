@@ -1,9 +1,6 @@
 <?php
 // controllers/TransactionsController.php
 
-require_once __DIR__ . '/../models/Transaction.php';
-require_once __DIR__ . '/../services/AuthService.php';
-
 /**
  * Klasa TransactionsController
  * 
