@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<?php include 'components/head.php'; ?>
+<?php include comp('head.php'); ?>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <body>
-    <?php include 'components/navDashboard.php'; ?>
+    <?php include comp('navDashboard.php'); ?>
     <main class="auth-section summary-main">
         <div class="container summary-container">
             

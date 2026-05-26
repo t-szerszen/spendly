@@ -11,10 +11,10 @@
 <html lang="pl">
 
 <!-- Head -->
-<?php include 'components/head.php'; ?>
+<?php include comp('head.php'); ?>
 
 <body>
-    <?php include 'components/nav.php'; ?>
+    <?php include comp('nav.php'); ?>
 
     <main class="auth-section">
         <div class="auth-card">

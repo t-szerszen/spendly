@@ -11,12 +11,12 @@ $title = $data['title'] ?? 'O nas - Spendly';
 <html lang="pl">
 
 <!-- Head -->
-<?php include 'components/head.php'; ?>
+<?php include comp('head.php'); ?>
 
 <body>
 
     <!-- Nawigacja -->
-    <?php include 'components/nav.php'; ?>
+    <?php include comp('nav.php'); ?>
 
     <!-- Sekcja O nas -->
     <main class="about-section">
