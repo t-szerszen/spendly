@@ -87,12 +87,13 @@ class HouseholdController
         $this->requireLogin();
 
         $householdId = (int) ($_GET['id'] ?? 0);
+        $period = $this->resolvePeriod($_GET['period'] ?? null);
         if ($householdId <= 0 || !$this->householdModel->userHasAccess($householdId, $_SESSION['user_id'])) {
             header('Location: ' . url('households'));
             exit;
         }
 
-        $this->renderHousehold($householdId);
+        $this->renderHousehold($householdId, $period);
     }
 
     public function addExpense()
@@ -111,6 +112,7 @@ class HouseholdController
 
         $householdId = (int) ($_POST['household_id'] ?? 0);
         $email = trim($_POST['email'] ?? '');
+        $period = $this->resolvePeriod($_POST['period'] ?? null);
 
         if ($householdId <= 0 || !$this->householdModel->userHasAccess($householdId, $_SESSION['user_id'])) {
             header('Location: ' . url('households'));
@@ -118,18 +120,18 @@ class HouseholdController
         }
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $this->renderHousehold($householdId, null, 'Podaj poprawny adres email.');
+            $this->renderHousehold($householdId, $period, 'Podaj poprawny adres email.');
             return;
         }
 
         $existingUser = $this->userModel->findByEmail($email);
         if ($existingUser && $this->householdModel->userHasAccess($householdId, $existingUser['id'])) {
-            $this->renderHousehold($householdId, null, 'Ten użytkownik jest już członkiem gospodarstwa.');
+            $this->renderHousehold($householdId, $period, 'Ten użytkownik jest już członkiem gospodarstwa.');
             return;
         }
 
         if ($this->invitationModel->emailAlreadyInvited($householdId, $email)) {
-            $this->renderHousehold($householdId, null, 'To zaproszenie jest już aktywne.');
+            $this->renderHousehold($householdId, $period, 'To zaproszenie jest już aktywne.');
             return;
         }
 
@@ -139,7 +141,7 @@ class HouseholdController
         $token = bin2hex(random_bytes(32));
         $expiresAt = (new DateTimeImmutable('+7 days'))->format('Y-m-d H:i:s');
 
-        $this->invitationModel->create([
+        $invitationId = $this->invitationModel->create([
             'household_id' => $householdId,
             'invited_email' => $email,
             'invite_token' => $token,
@@ -157,11 +159,12 @@ class HouseholdController
         );
 
         if (!$mailSent) {
-            $this->renderHousehold($householdId, null, 'Zaproszenie zostało zapisane, ale nie udało się wysłać emaila.');
+            $this->invitationModel->delete($invitationId);
+            $this->renderHousehold($householdId, $period, 'Nie udało się wysłać emaila. Spróbuj ponownie.');
             return;
         }
 
-        header('Location: ' . url('households/show?id=' . $householdId . '&invite=sent'));
+        header('Location: ' . url('households/show?id=' . $householdId . '&invite=sent' . $this->buildPeriodQuery($period)));
         exit;
     }
 
@@ -235,6 +238,7 @@ class HouseholdController
         }
 
         $householdId = (int) ($_POST['household_id'] ?? 0);
+        $period = $this->resolvePeriod($_POST['period'] ?? null);
         if ($householdId <= 0 || !$this->householdModel->userHasAccess($householdId, $_SESSION['user_id'])) {
             header('Location: ' . url('households'));
             exit;
@@ -250,7 +254,7 @@ class HouseholdController
         }
 
         if (abs($total - 100) > 0.01) {
-            $this->renderHousehold($householdId, null, 'Suma udziałów musi wynosić 100%.');
+            $this->renderHousehold($householdId, $period, 'Suma udziałów musi wynosić 100%.');
             return;
         }
 
@@ -259,7 +263,7 @@ class HouseholdController
             $this->memberModel->updateShare($householdId, $member['user_id'], $share);
         }
 
-        header('Location: ' . url('households/show?id=' . $householdId . '&shares=updated'));
+        header('Location: ' . url('households/show?id=' . $householdId . '&shares=updated' . $this->buildPeriodQuery($period)));
         exit;
     }
 
@@ -278,6 +282,7 @@ class HouseholdController
         $amount = (float) ($_POST['amount'] ?? 0);
         $description = trim($_POST['description'] ?? '');
         $expenseDate = $_POST['expense_date'] ?? '';
+        $period = $this->resolvePeriod($_POST['period'] ?? null);
 
         if ($householdId <= 0 || !$this->householdModel->userHasAccess($householdId, $_SESSION['user_id'])) {
             header('Location: ' . url('households'));
@@ -287,18 +292,18 @@ class HouseholdController
         $members = $this->memberModel->getMembers($householdId);
         $memberIds = array_map('intval', array_column($members, 'user_id'));
         if ($paidByUserId <= 0 || !in_array($paidByUserId, $memberIds, true)) {
-            $this->renderHousehold($householdId, null, 'Wybierz poprawną osobę, która zapłaciła.');
+            $this->renderHousehold($householdId, $period, 'Wybierz poprawną osobę, która zapłaciła.');
             return;
         }
 
         if ($categoryId <= 0 || $amount <= 0 || $expenseDate === '') {
-            $this->renderHousehold($householdId, null, 'Uzupełnij poprawnie wszystkie pola wydatku.');
+            $this->renderHousehold($householdId, $period, 'Uzupełnij poprawnie wszystkie pola wydatku.');
             return;
         }
 
         $parsedDate = DateTimeImmutable::createFromFormat('Y-m-d', $expenseDate);
         if ($parsedDate === false) {
-            $this->renderHousehold($householdId, null, 'Podaj poprawną datę wydatku.');
+            $this->renderHousehold($householdId, $period, 'Podaj poprawną datę wydatku.');
             return;
         }
 
@@ -353,6 +358,25 @@ class HouseholdController
         ];
 
         require_once __DIR__ . '/../views/households/show.php';
+    }
+
+    private function resolvePeriod(?string $period): ?string
+    {
+        if (!$period) {
+            return null;
+        }
+
+        $selectedDate = DateTimeImmutable::createFromFormat('Y-m', $period);
+        if ($selectedDate === false) {
+            return null;
+        }
+
+        return $selectedDate->format('Y-m');
+    }
+
+    private function buildPeriodQuery(?string $period): string
+    {
+        return $period ? '&period=' . urlencode($period) : '';
     }
 
     private function requireLogin(): void

@@ -33,11 +33,15 @@ class DashboardController
 
         $userId = $_SESSION['user_id'];
 
-        if (!empty($_GET['month'])) {
-            $month = $_GET['month'];
-        } else {
-            $month = (new DateTimeImmutable('first day of this month'))->format('Y-m');
+        $selectedDate = !empty($_GET['month'])
+            ? DateTimeImmutable::createFromFormat('Y-m', $_GET['month'])
+            : false;
+
+        if ($selectedDate === false) {
+            $selectedDate = new DateTimeImmutable('first day of this month');
         }
+
+        $month = $selectedDate->format('Y-m');
 
         // Pobieramy kategorie
         $categories = $this->categoryModel->getCategories();
@@ -49,8 +53,8 @@ class DashboardController
         $balance = $totalIncome - $totalExpense;
         $householdMonthlyCost = $this->householdExpenseModel->getUserMonthlyHouseholdCost(
             $userId,
-            (int) date('Y'),
-            (int) date('n')
+            (int) $selectedDate->format('Y'),
+            (int) $selectedDate->format('n')
         );
 
         // Przekazujemy wszystko do $data

@@ -63,6 +63,16 @@ class HouseholdInvitation
         return $stmt->execute([$id]);
     }
 
+    public function delete($id)
+    {
+        $stmt = $this->db->prepare(
+            'DELETE FROM household_invitations
+             WHERE id = ?'
+        );
+
+        return $stmt->execute([$id]);
+    }
+
     public function emailAlreadyInvited($householdId, $email)
     {
         $stmt = $this->db->prepare(

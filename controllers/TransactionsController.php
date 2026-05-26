@@ -69,15 +69,17 @@ class TransactionsController
             exit;
         }
 
-        $month = '';
+        $month = $this->getFormattedMonth(null);
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $transactionId = $_POST['id'] ?? null;
             $userId = $_SESSION['user_id'];
 
             if ($transactionId) {
-                $date = $this->transactionModel->getRecord($transactionId)['date'];
-                $month = $this->getFormattedMonth($date);
-                $this->transactionModel->delete($transactionId, $userId);
+                $transaction = $this->transactionModel->getRecordByUser($transactionId, $userId);
+                if ($transaction) {
+                    $month = $this->getFormattedMonth($transaction['date']);
+                    $this->transactionModel->delete($transactionId, $userId);
+                }
             }
         }
 
@@ -89,9 +91,15 @@ class TransactionsController
     {
         $month = (new DateTimeImmutable('first day of this month'))->format('Y-m');
 
+        if (!$date) {
+            return $month;
+        }
+
         $savedDate = DateTimeImmutable::createFromFormat('Y-m-d', $date);
         if ($savedDate !== false) {
             return $savedDate->format('Y-m');
         }
+
+        return $month;
     }
 }

@@ -80,6 +80,7 @@ $error = $data['error'] ?? null;
                 <h3>Udziały członków</h3>
                 <form action="<?= url('households/update-shares') ?>" method="POST" class="households-shares-form">
                     <input type="hidden" name="household_id" value="<?= (int) $household['id'] ?>">
+                    <input type="hidden" name="period" value="<?= htmlspecialchars($selectedPeriod) ?>">
                     <div class="households-members-list">
                         <?php foreach ($members as $member): ?>
                             <label class="household-member-row">
@@ -104,6 +105,7 @@ $error = $data['error'] ?? null;
                 <h3>Zaproś użytkownika</h3>
                 <form action="<?= url('households/invite') ?>" method="POST" class="auth-form households-form">
                     <input type="hidden" name="household_id" value="<?= (int) $household['id'] ?>">
+                    <input type="hidden" name="period" value="<?= htmlspecialchars($selectedPeriod) ?>">
                     <input type="email" name="email" placeholder="Adres email" required class="auth-input">
                     <button type="submit" class="btn-primary">Wyślij zaproszenie</button>
                 </form>
@@ -111,6 +113,7 @@ $error = $data['error'] ?? null;
                 <h3>Dodaj wydatek</h3>
                 <form action="<?= url('households/store-expense') ?>" method="POST" class="auth-form households-form">
                     <input type="hidden" name="household_id" value="<?= (int) $household['id'] ?>">
+                    <input type="hidden" name="period" value="<?= htmlspecialchars($selectedPeriod) ?>">
                     <input type="number" step="0.01" min="0.01" name="amount" placeholder="Kwota" required class="auth-input">
                     <input type="date" name="expense_date" value="<?= date('Y-m-d') ?>" required class="auth-input">
 

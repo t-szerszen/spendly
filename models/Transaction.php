@@ -22,6 +22,13 @@ class Transaction
         return $stmt->fetch();
     }
 
+    public function getRecordByUser($tId, $userId)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM transactions WHERE id = ? AND user_id = ?");
+        $stmt->execute([$tId, $userId]);
+        return $stmt->fetch();
+    }
+
     /**
      * Pobiera sumę transakcji danego typu (income/expense) dla użytkownika.
      */
