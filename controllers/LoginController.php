@@ -1,8 +1,6 @@
 <?php
 // controllers/LoginController.php
 
-require_once __DIR__ . '/../services/AuthService.php';
-
 /**
  * Klasa LoginController
  * 
@@ -38,6 +36,12 @@ class LoginController
             $password = $_POST['password'] ?? '';
 
             if ($this->authService->login($email, $password)) {
+                if (!empty($_SESSION['pending_household_invite_token'])) {
+                    $token = $_SESSION['pending_household_invite_token'];
+                    header('Location: ' . url('households/accept?token=' . urlencode($token)));
+                    exit;
+                }
+
                 header('Location: ' . url('dashboard'));
                 exit;
             } else {

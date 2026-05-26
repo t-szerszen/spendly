@@ -11,30 +11,23 @@
 $totalExpense = $data['stats']['totalExpense'];
 $totalIncome = $data['stats']['totalIncome'];
 $balance = $data['stats']['balance'];
-$months = $data['months'];
 ?>
 <!DOCTYPE html>
 <html lang="pl">
 
 <!-- Head -->
-<?php include 'components/head.php'; ?>
+<?php include comp('head.php'); ?>
 
 <body>
 
     <!-- Nawigacja -->
-    <?php include 'components/navDashboard.php'; ?>
+    <?php include comp('navDashboard.php'); ?>
 
     <main class="auth-section dashboard-section">
         <div class="container dashboard-container">
             <form action="<?= url('dashboard'); ?>" method="GET">
                 <p> Wybierz miesiąc </p>
-                <select name="month">
-                    <?php foreach ($months as $value => $label): ?>
-                        <option value="<?= htmlspecialchars($value) ?>" <?= $value === ($data['selectedMonth'] ?? '') ? 'selected' : '' ?>>
-                            <?= htmlspecialchars($label) ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
+                <input type="month" name="month" value="<?= $data['selectedMonth']?>">
                 <button type="submit">Załaduj dane z tego miesiąca</button>
             </form>
             <h1 class="dashboard-title">Witaj w Spendly, <?= $_SESSION['first_name'] ?>!</h1>
@@ -54,31 +47,13 @@ $months = $data['months'];
                 </div>
             </div>
 
-            <div class="auth-card dashboard-card">
-                <h3>Szybkie dodawanie</h3>
-                <form action="<?= url('transaction/add') ?>" method="POST" class="auth-form quick-add-form">
-                    <input value="<?= htmlspecialchars($_SESSION['last_added_date'] ?? date('Y-m-d')) ?>" type="date" name="date" required class="auth-input flex-1">
-
-                    <input type="number" step="0.01" name="amount" placeholder="Kwota" required
-                        class="auth-input flex-1">
-
-                    <select name="type" class="auth-input flex-1">
-                        <option value="expense">Wydatek</option>
-                        <option value="income">Przychód</option>
-                    </select>
-
-                    <select name="category_id" class="auth-input flex-1" required>
-                        <option value="" disabled selected>Wybierz kategorię</option>
-                        <?php foreach ($data['categories'] as $cat): ?>
-                            <option value="<?= $cat['id'] ?>"><?= $cat['name'] ?></option>
-                        <?php endforeach; ?>
-                    </select>
-
-                    <input type="text" name="description" placeholder="Opis (opcjonalnie)" class="auth-input flex-2">
-
-                    <button type="submit" class="btn-primary">Dodaj</button>
-                </form>
+            <div class="auth-card household-share-card">
+                <h3>Gospodarstwa domowe</h3>
+                <p>Twój udział w gospodarstwach domowych w tym miesiącu:</p>
+                <strong class="household-share-value"><?= number_format($data['householdMonthlyCost'] ?? 0, 2) ?> zł</strong>
             </div>
+
+            <?php include comp('quickAdd.php'); ?>
             <div class="auth-card dashboard-card recent-transactions-card">
                 <h3>Ostatnie transakcje</h3>
 

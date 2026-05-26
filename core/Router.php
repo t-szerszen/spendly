@@ -1,11 +1,4 @@
 <?php
-require_once __DIR__ . '/../controllers/HomeController.php';
-require_once __DIR__ . '/../controllers/AboutController.php';
-require_once __DIR__ . '/../controllers/ContactController.php';
-require_once __DIR__ . '/../controllers/ErrorController.php';
-require_once __DIR__ . '/../controllers/LoginController.php';
-require_once __DIR__ . '/../controllers/RegisterController.php';
-require_once __DIR__ . '/../core/Database.php';
 
 /**
  * Klasa Router
@@ -35,11 +28,9 @@ class Router
                 break;
 
             case 'transactions':
-                require_once __DIR__ . '/../controllers/TransactionsController.php';
                 (new TransactionsController())->show();
                 break;
             case 'transaction/delete':
-                require_once __DIR__ . '/../controllers/TransactionsController.php';
                 (new TransactionsController())->destroy();
                 break;
 
@@ -70,23 +61,55 @@ class Router
                 break;
 
             case 'dashboard':
-                require_once __DIR__ . '/../controllers/DashboardController.php';
                 (new DashboardController())->show();
                 break;
 
+            case 'households':
+                (new HouseholdController())->index();
+                break;
+
+            case 'households/create':
+                (new HouseholdController())->create();
+                break;
+
+            case 'households/store':
+                (new HouseholdController())->store();
+                break;
+
+            case 'households/show':
+                (new HouseholdController())->show();
+                break;
+
+            case 'households/invite':
+                (new HouseholdController())->invite();
+                break;
+
+            case 'households/accept':
+                (new HouseholdController())->acceptInvite();
+                break;
+
+            case 'households/update-shares':
+                (new HouseholdController())->updateShares();
+                break;
+
+            case 'households/store-expense':
+                (new HouseholdController())->storeExpense();
+                break;
+
             case 'transaction/add':
-                require_once __DIR__ . '/../controllers/TransactionsController.php';
                 (new TransactionsController())->store();
                 break;
 
+            case 'household':
+                header('Location: ' . url('households'));
+                exit;
+                break;
+
             case 'logout':
-                require_once __DIR__ . '/../controllers/LogoutController.php';
                 (new LogoutController())->index();
                 break;
             
-            
             case 'summary':
-                require_once __DIR__ . '/../controllers/SummaryController.php';
                 (new SummaryController())->show();
                 break;
 

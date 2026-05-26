@@ -1,0 +1,278 @@
+.households-section {
+    align-items: flex-start;
+    min-height: auto;
+    padding: 3.5rem 2rem 4rem;
+}
+
+.households-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    gap: 1.5rem;
+}
+
+.households-container.narrow {
+    max-width: 720px;
+}
+
+.households-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.households-subtitle {
+    margin-top: 0.35rem;
+    color: var(--color-text-mutated);
+}
+
+.households-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+}
+
+.household-card,
+.households-form-card,
+.households-panel,
+.households-summary-card,
+.household-empty,
+.household-total-card,
+.household-share-card {
+    width: 100%;
+    max-width: none;
+    text-align: left;
+}
+
+.household-card {
+    display: grid;
+    gap: 0.55rem;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.household-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: rgba(19, 62, 124, 0.16);
+}
+
+.household-card h3,
+.households-panel h3,
+.households-summary-card h3,
+.households-form-card h1 {
+    color: var(--color-blue);
+    margin: 0;
+}
+
+.household-card p,
+.household-empty p,
+.households-summary-card p,
+.households-panel p {
+    margin: 0;
+    color: var(--color-text-mutated);
+}
+
+.household-empty {
+    display: grid;
+    gap: 1rem;
+    justify-items: start;
+}
+
+.households-form-card {
+    display: grid;
+    gap: 1.25rem;
+}
+
+.households-form-card .btn-secondary,
+.households-form-card .btn-primary {
+    text-align: center;
+}
+
+.households-summary-card {
+    display: grid;
+    gap: 1.25rem;
+}
+
+.household-summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 1rem;
+}
+
+.household-period-form {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.household-period-form .auth-input {
+    width: auto;
+    min-width: 170px;
+}
+
+.household-balance-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.household-balance-card {
+    padding: 1.1rem 1.15rem;
+    border-radius: 18px;
+    border: 1px solid rgba(19, 62, 124, 0.1);
+    background: rgba(255, 255, 255, 0.55);
+    box-shadow: var(--shadow-sm);
+    display: grid;
+    gap: 0.35rem;
+}
+
+.household-balance-card strong {
+    color: var(--color-blue);
+}
+
+.household-total-card {
+    padding: 1rem 1.15rem;
+    border-left: 5px solid var(--color-teal);
+}
+
+.household-total-card strong,
+.household-share-value {
+    font-size: 1.5rem;
+    color: var(--color-blue);
+}
+
+.households-two-column {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 1.5rem;
+}
+
+.households-panel {
+    display: grid;
+    gap: 1rem;
+    overflow-x: auto;
+}
+
+.household-member-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 132px;
+    align-items: center;
+    gap: 1rem;
+}
+
+.household-member-row span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.household-member-row .auth-input {
+    min-width: 0;
+}
+
+.households-form,
+.households-shares-form {
+    display: grid;
+    gap: 0.9rem;
+}
+
+.households-form .auth-input,
+.households-shares-form .auth-input,
+.household-period-form .auth-input {
+    min-width: 0;
+}
+
+.households-form .btn-primary,
+.households-shares-form .btn-primary {
+    justify-self: start;
+}
+
+.form-error,
+.form-success {
+    width: 100%;
+    max-width: none;
+    padding: 0.95rem 1rem;
+    border-radius: 14px;
+    font-size: 0.95rem;
+    border: 1px solid transparent;
+}
+
+.form-error {
+    background: rgba(153, 27, 27, 0.08);
+    color: #991b1b;
+    border-color: rgba(153, 27, 27, 0.14);
+}
+
+.form-success {
+    background: rgba(6, 95, 70, 0.08);
+    color: #065f46;
+    border-color: rgba(6, 95, 70, 0.14);
+}
+
+.text-positive {
+    color: #065f46;
+    font-weight: 700;
+}
+
+.text-negative {
+    color: #991b1b;
+    font-weight: 700;
+}
+
+.households-members-list {
+    display: grid;
+    gap: 0.85rem;
+}
+
+.households-panel table {
+    width: 100%;
+    min-width: 720px;
+}
+
+.households-panel .recent-transactions-table {
+    display: table;
+}
+
+@media (max-width: 960px) {
+    .households-section {
+        padding: 2.5rem 1rem 3rem;
+    }
+
+    .households-header,
+    .household-summary-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .households-two-column {
+        grid-template-columns: 1fr;
+    }
+
+    .household-period-form .auth-input {
+        width: 100%;
+    }
+}
+
+@media (max-width: 640px) {
+    .households-grid,
+    .household-balance-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .household-member-row {
+        grid-template-columns: 1fr;
+    }
+
+    .households-form .btn-primary,
+    .households-shares-form .btn-primary,
+    .households-form-card .btn-primary,
+    .households-form-card .btn-secondary {
+        width: 100%;
+        text-align: center;
+    }
+}

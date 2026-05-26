@@ -1,10 +1,6 @@
 <?php
 // controllers/DashboardController.php
 
-require_once __DIR__ . '/../models/Transaction.php';
-require_once __DIR__ . '/../services/AuthService.php';
-require_once __DIR__ . '/../models/Category.php';
-
 /**
  * Klasa DashboardController
  * 
@@ -16,12 +12,14 @@ require_once __DIR__ . '/../models/Category.php';
 class DashboardController
 {
     private $transactionModel;
+    private $householdExpenseModel;
     private $authService;
     private $categoryModel;
 
     public function __construct()
     {
         $this->transactionModel = new Transaction();
+        $this->householdExpenseModel = new HouseholdExpense();
         $this->authService = new AuthService();
         $this->categoryModel = new Category();
     }
@@ -49,58 +47,27 @@ class DashboardController
         $totalExpense = $this->transactionModel->getTotalByTypeAndMonth($userId, $month, 'expense');
         $totalIncome = $this->transactionModel->getTotalByTypeAndMonth($userId, $month, 'income');
         $balance = $totalIncome - $totalExpense;
+        $householdMonthlyCost = $this->householdExpenseModel->getUserMonthlyHouseholdCost(
+            $userId,
+            (int) date('Y'),
+            (int) date('n')
+        );
 
         // Przekazujemy wszystko do $data
         $data = [
             'title' => 'Dashboard',
             'categories' => $categories,
             'recentTransactions' => $transactions,
-            'months' => $this->getMonths(),
             'selectedMonth' => $month,
+            'quickAddPath' => 'transaction/add',
             'stats' => [
                 'totalExpense' => $totalExpense,
                 'totalIncome' => $totalIncome,
                 'balance' => $balance
-            ]
+            ],
+            'householdMonthlyCost' => $householdMonthlyCost
         ];
 
         require_once __DIR__ . '/../views/dashboard.php';
-    }
-
-    private function getMonths () 
-    {
-        $months = [];
-        $current = new DateTimeImmutable('first day of January 2026');
-        $end = new DateTimeImmutable('first day of January 2100');
-
-        while ($current <= $end) {
-            $value = $current->format('Y-m');
-            $label = $this->formatMonthLabel($current);
-
-            $months[$value] = $label;
-            $current = $current->modify('+1 month');
-        }
-
-        return $months;
-    }
-
-    private function formatMonthLabel(DateTimeImmutable $date): string
-    {
-        $months = [
-            1 => 'styczeń',
-            2 => 'luty',
-            3 => 'marzec',
-            4 => 'kwiecień',
-            5 => 'maj',
-            6 => 'czerwiec',
-            7 => 'lipiec',
-            8 => 'sierpień',
-            9 => 'wrzesień',
-            10 => 'październik',
-            11 => 'listopad',
-            12 => 'grudzień',
-        ];
-
-        return $months[(int) $date->format('n')] . ' ' . $date->format('Y');
     }
 }
