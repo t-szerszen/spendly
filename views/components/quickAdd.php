@@ -1,6 +1,8 @@
 <div class="auth-card dashboard-card">
     <h3>Szybkie dodawanie</h3>
     <form action="<?= url($data['quickAddPath']) ?>" method="POST" class="auth-form quick-add-form">
+        <input type="hidden" name="redirect_to" value="<?= htmlspecialchars($data['quickAddRedirect'] ?? 'dashboard') ?>">
+
         <input value="<?= htmlspecialchars($_SESSION['last_added_date'] ?? date('Y-m-d')) ?>" type="date" name="date" required 
             class="auth-input flex-1">
             

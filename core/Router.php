@@ -64,6 +64,10 @@ class Router
                 (new DashboardController())->show();
                 break;
 
+            case 'wallet':
+                (new WalletController())->show();
+                break;
+
             case 'households':
                 (new HouseholdController())->index();
                 break;

@@ -14,6 +14,7 @@
         </a>
         <nav class="nav-links">
             <a href="<?= url('dashboard') ?>">Panel główny</a>
+            <a href="<?= url('wallet') ?>">Portfel</a>
             <a href="<?= url('transactions') ?>">Transakcje</a>
             <a href="<?= url('summary') ?>">Podsumowanie</a>
             <a href="<?= url('households') ?>">Gospodarstwo domowe</a>

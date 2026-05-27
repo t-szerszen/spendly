@@ -57,7 +57,13 @@ class TransactionsController
                 'description' => $_POST['description'],
             ]);
 
-            header('Location: ' . url('dashboard?month=' . $month));
+            $redirectTo = $_POST['redirect_to'] ?? 'dashboard';
+            if ($redirectTo === 'wallet') {
+                header('Location: ' . url('wallet?month=' . $month));
+                exit;
+            }
+
+            header('Location: ' . url('dashboard'));
             exit;
         }
     }
@@ -83,7 +89,13 @@ class TransactionsController
             }
         }
 
-        header('Location: ' . url('dashboard?month=' . $month));
+        $redirectTo = $_POST['redirect_to'] ?? 'dashboard';
+        if ($redirectTo === 'wallet') {
+            header('Location: ' . url('wallet?month=' . $month));
+            exit;
+        }
+
+        header('Location: ' . url('dashboard'));
         exit;
     }
 

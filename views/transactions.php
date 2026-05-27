@@ -20,7 +20,7 @@
         <div class="container transactions-container">
             <div class="transactions-header">
                 <h1 class="transactions-title">Historia transakcji</h1>
-                <a href="<?= url('dashboard') ?>" class="btn-secondary"> + Dodaj nową</a>
+                <a href="<?= url('wallet') ?>" class="btn-secondary"> + Dodaj nową</a>
             </div>
 
             <div class="auth-card transactions-card">
@@ -65,7 +65,7 @@
                     <div class="no-transactions">
                         <p class="no-transactions-text">Nie masz jeszcze żadnych transakcji.</p>
                         <br>
-                        <a href="<?= url('dashboard') ?>" class="btn-primary">Dodaj pierwszą</a>
+                        <a href="<?= url('wallet') ?>" class="btn-primary">Dodaj pierwszą</a>
                     </div>
                 <?php endif; ?>
             </div>
