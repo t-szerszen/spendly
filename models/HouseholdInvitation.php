@@ -11,6 +11,8 @@ class HouseholdInvitation
 
     public function create($data)
     {
+        $this->deleteAcceptedAndExpired();
+
         $stmt = $this->db->prepare(
             'INSERT INTO household_invitations
                 (household_id, invited_email, invite_token, invited_by, status, expires_at)
@@ -87,5 +89,15 @@ class HouseholdInvitation
         $stmt->execute([$householdId, $email]);
 
         return (bool) $stmt->fetchColumn();
+    }
+
+    private function deleteAcceptedAndExpired(): void
+    {
+        $stmt = $this->db->prepare(
+            'DELETE FROM household_invitations
+             WHERE status = "accepted"
+                OR expires_at <= NOW()'
+        );
+        $stmt->execute();
     }
 }
