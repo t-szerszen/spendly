@@ -91,6 +91,44 @@ class HouseholdInvitation
         return (bool) $stmt->fetchColumn();
     }
 
+    public function showInvitedToHousehold($householdId)
+    {
+        $this->deleteAcceptedAndExpired();
+
+        $stmt = $this->db->prepare(
+            'SELECT id, invited_email, expires_at
+            FROM household_invitations 
+            WHERE household_id = ?
+              AND status = "pending"
+            ORDER BY created_at DESC, id DESC'
+        );
+        $stmt->execute([$householdId]);
+        return $stmt->fetchAll();
+    }
+
+    public function findById($id)
+    {
+        $stmt = $this->db->prepare(
+            'SELECT *
+             FROM household_invitations
+             WHERE id = ?
+             LIMIT 1'
+        );
+        $stmt->execute([$id]);
+
+        return $stmt->fetch();
+    }
+
+    public function deleteInvitation($id)
+    {
+        $stmt = $this->db->prepare(
+            'DELETE FROM household_invitations
+            WHERE id = ?
+        '
+        );
+        return $stmt->execute([$id]);
+    }
+
     private function deleteAcceptedAndExpired(): void
     {
         $stmt = $this->db->prepare(

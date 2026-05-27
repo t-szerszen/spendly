@@ -119,6 +119,11 @@ class HouseholdController
             exit;
         }
 
+        if (!$this->currentUserIsOwner($householdId)) {
+            header('Location: ' . url('households/show?id=' . $householdId . '&access=forbidden' . $this->buildPeriodQuery($period)));
+            exit;
+        }
+
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $this->renderHousehold($householdId, $period, 'Podaj poprawny adres email.');
             return;
@@ -244,23 +249,45 @@ class HouseholdController
             exit;
         }
 
+        if (!$this->currentUserIsOwner($householdId)) {
+            header('Location: ' . url('households/show?id=' . $householdId . '&shares=forbidden' . $this->buildPeriodQuery($period)));
+            exit;
+        }
+
         $shares = $_POST['shares'] ?? [];
         $members = $this->memberModel->getMembers($householdId);
 
-        $total = 0.0;
+        $totalBasisPoints = 0;
+        $validatedShares = [];
         foreach ($members as $member) {
-            $share = isset($shares[$member['user_id']]) ? (float) $shares[$member['user_id']] : 0.0;
-            $total += $share;
+            $userId = (int) $member['user_id'];
+            $rawShare = trim((string) ($shares[$userId] ?? ''));
+            $normalizedShare = str_replace(',', '.', $rawShare);
+
+            if ($normalizedShare === '' || !preg_match('/^\d+(?:\.\d{1,2})?$/', $normalizedShare)) {
+                header('Location: ' . url('households/show?id=' . $householdId . '&shares=invalid-number' . $this->buildPeriodQuery($period)));
+                exit;
+            }
+
+            $share = (float) $normalizedShare;
+            if ($share < 0 || $share > 100) {
+                header('Location: ' . url('households/show?id=' . $householdId . '&shares=invalid-range' . $this->buildPeriodQuery($period)));
+                exit;
+            }
+
+            $shareBasisPoints = (int) round($share * 100);
+            $validatedShares[$userId] = $shareBasisPoints / 100;
+            $totalBasisPoints += $shareBasisPoints;
         }
 
-        if (abs($total - 100) > 0.01) {
-            $this->renderHousehold($householdId, $period, 'Suma udziałów musi wynosić 100%.');
-            return;
+        if ($totalBasisPoints !== 10000) {
+            header('Location: ' . url('households/show?id=' . $householdId . '&shares=invalid-total' . $this->buildPeriodQuery($period)));
+            exit;
         }
 
         foreach ($members as $member) {
-            $share = isset($shares[$member['user_id']]) ? (float) $shares[$member['user_id']] : 0.0;
-            $this->memberModel->updateShare($householdId, $member['user_id'], $share);
+            $userId = (int) $member['user_id'];
+            $this->memberModel->updateShare($householdId, $userId, $validatedShares[$userId]);
         }
 
         header('Location: ' . url('households/show?id=' . $householdId . '&shares=updated' . $this->buildPeriodQuery($period)));
@@ -320,6 +347,145 @@ class HouseholdController
         exit;
     }
 
+    public function deleteInvitation(): void
+    {
+        $this->requireLogin();
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . url('households'));
+            exit;
+        }
+
+        $invitationId = (int) ($_POST['id'] ?? 0);
+        $householdId = (int) ($_POST['household'] ?? 0);
+        $period = $this->resolvePeriod($_POST['period'] ?? null);
+
+        if ($householdId <= 0 || !$this->householdModel->userHasAccess($householdId, $_SESSION['user_id'])) {
+            header('Location: ' . url('households'));
+            exit;
+        }
+
+        if (!$this->currentUserIsOwner($householdId)) {
+            header('Location: ' . url('households/show?id=' . $householdId . '&invite=forbidden' . $this->buildPeriodQuery($period)));
+            exit;
+        }
+
+        $invitation = $this->invitationModel->findById($invitationId);
+        if (!$invitation || (int) $invitation['household_id'] !== $householdId) {
+            header('Location: ' . url('households/show?id=' . $householdId . '&invite=not-found' . $this->buildPeriodQuery($period)));
+            exit;
+        }
+
+        $this->invitationModel->deleteInvitation($invitationId);
+        header('Location: ' . url('households/show?id=' . $householdId . '&invite=deleted' . $this->buildPeriodQuery($period)));
+        exit;
+    }
+
+    public function leave(): void
+    {
+        $this->requireLogin();
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . url('households'));
+            exit;
+        }
+
+        $householdId = (int) ($_POST['household_id'] ?? 0);
+        $period = $this->resolvePeriod($_POST['period'] ?? null);
+        $userId = (int) $_SESSION['user_id'];
+
+        if ($householdId <= 0 || !$this->householdModel->userHasAccess($householdId, $userId)) {
+            header('Location: ' . url('households'));
+            exit;
+        }
+
+        $currentMember = $this->memberModel->getMember($householdId, $userId);
+        if (!$currentMember) {
+            header('Location: ' . url('households'));
+            exit;
+        }
+
+        if ($currentMember['role'] === 'owner' && $this->memberModel->countOwners($householdId) <= 1) {
+            header('Location: ' . url('households/show?id=' . $householdId . '&leave=blocked-owner' . $this->buildPeriodQuery($period)));
+            exit;
+        }
+
+        $this->memberModel->deleteMember($householdId, $userId);
+        header('Location: ' . url('households?leave=success'));
+        exit;
+    }
+
+    public function removeMember(): void
+    {
+        $this->requireLogin();
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . url('households'));
+            exit;
+        }
+
+        $householdId = (int) ($_POST['household_id'] ?? 0);
+        $memberUserId = (int) ($_POST['member_user_id'] ?? 0);
+        $period = $this->resolvePeriod($_POST['period'] ?? null);
+
+        if ($householdId <= 0 || !$this->householdModel->userHasAccess($householdId, $_SESSION['user_id'])) {
+            header('Location: ' . url('households'));
+            exit;
+        }
+
+        if (!$this->currentUserIsOwner($householdId)) {
+            header('Location: ' . url('households/show?id=' . $householdId . '&member=forbidden' . $this->buildPeriodQuery($period)));
+            exit;
+        }
+
+        if ($memberUserId === (int) $_SESSION['user_id']) {
+            header('Location: ' . url('households/show?id=' . $householdId . '&member=self' . $this->buildPeriodQuery($period)));
+            exit;
+        }
+
+        $targetMember = $this->memberModel->getMember($householdId, $memberUserId);
+        if (!$targetMember) {
+            header('Location: ' . url('households/show?id=' . $householdId . '&member=not-found' . $this->buildPeriodQuery($period)));
+            exit;
+        }
+
+        if ($targetMember['role'] === 'owner') {
+            header('Location: ' . url('households/show?id=' . $householdId . '&member=owner' . $this->buildPeriodQuery($period)));
+            exit;
+        }
+
+        $this->memberModel->deleteMember($householdId, $memberUserId);
+        header('Location: ' . url('households/show?id=' . $householdId . '&member=removed' . $this->buildPeriodQuery($period)));
+        exit;
+    }
+
+    public function delete(): void
+    {
+        $this->requireLogin();
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . url('households'));
+            exit;
+        }
+
+        $householdId = (int) ($_POST['household_id'] ?? 0);
+        $period = $this->resolvePeriod($_POST['period'] ?? null);
+
+        if ($householdId <= 0 || !$this->householdModel->userHasAccess($householdId, (int) $_SESSION['user_id'])) {
+            header('Location: ' . url('households'));
+            exit;
+        }
+
+        if (!$this->currentUserIsOwner($householdId)) {
+            header('Location: ' . url('households/show?id=' . $householdId . '&delete=forbidden' . $this->buildPeriodQuery($period)));
+            exit;
+        }
+
+        $this->householdModel->delete($householdId);
+        header('Location: ' . url('households?delete=success'));
+        exit;
+    }
+
     private function renderHousehold($householdId, ?string $period = null, ?string $error = null)
     {
         $household = $this->householdModel->find($householdId);
@@ -338,6 +504,9 @@ class HouseholdController
         $selectedPeriod = $selectedDate->format('Y-m');
 
         $members = $this->memberModel->getMembers($householdId);
+        $currentMember = $this->memberModel->getMember($householdId, (int) $_SESSION['user_id']);
+        $ownerCount = $this->memberModel->countOwners($householdId);
+        $invitedUsers = $this->invitationModel->showInvitedToHousehold($householdId);
         $expenses = $this->expenseModel->getByMonth($householdId, $year, $month);
         $monthlyBalance = $this->expenseModel->getMonthlyBalance($householdId, $year, $month);
         $totalMonthExpense = $this->expenseModel->getTotalByMonth($householdId, $year, $month);
@@ -347,6 +516,10 @@ class HouseholdController
             'title' => $household['name'],
             'household' => $household,
             'members' => $members,
+            'invitedUsers' =>$invitedUsers,
+            'currentMember' => $currentMember,
+            'canManageHousehold' => $currentMember && $currentMember['role'] === 'owner',
+            'ownerCount' => $ownerCount,
             'expenses' => $expenses,
             'monthlyBalance' => $monthlyBalance,
             'totalMonthExpense' => $totalMonthExpense,
@@ -377,6 +550,13 @@ class HouseholdController
     private function buildPeriodQuery(?string $period): string
     {
         return $period ? '&period=' . urlencode($period) : '';
+    }
+
+    private function currentUserIsOwner($householdId): bool
+    {
+        $member = $this->memberModel->getMember($householdId, (int) $_SESSION['user_id']);
+
+        return $member && $member['role'] === 'owner';
     }
 
     private function requireLogin(): void

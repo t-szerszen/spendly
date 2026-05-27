@@ -96,6 +96,22 @@ class Router
                 (new HouseholdController())->storeExpense();
                 break;
 
+            case 'household/deleteInvitation':
+                (new HouseholdController())->deleteInvitation();
+                break;
+
+            case 'households/leave':
+                (new HouseholdController())->leave();
+                break;
+
+            case 'households/remove-member':
+                (new HouseholdController())->removeMember();
+                break;
+
+            case 'households/delete':
+                (new HouseholdController())->delete();
+                break;
+
             case 'transaction/add':
                 (new TransactionsController())->store();
                 break;
