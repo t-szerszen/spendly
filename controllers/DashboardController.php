@@ -11,14 +11,14 @@
 class DashboardController
 {
     private $transactionModel;
-    private $householdExpenseModel;
+    private $sharedBudgetModel;
     private $authService;
     private $categoryModel;
 
     public function __construct()
     {
         $this->transactionModel = new Transaction();
-        $this->householdExpenseModel = new HouseholdExpense();
+        $this->sharedBudgetModel = new SharedBudget();
         $this->authService = new AuthService();
         $this->categoryModel = new Category();
     }
@@ -41,15 +41,17 @@ class DashboardController
         $totalExpense = $this->transactionModel->getTotalByTypeAndMonth($userId, $month, 'expense');
         $totalIncome = $this->transactionModel->getTotalByTypeAndMonth($userId, $month, 'income');
         $balance = $totalIncome - $totalExpense;
-        $householdMonthlyCost = $this->householdExpenseModel->getUserMonthlyHouseholdCost(
+        $sharedBudgetMonthlyCost = $this->transactionModel->getUserSharedBudgetCostByMonth(
             $userId,
             (int) $selectedDate->format('Y'),
             (int) $selectedDate->format('n')
         );
+        $sharedBudgets = $this->sharedBudgetModel->findByUser($userId);
 
         $data = [
             'title' => 'Dashboard',
             'categories' => $categories,
+            'sharedBudgets' => $sharedBudgets,
             'recentTransactions' => $recentTransactions,
             'monthTransactionsCount' => count($monthTransactions),
             'selectedMonth' => $month,
@@ -60,7 +62,7 @@ class DashboardController
                 'totalIncome' => $totalIncome,
                 'balance' => $balance
             ],
-            'householdMonthlyCost' => $householdMonthlyCost
+            'sharedBudgetMonthlyCost' => $sharedBudgetMonthlyCost
         ];
 
         require_once __DIR__ . '/../views/dashboard.php';

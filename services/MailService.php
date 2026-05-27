@@ -5,7 +5,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 class MailService
 {
-    public function sendHouseholdInvitation($toEmail, $householdName, $inviterName, $inviteUrl)
+    public function sendSharedBudgetInvitation($toEmail, $sharedBudgetName, $inviterName, $inviteUrl)
     {
         try {
             $mail = new PHPMailer(true);
@@ -23,19 +23,19 @@ class MailService
             );
             $mail->addAddress($toEmail);
             $mail->isHTML(true);
-            $mail->Subject = 'Zaproszenie do gospodarstwa domowego w Spendly';
+            $mail->Subject = 'Zaproszenie do wspólnego budżetu w Spendly';
 
             $mail->Body = $this->renderInvitationTemplate([
-                'householdName' => $householdName,
+                'sharedBudgetName' => $sharedBudgetName,
                 'inviterName' => $inviterName,
                 'inviteUrl' => $inviteUrl,
                 'toEmail' => $toEmail,
             ]);
 
             $mail->AltBody = sprintf(
-                '%s zaprosił Cię do gospodarstwa "%s" w Spendly. Otwórz link: %s',
+                '%s zaprosił Cię do wspólnego budżetu "%s" w Spendly. Otwórz link: %s',
                 $inviterName,
-                $householdName,
+                $sharedBudgetName,
                 $inviteUrl
             );
 
@@ -49,7 +49,7 @@ class MailService
     private function renderInvitationTemplate(array $data)
     {
         ob_start();
-        $template = __DIR__ . '/../views/emails/household_invitation.php';
+        $template = __DIR__ . '/../views/emails/shared_budget_invitation.php';
         include $template;
 
         return ob_get_clean();

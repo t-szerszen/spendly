@@ -68,61 +68,56 @@ class Router
                 (new WalletController())->show();
                 break;
 
-            case 'households':
-                (new HouseholdController())->index();
+            case 'shared_budgets':
+                (new SharedBudgetController())->index();
                 break;
 
-            case 'households/create':
-                (new HouseholdController())->create();
+            case 'shared_budgets/create':
+                (new SharedBudgetController())->create();
                 break;
 
-            case 'households/store':
-                (new HouseholdController())->store();
+            case 'shared_budgets/store':
+                (new SharedBudgetController())->store();
                 break;
 
-            case 'households/show':
-                (new HouseholdController())->show();
+            case 'shared_budgets/show':
+                (new SharedBudgetController())->show();
                 break;
 
-            case 'households/invite':
-                (new HouseholdController())->invite();
+            case 'shared_budgets/invite':
+                (new SharedBudgetController())->invite();
                 break;
 
-            case 'households/accept':
-                (new HouseholdController())->acceptInvite();
+            case 'shared_budgets/accept':
+                (new SharedBudgetController())->acceptInvite();
                 break;
 
-            case 'households/update-shares':
-                (new HouseholdController())->updateShares();
+            case 'shared_budgets/update-shares':
+                (new SharedBudgetController())->updateShares();
                 break;
 
-            case 'households/store-expense':
-                (new HouseholdController())->storeExpense();
+            case 'shared_budgets/settle':
+                (new SharedBudgetController())->settle();
                 break;
 
-            case 'household/deleteInvitation':
-                (new HouseholdController())->deleteInvitation();
+            case 'shared_budgets/delete-invitation':
+                (new SharedBudgetController())->deleteInvitation();
                 break;
 
-            case 'households/leave':
-                (new HouseholdController())->leave();
+            case 'shared_budgets/leave':
+                (new SharedBudgetController())->leave();
                 break;
 
-            case 'households/remove-member':
-                (new HouseholdController())->removeMember();
+            case 'shared_budgets/remove-member':
+                (new SharedBudgetController())->removeMember();
                 break;
 
-            case 'households/delete':
-                (new HouseholdController())->delete();
+            case 'shared_budgets/delete':
+                (new SharedBudgetController())->delete();
                 break;
 
             case 'transaction/add':
                 (new TransactionsController())->store();
-                break;
-
-            case 'household':
-                header('Location: ' . url('households'));
-                exit;
                 break;
 
             case 'logout':

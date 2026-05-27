@@ -23,9 +23,9 @@ $balance = $data['stats']['balance'];
             <section class="dashboard-hero wallet-hero">
                 <div>
                     <p class="dashboard-eyebrow">Portfel</p>
-                    <h1 class="dashboard-title">Twoje transakcje miesięczne</h1>
+                    <h1 class="dashboard-title">Wszystkie transakcje zaczynają się tutaj</h1>
                     <p class="dashboard-subtitle">
-                        Wybierz miesiąc, dodawaj przychody i wydatki oraz sprawdzaj bilans.
+                        Dodawaj prywatne wydatki, przychody i koszty wspólnego budżetu z jednego miejsca.
                     </p>
                 </div>
 
@@ -55,11 +55,19 @@ $balance = $data['stats']['balance'];
                 </div>
             </div>
 
-            <div class="auth-card dashboard-card dashboard-info-card wallet-household-card">
-                <h3>Gospodarstwa domowe</h3>
-                <strong><?= number_format($data['householdMonthlyCost'] ?? 0, 2) ?> zł</strong>
+            <div class="auth-card dashboard-card dashboard-info-card wallet-sharedBudget-card">
+                <h3>Twój udział we wspólnych budżetach</h3>
+                <strong><?= number_format($data['sharedBudgetMonthlyCost'] ?? 0, 2) ?> zł</strong>
                 <p>Twój udział we wspólnych kosztach dla wybranego miesiąca.</p>
             </div>
+
+            <?php if (!empty($_GET['transaction']) && $_GET['transaction'] === 'invalid'): ?>
+                <div class="form-error">Nie udało się dodać transakcji. Sprawdź kwotę, datę, kategorię i typ wpisu.</div>
+            <?php elseif (!empty($_GET['transaction']) && $_GET['transaction'] === 'forbidden-budget'): ?>
+                <div class="form-error">Nie możesz przypisać wydatku do budżetu, do którego nie należysz.</div>
+            <?php elseif (!empty($_GET['transaction']) && $_GET['transaction'] === 'added'): ?>
+                <div class="form-success">Transakcja została dodana.</div>
+            <?php endif; ?>
 
             <?php include comp('quickAdd.php'); ?>
 
@@ -67,7 +75,7 @@ $balance = $data['stats']['balance'];
                 <div class="dashboard-card-header">
                     <div>
                         <h3>Transakcje w wybranym miesiącu</h3>
-                        <p>Historia operacji dla <?= htmlspecialchars($data['selectedMonth']) ?>.</p>
+                        <p>Prywatne wpisy i koszty przypisane do wspólnych budżetów dla <?= htmlspecialchars($data['selectedMonth']) ?>.</p>
                     </div>
                     <a href="<?= url('transactions') ?>" class="dashboard-text-link">Pełna historia</a>
                 </div>
@@ -78,6 +86,7 @@ $balance = $data['stats']['balance'];
                             <tr>
                                 <th class="text-left">Data</th>
                                 <th class="text-left">Kategoria</th>
+                                <th class="text-left">Budżet</th>
                                 <th class="text-left">Opis</th>
                                 <th class="text-right">Kwota</th>
                                 <th class="text-right">Akcja</th>
@@ -88,6 +97,13 @@ $balance = $data['stats']['balance'];
                                 <tr>
                                     <td><?= htmlspecialchars($t['date']) ?></td>
                                     <td><?= htmlspecialchars($t['category_name']) ?></td>
+                                    <td>
+                                        <?php if (!empty($t['shared_budget_name'])): ?>
+                                            <span class="transaction-budget-badge"><?= htmlspecialchars($t['shared_budget_name']) ?></span>
+                                        <?php else: ?>
+                                            <span class="transaction-budget-private">Prywatne</span>
+                                        <?php endif; ?>
+                                    </td>
                                     <td class="desc-cell"><?= htmlspecialchars($t['description']) ?></td>
                                     <td class="amount-cell <?= $t['type'] === 'expense' ? 'amount-expense' : 'amount-income' ?>">
                                         <?= $t['type'] === 'expense' ? '-' : '+' ?> <?= number_format($t['amount'], 2) ?> zł

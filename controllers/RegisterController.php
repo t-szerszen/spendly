@@ -5,8 +5,8 @@
  * Klasa RegisterController
  * 
  * Odpowiada za proces rejestracji nowych użytkowników. Wyświetla formularz,
- * przeprowadza podstawową walidację (m.in. sprawdzanie długości hasła), a następnie
- * bezpiecznie hashuje hasło za pomocą algorytmu BCRYPT i zapisuje dane użytkownika do bazy.
+ * sprawdza podstawową kompletność danych, a następnie bezpiecznie hashuje
+ * hasło za pomocą algorytmu BCRYPT i zapisuje dane użytkownika do bazy.
  * Obsługuje przypadek, gdy podany adres e-mail już istnieje w systemie.
  */
 class RegisterController
@@ -31,9 +31,8 @@ class RegisterController
             $email = $_POST['email'] ?? '';
             $password = $_POST['password'] ?? '';
 
-            // Walidacja
-            if (empty($firstName) || empty($email) || strlen($password) < 8) {
-                $error = "Wypełnij wszystkie pola. Hasło musi mieć min. 8 znaków.";
+            if (empty($firstName) || empty($email) || $password === '') {
+                $error = "Wypełnij wszystkie wymagane pola.";
                 require_once __DIR__ . '/../views/register.php';
                 return;
             }

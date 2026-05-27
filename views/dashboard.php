@@ -25,11 +25,14 @@ $balance = $data['stats']['balance'];
                     <p class="dashboard-eyebrow">Panel główny</p>
                     <h1 class="dashboard-title">Cześć, <?= htmlspecialchars($_SESSION['first_name']) ?>.</h1>
                     <p class="dashboard-subtitle">
-                        Dodaj szybko transakcję, sprawdź bieżący miesiąc albo przejdź do portfela.
+                        Portfel jest miejscem zapisu wszystkich transakcji. Wspólne budżety służą do rozliczania udziałów i spłat.
                     </p>
                 </div>
 
-                <a href="<?= url('wallet') ?>" class="btn-primary dashboard-hero-button">Otwórz portfel</a>
+                <div class="dashboard-hero-actions">
+                    <a href="<?= url('wallet') ?>" class="btn-primary dashboard-hero-button">Otwórz portfel</a>
+                    <a href="<?= url('shared_budgets') ?>" class="dashboard-text-link">Rozliczenia</a>
+                </div>
             </section>
 
             <div class="stats-grid">
@@ -52,19 +55,45 @@ $balance = $data['stats']['balance'];
                 </div>
             </div>
 
+            <?php if (!empty($_GET['transaction']) && $_GET['transaction'] === 'invalid'): ?>
+                <div class="form-error">Nie udało się dodać transakcji. Wspólny budżet można przypisać tylko do wydatku.</div>
+            <?php elseif (!empty($_GET['transaction']) && $_GET['transaction'] === 'forbidden-budget'): ?>
+                <div class="form-error">Nie możesz przypisać wydatku do budżetu, do którego nie należysz.</div>
+            <?php elseif (!empty($_GET['transaction']) && $_GET['transaction'] === 'added'): ?>
+                <div class="form-success">Transakcja została dodana.</div>
+            <?php endif; ?>
+
+            <section class="dashboard-flow">
+                <div>
+                    <span>1</span>
+                    <strong>Dodaj w portfelu</strong>
+                    <p>Prywatny wydatek albo koszt wspólnego budżetu zapisujesz w jednym formularzu.</p>
+                </div>
+                <div>
+                    <span>2</span>
+                    <strong>Przypisz budżet</strong>
+                    <p>Wspólny koszt automatycznie trafia do rozliczenia wybranego miesiąca.</p>
+                </div>
+                <div>
+                    <span>3</span>
+                    <strong>Wyrównaj saldo</strong>
+                    <p>Moduł wspólnego budżetu pokazuje, kto komu powinien przelać pieniądze.</p>
+                </div>
+            </section>
+
             <?php include comp('quickAdd.php'); ?>
 
             <section class="dashboard-shortcuts">
                 <div class="dashboard-section-heading">
-                    <p class="dashboard-eyebrow">Szybkie akcje</p>
-                    <h2>Co chcesz zrobić?</h2>
+                    <p class="dashboard-eyebrow">Nawigacja</p>
+                    <h2>Najczęstsze ścieżki</h2>
                 </div>
 
                 <div class="dashboard-shortcuts-grid">
                     <a href="<?= url('wallet') ?>" class="auth-card dashboard-shortcut-card">
                         <span>Portfel</span>
-                        <strong>Dodawanie i miesiące</strong>
-                        <p>Pełny widok transakcji dla wybranego miesiąca.</p>
+                        <strong>Dodawanie transakcji</strong>
+                        <p>Centralne miejsce dla kosztów prywatnych i wspólnych.</p>
                     </a>
 
                     <a href="<?= url('transactions') ?>" class="auth-card dashboard-shortcut-card">
@@ -79,10 +108,10 @@ $balance = $data['stats']['balance'];
                         <p>Sprawdź większy obraz swoich finansów.</p>
                     </a>
 
-                    <a href="<?= url('households') ?>" class="auth-card dashboard-shortcut-card">
-                        <span>Gospodarstwo</span>
-                        <strong>Wspólne koszty</strong>
-                        <p>Rozliczaj wydatki domowe z innymi osobami.</p>
+                    <a href="<?= url('shared_budgets') ?>" class="auth-card dashboard-shortcut-card">
+                        <span>Wspólny budżet</span>
+                        <strong>Rozliczenia</strong>
+                        <p>Sprawdzaj salda, udziały i proponowane spłaty między członkami.</p>
                     </a>
                 </div>
             </section>
@@ -95,8 +124,8 @@ $balance = $data['stats']['balance'];
                 </div>
 
                 <div class="auth-card dashboard-card dashboard-info-card">
-                    <h3>Udział w gospodarstwach</h3>
-                    <strong><?= number_format($data['householdMonthlyCost'] ?? 0, 2) ?> zł</strong>
+                    <h3>Udział we wspólnych budżetach</h3>
+                    <strong><?= number_format($data['sharedBudgetMonthlyCost'] ?? 0, 2) ?> zł</strong>
                     <p>Twoja część wspólnych kosztów w aktualnym miesiącu.</p>
                 </div>
             </div>
@@ -116,6 +145,7 @@ $balance = $data['stats']['balance'];
                             <tr>
                                 <th class="text-left">Data</th>
                                 <th class="text-left">Kategoria</th>
+                                <th class="text-left">Budżet</th>
                                 <th class="text-left">Opis</th>
                                 <th class="text-right">Kwota</th>
                             </tr>
@@ -125,6 +155,13 @@ $balance = $data['stats']['balance'];
                                 <tr>
                                     <td><?= htmlspecialchars($t['date']) ?></td>
                                     <td><?= htmlspecialchars($t['category_name']) ?></td>
+                                    <td>
+                                        <?php if (!empty($t['shared_budget_name'])): ?>
+                                            <span class="transaction-budget-badge"><?= htmlspecialchars($t['shared_budget_name']) ?></span>
+                                        <?php else: ?>
+                                            <span class="transaction-budget-private">Prywatne</span>
+                                        <?php endif; ?>
+                                    </td>
                                     <td class="desc-cell"><?= htmlspecialchars($t['description']) ?></td>
                                     <td class="amount-cell <?= $t['type'] === 'expense' ? 'amount-expense' : 'amount-income' ?>">
                                         <?= $t['type'] === 'expense' ? '-' : '+' ?> <?= number_format($t['amount'], 2) ?> zł

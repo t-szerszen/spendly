@@ -36,9 +36,9 @@ class LoginController
             $password = $_POST['password'] ?? '';
 
             if ($this->authService->login($email, $password)) {
-                if (!empty($_SESSION['pending_household_invite_token'])) {
-                    $token = $_SESSION['pending_household_invite_token'];
-                    header('Location: ' . url('households/accept?token=' . urlencode($token)));
+                if (!empty($_SESSION['pending_shared_budget_invite_token'])) {
+                    $token = $_SESSION['pending_shared_budget_invite_token'];
+                    header('Location: ' . url('shared_budgets/accept?token=' . urlencode($token)));
                     exit;
                 }
 

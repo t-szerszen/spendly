@@ -1,6 +1,6 @@
 <?php
 
-class Household
+class SharedBudget
 {
     private $db;
 
@@ -12,7 +12,7 @@ class Household
     public function create($data)
     {
         $stmt = $this->db->prepare(
-            'INSERT INTO households (name, owner_id, created_by)
+            'INSERT INTO shared_budgets (name, owner_id, created_by)
              VALUES (?, ?, ?)'
         );
         $stmt->execute([
@@ -28,8 +28,8 @@ class Household
     {
         $stmt = $this->db->prepare(
             'SELECT h.*,
-                    (SELECT COUNT(*) FROM household_members hm WHERE hm.household_id = h.id) AS member_count
-             FROM households h
+                    (SELECT COUNT(*) FROM shared_budget_members hm WHERE hm.shared_budget_id = h.id) AS member_count
+             FROM shared_budgets h
              WHERE h.id = ?'
         );
         $stmt->execute([$id]);
@@ -41,9 +41,9 @@ class Household
     {
         $stmt = $this->db->prepare(
             'SELECT h.*,
-                    (SELECT COUNT(*) FROM household_members hm WHERE hm.household_id = h.id) AS member_count
-             FROM households h
-             JOIN household_members hm ON hm.household_id = h.id
+                    (SELECT COUNT(*) FROM shared_budget_members hm WHERE hm.shared_budget_id = h.id) AS member_count
+             FROM shared_budgets h
+             JOIN shared_budget_members hm ON hm.shared_budget_id = h.id
              WHERE hm.user_id = ?
              ORDER BY h.created_at DESC, h.id DESC'
         );
@@ -52,27 +52,27 @@ class Household
         return $stmt->fetchAll();
     }
 
-    public function userHasAccess($householdId, $userId)
+    public function userHasAccess($sharedBudgetId, $userId)
     {
         $stmt = $this->db->prepare(
             'SELECT 1
-             FROM household_members
-             WHERE household_id = ?
+             FROM shared_budget_members
+             WHERE shared_budget_id = ?
                AND user_id = ?
              LIMIT 1'
         );
-        $stmt->execute([$householdId, $userId]);
+        $stmt->execute([$sharedBudgetId, $userId]);
 
         return (bool) $stmt->fetchColumn();
     }
 
-    public function delete($householdId)
+    public function delete($sharedBudgetId)
     {
         $stmt = $this->db->prepare(
-            'DELETE FROM households
+            'DELETE FROM shared_budgets
              WHERE id = ?'
         );
 
-        return $stmt->execute([$householdId]);
+        return $stmt->execute([$sharedBudgetId]);
     }
 }

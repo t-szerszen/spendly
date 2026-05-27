@@ -1,5 +1,5 @@
 <?php
-$householdName = $data['householdName'];
+$sharedBudgetName = $data['sharedBudgetName'];
 $inviterName = $data['inviterName'];
 $inviteUrl = $data['inviteUrl'];
 $toEmail = $data['toEmail'];
@@ -11,12 +11,12 @@ $toEmail = $data['toEmail'];
         <div style="background:#ffffff;border-radius:20px;padding:32px;border:1px solid #e5e7eb;">
             <div style="margin-bottom:24px;">
                 <div style="font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:#6b7280;">Spendly</div>
-                <h1 style="margin:8px 0 0;font-size:28px;line-height:1.2;color:#111827;">Zaproszenie do gospodarstwa</h1>
+                <h1 style="margin:8px 0 0;font-size:28px;line-height:1.2;color:#111827;">Zaproszenie do wspólnego budżetu</h1>
             </div>
 
             <p style="font-size:16px;line-height:1.6;margin:0 0 16px;">
-                <strong><?= htmlspecialchars($inviterName) ?></strong> zaprosił Cię do gospodarstwa domowego
-                <strong><?= htmlspecialchars($householdName) ?></strong> w Spendly.
+                <strong><?= htmlspecialchars($inviterName) ?></strong> zaprosił Cię do wspólnego budżetu
+                <strong><?= htmlspecialchars($sharedBudgetName) ?></strong> w Spendly.
             </p>
 
             <p style="font-size:15px;line-height:1.6;margin:0 0 24px;color:#4b5563;">
@@ -26,7 +26,7 @@ $toEmail = $data['toEmail'];
             <div style="text-align:center;margin:32px 0;">
                 <a href="<?= htmlspecialchars($inviteUrl) ?>"
                    style="display:inline-block;background:#111827;color:#ffffff;text-decoration:none;padding:14px 24px;border-radius:999px;font-weight:700;">
-                    Dołącz do gospodarstwa
+                    Dołącz do budżetu
                 </a>
             </div>
 

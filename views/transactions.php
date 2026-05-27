@@ -30,6 +30,7 @@
                             <tr>
                                 <th class="text-left">Data</th>
                                 <th class="text-left">Kategoria</th>
+                                <th class="text-left">Budżet</th>
                                 <th class="text-left">Opis</th>
                                 <th class="text-right">Kwota</th>
                                 <th class="text-right">Akcja</th>
@@ -43,6 +44,13 @@
                                         <span class="category-badge">
                                             <?= htmlspecialchars($t['category_name']) ?>
                                         </span>
+                                    </td>
+                                    <td>
+                                        <?php if (!empty($t['shared_budget_name'])): ?>
+                                            <span class="transaction-budget-badge"><?= htmlspecialchars($t['shared_budget_name']) ?></span>
+                                        <?php else: ?>
+                                            <span class="transaction-budget-private">Prywatne</span>
+                                        <?php endif; ?>
                                     </td>
                                     <td class="desc-cell"><?= htmlspecialchars($t['description']) ?></td>
                                     <td

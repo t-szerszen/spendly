@@ -1,6 +1,6 @@
 <?php
 
-class HouseholdInvitation
+class SharedBudgetInvitation
 {
     private $db;
 
@@ -14,12 +14,12 @@ class HouseholdInvitation
         $this->deleteAcceptedAndExpired();
 
         $stmt = $this->db->prepare(
-            'INSERT INTO household_invitations
-                (household_id, invited_email, invite_token, invited_by, status, expires_at)
+            'INSERT INTO shared_budget_invitations
+                (shared_budget_id, invited_email, invite_token, invited_by, status, expires_at)
              VALUES (?, ?, ?, ?, ?, ?)'
         );
         $stmt->execute([
-            $data['household_id'],
+            $data['shared_budget_id'],
             $data['invited_email'],
             $data['invite_token'],
             $data['invited_by'],
@@ -34,7 +34,7 @@ class HouseholdInvitation
     {
         $stmt = $this->db->prepare(
             'SELECT *
-             FROM household_invitations
+             FROM shared_budget_invitations
              WHERE invite_token = ?
              LIMIT 1'
         );
@@ -46,7 +46,7 @@ class HouseholdInvitation
     public function markAccepted($id)
     {
         $stmt = $this->db->prepare(
-            'UPDATE household_invitations
+            'UPDATE shared_budget_invitations
              SET status = "accepted"
              WHERE id = ?'
         );
@@ -57,7 +57,7 @@ class HouseholdInvitation
     public function markExpired($id)
     {
         $stmt = $this->db->prepare(
-            'UPDATE household_invitations
+            'UPDATE shared_budget_invitations
              SET status = "expired"
              WHERE id = ?'
         );
@@ -68,41 +68,41 @@ class HouseholdInvitation
     public function delete($id)
     {
         $stmt = $this->db->prepare(
-            'DELETE FROM household_invitations
+            'DELETE FROM shared_budget_invitations
              WHERE id = ?'
         );
 
         return $stmt->execute([$id]);
     }
 
-    public function emailAlreadyInvited($householdId, $email)
+    public function emailAlreadyInvited($sharedBudgetId, $email)
     {
         $stmt = $this->db->prepare(
             'SELECT 1
-             FROM household_invitations
-             WHERE household_id = ?
+             FROM shared_budget_invitations
+             WHERE shared_budget_id = ?
                AND invited_email = ?
                AND status = "pending"
                AND expires_at > NOW()
              LIMIT 1'
         );
-        $stmt->execute([$householdId, $email]);
+        $stmt->execute([$sharedBudgetId, $email]);
 
         return (bool) $stmt->fetchColumn();
     }
 
-    public function showInvitedToHousehold($householdId)
+    public function showInvitedToSharedBudget($sharedBudgetId)
     {
         $this->deleteAcceptedAndExpired();
 
         $stmt = $this->db->prepare(
             'SELECT id, invited_email, expires_at
-            FROM household_invitations 
-            WHERE household_id = ?
+            FROM shared_budget_invitations 
+            WHERE shared_budget_id = ?
               AND status = "pending"
             ORDER BY created_at DESC, id DESC'
         );
-        $stmt->execute([$householdId]);
+        $stmt->execute([$sharedBudgetId]);
         return $stmt->fetchAll();
     }
 
@@ -110,7 +110,7 @@ class HouseholdInvitation
     {
         $stmt = $this->db->prepare(
             'SELECT *
-             FROM household_invitations
+             FROM shared_budget_invitations
              WHERE id = ?
              LIMIT 1'
         );
@@ -122,7 +122,7 @@ class HouseholdInvitation
     public function deleteInvitation($id)
     {
         $stmt = $this->db->prepare(
-            'DELETE FROM household_invitations
+            'DELETE FROM shared_budget_invitations
             WHERE id = ?
         '
         );
@@ -132,7 +132,7 @@ class HouseholdInvitation
     private function deleteAcceptedAndExpired(): void
     {
         $stmt = $this->db->prepare(
-            'DELETE FROM household_invitations
+            'DELETE FROM shared_budget_invitations
              WHERE status = "accepted"
                 OR expires_at <= NOW()'
         );
