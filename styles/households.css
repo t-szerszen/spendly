@@ -23,6 +23,12 @@
     gap: 1rem;
 }
 
+.households-header .btn-secondary,
+.households-header .btn-primary {
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
 .households-subtitle {
     margin-top: 0.35rem;
     color: var(--color-text-mutated);
@@ -30,14 +36,17 @@
 
 .households-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 380px));
     gap: 1.25rem;
+    justify-content: start;
 }
 
 .household-card,
 .households-form-card,
 .households-panel,
 .households-summary-card,
+.households-hero-card,
+.household-kpi-card,
 .household-empty,
 .household-total-card,
 .household-share-card {
@@ -48,7 +57,9 @@
 
 .household-card {
     display: grid;
-    gap: 0.55rem;
+    gap: 1rem;
+    min-height: 230px;
+    padding: 1.5rem;
     text-decoration: none;
     color: inherit;
     transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
@@ -66,6 +77,114 @@
 .households-form-card h1 {
     color: var(--color-blue);
     margin: 0;
+}
+
+.households-list-hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    width: 100%;
+    max-width: none;
+    min-height: 260px;
+    padding: 2rem;
+    background:
+        linear-gradient(135deg, rgba(19, 62, 124, 0.08), rgba(19, 62, 124, 0.02)),
+        #fff;
+}
+
+.households-list-copy,
+.households-list-hero-meta {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.households-list-copy {
+    align-content: center;
+    max-width: 720px;
+}
+
+.households-list-copy h2,
+.households-list-inline-stat strong {
+    margin: 0;
+    color: var(--color-blue);
+}
+
+.households-list-copy h2 {
+    font-size: clamp(1.7rem, 2.5vw, 2.3rem);
+    line-height: 1.08;
+}
+
+.households-list-copy p,
+.households-list-hero-meta p {
+    margin: 0;
+}
+
+.households-list-hero-meta {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 0.75rem;
+    justify-items: end;
+    text-align: right;
+    flex-shrink: 0;
+    max-width: 320px;
+}
+
+.households-list-inline-stat {
+    display: flex;
+    align-items: baseline;
+    gap: 0.85rem;
+}
+
+.households-list-inline-stat strong {
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1;
+}
+
+.household-card-top {
+    display: grid;
+    gap: 0.65rem;
+}
+
+.household-card-badge {
+    justify-self: start;
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    background: rgba(19, 62, 124, 0.08);
+    color: var(--color-blue);
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.household-card-meta {
+    display: grid;
+    gap: 0.8rem;
+}
+
+.household-card-meta div {
+    display: grid;
+    gap: 0.2rem;
+    padding: 0.85rem 0.95rem;
+    border-radius: 16px;
+    background: rgba(247, 250, 252, 0.92);
+}
+
+.household-card-meta span {
+    font-size: 0.82rem;
+    color: var(--color-text-mutated);
+}
+
+.household-card-meta strong {
+    color: var(--color-blue);
+    font-size: 1rem;
+}
+
+.household-card-link {
+    margin-top: auto;
+    color: var(--color-teal);
+    font-weight: 700;
 }
 
 .household-card p,
@@ -87,6 +206,48 @@
     gap: 1.25rem;
 }
 
+.households-create-card {
+    display: grid;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: none;
+    text-align: left;
+    padding: 2rem;
+}
+
+.household-create-copy {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.household-create-copy h1 {
+    margin: 0;
+    color: var(--color-blue);
+}
+
+.household-create-field {
+    display: grid;
+    gap: 0.55rem;
+}
+
+.households-create-form {
+    display: grid;
+    gap: 1.25rem;
+}
+
+.household-create-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.household-create-actions .btn-primary,
+.household-create-actions .btn-secondary {
+    min-width: 220px;
+    text-align: center;
+}
+
 .households-form-card .btn-secondary,
 .households-form-card .btn-primary {
     text-align: center;
@@ -95,6 +256,94 @@
 .households-summary-card {
     display: grid;
     gap: 1.25rem;
+}
+
+.households-hero-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(280px, 360px);
+    gap: 1.25rem;
+    align-items: stretch;
+    background:
+        linear-gradient(135deg, rgba(19, 62, 124, 0.08), rgba(19, 62, 124, 0.02)),
+        #fff;
+}
+
+.household-hero-copy {
+    display: grid;
+    gap: 0.75rem;
+    align-content: start;
+}
+
+.household-hero-copy h2 {
+    margin: 0;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    line-height: 1.05;
+    color: var(--color-blue);
+}
+
+.household-eyebrow,
+.household-field-label,
+.household-kpi-label {
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 800;
+}
+
+.household-eyebrow,
+.household-kpi-label {
+    color: var(--color-teal);
+}
+
+.household-field-label {
+    color: var(--color-text-mutated);
+}
+
+.household-period-card {
+    display: grid;
+    gap: 0.75rem;
+    padding: 1.1rem;
+    border-radius: 18px;
+    border: 1px solid rgba(19, 62, 124, 0.1);
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: var(--shadow-sm);
+    align-self: start;
+    justify-self: end;
+    width: 100%;
+    max-width: 320px;
+}
+
+.household-period-card .btn-primary {
+    width: 100%;
+}
+
+.household-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.household-kpi-card {
+    display: grid;
+    gap: 0.45rem;
+    align-content: start;
+    min-height: 148px;
+}
+
+.household-kpi-card strong {
+    font-size: clamp(1.6rem, 2.4vw, 2rem);
+    color: var(--color-blue);
+    line-height: 1;
+}
+
+.households-show-layout {
+    display: block;
+}
+
+.households-main-column {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .household-summary-row {
@@ -114,6 +363,11 @@
 .household-period-form .auth-input {
     width: auto;
     min-width: 170px;
+}
+
+.household-period-card .auth-input {
+    width: 100%;
+    min-width: 0;
 }
 
 .household-balance-grid {
@@ -136,6 +390,46 @@
     color: var(--color-blue);
 }
 
+.household-balance-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.household-balance-share {
+    padding: 0.3rem 0.6rem;
+    border-radius: 999px;
+    background: rgba(19, 62, 124, 0.08);
+    color: var(--color-blue);
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+
+.household-balance-metrics {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin-top: 0.25rem;
+}
+
+.household-balance-metrics div {
+    display: grid;
+    gap: 0.2rem;
+    padding: 0.8rem 0.9rem;
+    border-radius: 14px;
+    background: rgba(247, 250, 252, 0.9);
+}
+
+.household-balance-metrics span {
+    font-size: 0.82rem;
+    color: var(--color-text-mutated);
+}
+
+.household-balance-result {
+    margin-top: 0.2rem;
+}
+
 .household-total-card {
     padding: 1rem 1.15rem;
     border-left: 5px solid var(--color-teal);
@@ -156,7 +450,127 @@
 .households-panel {
     display: grid;
     gap: 1rem;
-    overflow-x: auto;
+    overflow: hidden;
+}
+
+.household-section-heading {
+    display: grid;
+    gap: 0.35rem;
+}
+
+.household-section-heading h3 {
+    margin: 0;
+}
+
+.households-panel h4 {
+    margin: 0;
+    color: var(--color-blue);
+}
+
+.household-empty-state {
+    display: grid;
+    gap: 0.35rem;
+    padding: 1rem 0;
+}
+
+.household-invitations {
+    display: grid;
+    gap: 0.85rem;
+}
+
+.household-invitation-list {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.household-invitation-row,
+.household-member-actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.9rem 1rem;
+    border-radius: 16px;
+    background: rgba(247, 250, 252, 0.92);
+    border: 1px solid rgba(19, 62, 124, 0.08);
+}
+
+.household-invitation-row>div,
+.household-member-actions>div {
+    min-width: 0;
+}
+
+.household-member-static {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.95rem 1rem;
+    border-radius: 16px;
+    background: rgba(247, 250, 252, 0.92);
+    border: 1px solid rgba(19, 62, 124, 0.08);
+}
+
+.household-invitation-row strong,
+.household-member-actions strong,
+.household-member-static strong {
+    color: var(--color-blue);
+}
+
+.household-invitation-row p,
+.household-member-actions p,
+.household-member-static p,
+.household-leave-box p {
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.household-invitation-row form,
+.household-member-actions form,
+.household-leave-form {
+    margin: 0;
+}
+
+.household-invitation-row .btn-secondary,
+.household-member-actions .btn-secondary,
+.household-leave-form .btn-secondary {
+    white-space: nowrap;
+    text-align: center;
+}
+
+.household-leave-box {
+    display: grid;
+    gap: 0.7rem;
+    padding-top: 0.25rem;
+    border-top: 1px solid rgba(19, 62, 124, 0.08);
+}
+
+.household-danger-box {
+    background: rgba(217, 45, 32, 0.06);
+    border-color: rgba(217, 45, 32, 0.16);
+}
+
+.household-manage-block {
+    display: grid;
+    gap: 0.85rem;
+    padding: 1rem 1.05rem;
+    border-radius: 18px;
+    background: rgba(247, 250, 252, 0.72);
+    border: 1px solid rgba(19, 62, 124, 0.08);
+}
+
+.household-leave-box h4 {
+    margin: 0;
+    color: var(--color-blue);
+}
+
+.household-leave-form {
+    display: inline-flex;
+}
+
+.btn-small {
+    padding: 0.6rem 0.9rem;
+    font-size: 0.88rem;
 }
 
 .household-member-row {
@@ -173,6 +587,60 @@
 
 .household-member-row .auth-input {
     min-width: 0;
+}
+
+.household-share-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 140px;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.05rem;
+    border-radius: 18px;
+    background: rgba(247, 250, 252, 0.92);
+    border: 1px solid rgba(19, 62, 124, 0.08);
+}
+
+.household-share-person {
+    display: grid;
+    gap: 0.2rem;
+    min-width: 0;
+}
+
+.household-share-person strong {
+    color: var(--color-blue);
+}
+
+.household-share-person small {
+    color: var(--color-text-mutated);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.74rem;
+    font-weight: 700;
+}
+
+.household-share-input-wrap {
+    position: relative;
+}
+
+.household-share-input-wrap .auth-input {
+    padding-right: 2.2rem;
+    text-align: right;
+}
+
+.household-share-input-wrap span {
+    position: absolute;
+    top: 50%;
+    right: 0.9rem;
+    transform: translateY(-50%);
+    color: var(--color-text-mutated);
+    font-weight: 700;
+}
+
+.household-shares-submit {
+    min-width: 220px;
+    justify-self: start;
+    text-align: center;
+    border-radius: 999px;
 }
 
 .households-form,
@@ -234,6 +702,34 @@
     min-width: 720px;
 }
 
+.household-expenses-panel {
+    overflow-x: auto;
+}
+
+.household-full-span {
+    grid-column: 1 / -1;
+}
+
+.household-expense-form {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.9rem;
+    align-items: end;
+}
+
+.household-expense-description {
+    grid-column: span 2;
+}
+
+.household-expense-form .btn-primary {
+    width: 100%;
+    justify-self: stretch;
+}
+
+.household-expenses-panel .recent-transactions-table {
+    min-width: 760px;
+}
+
 .households-panel .recent-transactions-table {
     display: table;
 }
@@ -249,23 +745,92 @@
         align-items: stretch;
     }
 
+    .households-list-hero {
+        flex-direction: column;
+        align-items: stretch;
+        min-height: 0;
+    }
+
+    .households-list-hero-meta {
+        align-items: flex-start;
+        text-align: left;
+        max-width: none;
+    }
+
+    .households-hero-card,
+    .household-kpi-grid,
+    .households-main-column,
     .households-two-column {
         grid-template-columns: 1fr;
+    }
+
+    .household-period-card {
+        justify-self: stretch;
+        max-width: none;
     }
 
     .household-period-form .auth-input {
         width: 100%;
     }
+
+    .household-kpi-card {
+        min-height: auto;
+    }
+
+    .household-expense-form {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .household-expense-description,
+    .household-expense-form .btn-primary {
+        grid-column: 1 / -1;
+    }
 }
 
 @media (max-width: 640px) {
+
     .households-grid,
     .household-balance-grid {
         grid-template-columns: 1fr;
     }
 
+    .household-balance-metrics {
+        grid-template-columns: 1fr;
+    }
+
+    .household-expense-form {
+        grid-template-columns: 1fr;
+    }
+
+    .household-create-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .household-create-actions .btn-primary,
+    .household-create-actions .btn-secondary {
+        width: 100%;
+        min-width: 0;
+    }
+
     .household-member-row {
         grid-template-columns: 1fr;
+    }
+
+    .household-share-row {
+        grid-template-columns: 1fr;
+    }
+
+    .household-member-static,
+    .household-invitation-row,
+    .household-member-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .household-invitation-row .btn-secondary,
+    .household-member-actions .btn-secondary,
+    .household-leave-form .btn-secondary {
+        width: 100%;
     }
 
     .households-form .btn-primary,
