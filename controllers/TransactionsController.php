@@ -60,6 +60,17 @@ class TransactionsController
                 'description' => $_POST['description'],
             ]);
 
+            if (($_POST['return_to'] ?? '') === 'summary') {
+                $query = http_build_query([
+                    'start_date' => $_POST['summary_start_date'] ?? '',
+                    'end_date' => $_POST['summary_end_date'] ?? '',
+                    'calendar_month' => $_POST['summary_calendar_month'] ?? ''
+                ]);
+
+                header('Location: ' . url('summary?' . $query));
+                exit;
+            }
+
             header('Location: ' . url('dashboard?month=' . $month));
             exit;
         }
@@ -96,5 +107,7 @@ class TransactionsController
         if ($savedDate !== false) {
             return $savedDate->format('Y-m');
         }
+
+        return $month;
     }
 }
