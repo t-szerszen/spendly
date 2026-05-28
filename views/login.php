@@ -11,10 +11,10 @@
 <html lang="pl">
 
 <!-- Head -->
-<?php include 'components/head.php'; ?>
+<?php include comp('head.php'); ?>
 
 <body>
-    <?php include 'components/nav.php'; ?>
+    <?php include comp('nav.php'); ?>
 
     <main class="auth-section">
         <div class="auth-card">
@@ -30,7 +30,7 @@
             <?php endif; ?>
 
             <form action="<?= url('login') ?>" method="POST" class="auth-form">
-                <input type="email" name="email" placeholder="Adres e-mail" required class="auth-input">
+                <input type="text" name="email" placeholder="Adres e-mail" required class="auth-input">
                 <input type="password" name="password" placeholder="Hasło" required class="auth-input">
                 <button type="submit" class="btn-primary">Zaloguj się</button>
             </form>

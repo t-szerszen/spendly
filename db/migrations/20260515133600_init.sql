@@ -9,20 +9,11 @@ CREATE TABLE IF NOT EXISTS `users` (
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `households` (
+CREATE TABLE IF NOT EXISTS `shared_budgets` (
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `name` VARCHAR(100) NOT NULL,
     `owner_id` INT UNSIGNED NOT NULL,
-    CONSTRAINT `fk_households_owner` FOREIGN KEY (`owner_id`) REFERENCES `users`(`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE IF NOT EXISTS `households_users` (
-    `household_id` INT UNSIGNED NOT NULL,
-    `user_id` INT UNSIGNED NOT NULL,
-    `split_percentage` DECIMAL(5, 2) DEFAULT 0.00,
-    PRIMARY KEY (`household_id`, `user_id`),
-    CONSTRAINT `fk_hu_household` FOREIGN KEY (`household_id`) REFERENCES `households`(`id`) ON DELETE CASCADE,
-    CONSTRAINT `fk_hu_user` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE
+    CONSTRAINT `fk_shared_budgets_owner` FOREIGN KEY (`owner_id`) REFERENCES `users`(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `categories` (
@@ -34,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
 CREATE TABLE IF NOT EXISTS `transactions` (
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `user_id` INT UNSIGNED NOT NULL,
-    `household_id` INT UNSIGNED DEFAULT NULL,
+    `shared_budget_id` INT UNSIGNED DEFAULT NULL,
     `category_id` INT UNSIGNED NOT NULL,
     `amount` DECIMAL(15, 2) NOT NULL,
     `type` ENUM('income', 'expense', 'savings', 'pocket_money') NOT NULL,
@@ -42,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `transactions` (
     `date` DATE NOT NULL,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT `fk_trans_user` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE,
-    CONSTRAINT `fk_trans_household` FOREIGN KEY (`household_id`) REFERENCES `households`(`id`) ON DELETE SET NULL,
+    CONSTRAINT `fk_trans_shared_budget` FOREIGN KEY (`shared_budget_id`) REFERENCES `shared_budgets`(`id`) ON DELETE SET NULL,
     CONSTRAINT `fk_trans_category` FOREIGN KEY (`category_id`) REFERENCES `categories`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -59,6 +50,5 @@ INSERT IGNORE INTO `categories` (`id`, `name`, `is_system`) VALUES
 -- migrate:down
 DROP TABLE IF EXISTS `transactions`;
 DROP TABLE IF EXISTS `categories`;
-DROP TABLE IF EXISTS `households_users`;
-DROP TABLE IF EXISTS `households`;
+DROP TABLE IF EXISTS `shared_budgets`;
 DROP TABLE IF EXISTS `users`;

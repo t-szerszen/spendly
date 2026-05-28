@@ -1,14 +1,6 @@
 <?php
-// controllers/DashboardController.php
 
-/**
- * Klasa DashboardController
- * 
- * Odpowiada za wyświetlanie panelu głównego dla zalogowanego użytkownika.
- * Dashboard jest szybkim startem: pokazuje aktualny miesiąc, quick add,
- * skróty do głównych modułów oraz kilka ostatnich transakcji.
- */
-class DashboardController
+class WalletController
 {
     private $transactionModel;
     private $sharedBudgetModel;
@@ -31,13 +23,17 @@ class DashboardController
         }
 
         $userId = $_SESSION['user_id'];
+        $selectedDate = !empty($_GET['month'])
+            ? DateTimeImmutable::createFromFormat('!Y-m', $_GET['month'])
+            : false;
 
-        $selectedDate = new DateTimeImmutable('first day of this month');
+        if ($selectedDate === false) {
+            $selectedDate = new DateTimeImmutable('first day of this month');
+        }
+
         $month = $selectedDate->format('Y-m');
-
         $categories = $this->categoryModel->getCategories();
-        $recentTransactions = $this->transactionModel->getRecent($userId, 5);
-        $monthTransactions = $this->transactionModel->getByMonth($userId, $month);
+        $transactions = $this->transactionModel->getByMonth($userId, $month);
         $totalExpense = $this->transactionModel->getTotalByTypeAndMonth($userId, $month, 'expense');
         $totalIncome = $this->transactionModel->getTotalByTypeAndMonth($userId, $month, 'income');
         $balance = $totalIncome - $totalExpense;
@@ -49,22 +45,21 @@ class DashboardController
         $sharedBudgets = $this->sharedBudgetModel->findByUser($userId);
 
         $data = [
-            'title' => 'Dashboard',
+            'title' => 'Portfel',
             'categories' => $categories,
             'sharedBudgets' => $sharedBudgets,
-            'recentTransactions' => $recentTransactions,
-            'monthTransactionsCount' => count($monthTransactions),
+            'transactions' => $transactions,
             'selectedMonth' => $month,
             'quickAddPath' => 'transaction/add',
-            'quickAddRedirect' => 'dashboard',
+            'quickAddRedirect' => 'wallet',
             'stats' => [
                 'totalExpense' => $totalExpense,
                 'totalIncome' => $totalIncome,
-                'balance' => $balance
+                'balance' => $balance,
             ],
-            'sharedBudgetMonthlyCost' => $sharedBudgetMonthlyCost
+            'sharedBudgetMonthlyCost' => $sharedBudgetMonthlyCost,
         ];
 
-        require_once __DIR__ . '/../views/dashboard.php';
+        require_once __DIR__ . '/../views/wallet.php';
     }
 }

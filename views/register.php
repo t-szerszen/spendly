@@ -3,7 +3,7 @@
  * Widok: Rejestracja (Register)
  * 
  * Formularz tworzenia nowego konta użytkownika. Zbiera imię, nazwisko, 
- * adres e-mail i hasło. Wyświetla błędy walidacji (np. za krótkie hasło, 
+ * adres e-mail i hasło. Wyświetla błędy walidacji
  * zajęty e-mail).
  */
 ?>
@@ -11,10 +11,10 @@
 <html lang="pl">
 
 <!-- Head -->
-<?php include 'components/head.php'; ?>
+<?php include comp('head.php'); ?>
 
 <body>
-    <?php include 'components/nav.php'; ?>
+    <?php include comp('nav.php'); ?>
 
     <main class="auth-section">
         <div class="auth-card">
@@ -31,7 +31,7 @@
                     <input type="text" name="last_name" placeholder="Nazwisko" required class="auth-input">
                 </div>
                 <input type="email" name="email" placeholder="Adres e-mail" required class="auth-input">
-                <input type="password" name="password" placeholder="Hasło (min. 8 znaków)" required class="auth-input">
+                <input type="password" name="password" placeholder="Hasło" required class="auth-input">
                 <button type="submit" class="btn-primary">Utwórz konto</button>
             </form>
 

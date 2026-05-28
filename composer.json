@@ -1,0 +1,13 @@
+{
+    "autoload": {
+        "classmap": [
+            "controllers/",
+            "core/",
+            "models/",
+            "services/"
+        ]
+    },
+    "require": {
+        "phpmailer/phpmailer": "^7.1"
+    }
+}

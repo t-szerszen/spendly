@@ -1,18 +1,22 @@
 :root {
-    --color-blue: #133E7C;
-    --color-cyan: #1D799B;
-    --color-teal: #269B8A;
-    --color-green: #4AB44B;
-    --color-yellow: #FADE0F;
-    --color-bg: #f8fbff;
-    --color-text: #1a202c;
-    --color-text-mutated: #4a5568;
-    --glass-bg: rgba(255, 255, 255, 0.7);
-    --glass-border: rgba(255, 255, 255, 0.3);
+    --color-blue: #12345f;
+    --color-cyan: #247c93;
+    --color-teal: #20836f;
+    --color-green: #4a8f3d;
+    --color-yellow: #f2c94c;
+    --color-bg: #f4f7f5;
+    --color-surface: #ffffff;
+    --color-surface-muted: #eef4f1;
+    --color-text: #162029;
+    --color-text-mutated: #60707d;
+    --color-line: #dbe5df;
+    --glass-bg: rgba(255, 255, 255, 0.88);
+    --glass-border: rgba(18, 52, 95, 0.1);
     --gradient-brand: linear-gradient(90deg, var(--color-blue) 0%, var(--color-teal) 50%, var(--color-green) 100%);
     --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.05);
     --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --shadow-soft: 0 18px 45px rgba(22, 32, 41, 0.08);
 }
 
 * {
@@ -22,11 +26,13 @@
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     background-color: var(--color-bg);
     background-image:
-        radial-gradient(circle at 15% 50%, rgba(29, 121, 155, 0.08), transparent 25%),
-        radial-gradient(circle at 85% 30%, rgba(74, 180, 75, 0.08), transparent 25%);
+        linear-gradient(135deg, rgba(32, 131, 111, 0.07) 0 25%, transparent 25% 100%),
+        linear-gradient(90deg, rgba(18, 52, 95, 0.04) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(18, 52, 95, 0.04) 1px, transparent 1px);
+    background-size: auto, 42px 42px, 42px 42px;
     background-attachment: fixed;
     color: var(--color-text);
     line-height: 1.6;

@@ -11,16 +11,16 @@
 <html lang="pl">
 
 <!-- Head -->
-<?php include 'components/head.php'; ?>
+<?php include comp('head.php'); ?>
 
 <body>
-    <?php include 'components/navDashboard.php'; ?>
+    <?php include comp('navDashboard.php'); ?>
 
     <main class="auth-section transactions-section">
         <div class="container transactions-container">
             <div class="transactions-header">
                 <h1 class="transactions-title">Historia transakcji</h1>
-                <a href="<?= url('dashboard') ?>" class="btn-secondary"> + Dodaj nową</a>
+                <a href="<?= url('wallet') ?>" class="btn-secondary"> + Dodaj nową</a>
             </div>
 
             <div class="auth-card transactions-card">
@@ -30,6 +30,7 @@
                             <tr>
                                 <th class="text-left">Data</th>
                                 <th class="text-left">Kategoria</th>
+                                <th class="text-left">Budżet</th>
                                 <th class="text-left">Opis</th>
                                 <th class="text-right">Kwota</th>
                                 <th class="text-right">Akcja</th>
@@ -43,6 +44,13 @@
                                         <span class="category-badge">
                                             <?= htmlspecialchars($t['category_name']) ?>
                                         </span>
+                                    </td>
+                                    <td>
+                                        <?php if (!empty($t['shared_budget_name'])): ?>
+                                            <span class="transaction-budget-badge"><?= htmlspecialchars($t['shared_budget_name']) ?></span>
+                                        <?php else: ?>
+                                            <span class="transaction-budget-private">Prywatne</span>
+                                        <?php endif; ?>
                                     </td>
                                     <td class="desc-cell"><?= htmlspecialchars($t['description']) ?></td>
                                     <td
@@ -65,7 +73,7 @@
                     <div class="no-transactions">
                         <p class="no-transactions-text">Nie masz jeszcze żadnych transakcji.</p>
                         <br>
-                        <a href="<?= url('dashboard') ?>" class="btn-primary">Dodaj pierwszą</a>
+                        <a href="<?= url('wallet') ?>" class="btn-primary">Dodaj pierwszą</a>
                     </div>
                 <?php endif; ?>
             </div>

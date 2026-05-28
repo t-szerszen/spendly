@@ -1,0 +1,848 @@
+.shared_budgets-section {
+    align-items: flex-start;
+    min-height: auto;
+    padding: 3.5rem 2rem 4rem;
+}
+
+.shared_budgets-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    gap: 1.5rem;
+}
+
+.shared_budgets-container.narrow {
+    max-width: 720px;
+}
+
+.shared_budgets-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.shared_budgets-header .btn-secondary,
+.shared_budgets-header .btn-primary {
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.shared_budgets-subtitle {
+    margin-top: 0.35rem;
+    color: var(--color-text-mutated);
+}
+
+.shared_budgets-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 380px));
+    gap: 1.25rem;
+    justify-content: start;
+}
+
+.sharedBudget-card,
+.shared_budgets-form-card,
+.shared_budgets-panel,
+.shared_budgets-summary-card,
+.shared_budgets-hero-card,
+.sharedBudget-kpi-card,
+.sharedBudget-empty,
+.sharedBudget-total-card,
+.sharedBudget-share-card {
+    width: 100%;
+    max-width: none;
+    text-align: left;
+}
+
+.sharedBudget-card {
+    display: grid;
+    gap: 1rem;
+    min-height: 230px;
+    padding: 1.5rem;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.sharedBudget-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: rgba(19, 62, 124, 0.16);
+}
+
+.sharedBudget-card h3,
+.shared_budgets-panel h3,
+.shared_budgets-summary-card h3,
+.shared_budgets-form-card h1 {
+    color: var(--color-blue);
+    margin: 0;
+}
+
+.shared_budgets-list-hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    width: 100%;
+    max-width: none;
+    min-height: 260px;
+    padding: 2rem;
+    background:
+        linear-gradient(135deg, rgba(19, 62, 124, 0.08), rgba(19, 62, 124, 0.02)),
+        #fff;
+}
+
+.shared_budgets-list-copy,
+.shared_budgets-list-hero-meta {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.shared_budgets-list-copy {
+    align-content: center;
+    max-width: 720px;
+}
+
+.shared_budgets-list-copy h2,
+.shared_budgets-list-inline-stat strong {
+    margin: 0;
+    color: var(--color-blue);
+}
+
+.shared_budgets-list-copy h2 {
+    font-size: clamp(1.7rem, 2.5vw, 2.3rem);
+    line-height: 1.08;
+}
+
+.shared_budgets-list-copy p,
+.shared_budgets-list-hero-meta p {
+    margin: 0;
+}
+
+.shared_budgets-list-hero-meta {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 0.75rem;
+    justify-items: end;
+    text-align: right;
+    flex-shrink: 0;
+    max-width: 320px;
+}
+
+.shared_budgets-list-inline-stat {
+    display: flex;
+    align-items: baseline;
+    gap: 0.85rem;
+}
+
+.shared_budgets-list-inline-stat strong {
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1;
+}
+
+.sharedBudget-card-top {
+    display: grid;
+    gap: 0.65rem;
+}
+
+.sharedBudget-card-badge {
+    justify-self: start;
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    background: rgba(19, 62, 124, 0.08);
+    color: var(--color-blue);
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.sharedBudget-card-meta {
+    display: grid;
+    gap: 0.8rem;
+}
+
+.sharedBudget-card-meta div {
+    display: grid;
+    gap: 0.2rem;
+    padding: 0.85rem 0.95rem;
+    border-radius: 16px;
+    background: rgba(247, 250, 252, 0.92);
+}
+
+.sharedBudget-card-meta span {
+    font-size: 0.82rem;
+    color: var(--color-text-mutated);
+}
+
+.sharedBudget-card-meta strong {
+    color: var(--color-blue);
+    font-size: 1rem;
+}
+
+.sharedBudget-card-link {
+    margin-top: auto;
+    color: var(--color-teal);
+    font-weight: 700;
+}
+
+.sharedBudget-card p,
+.sharedBudget-empty p,
+.shared_budgets-summary-card p,
+.shared_budgets-panel p {
+    margin: 0;
+    color: var(--color-text-mutated);
+}
+
+.sharedBudget-empty {
+    display: grid;
+    gap: 1rem;
+    justify-items: start;
+}
+
+.shared_budgets-form-card {
+    display: grid;
+    gap: 1.25rem;
+}
+
+.shared_budgets-create-card {
+    display: grid;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: none;
+    text-align: left;
+    padding: 2rem;
+}
+
+.sharedBudget-create-copy {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.sharedBudget-create-copy h1 {
+    margin: 0;
+    color: var(--color-blue);
+}
+
+.sharedBudget-create-field {
+    display: grid;
+    gap: 0.55rem;
+}
+
+.shared_budgets-create-form {
+    display: grid;
+    gap: 1.25rem;
+}
+
+.sharedBudget-create-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.sharedBudget-create-actions .btn-primary,
+.sharedBudget-create-actions .btn-secondary {
+    min-width: 220px;
+    text-align: center;
+}
+
+.shared_budgets-form-card .btn-secondary,
+.shared_budgets-form-card .btn-primary {
+    text-align: center;
+}
+
+.shared_budgets-summary-card {
+    display: grid;
+    gap: 1.25rem;
+}
+
+.shared_budgets-hero-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(280px, 360px);
+    gap: 1.25rem;
+    align-items: stretch;
+    background:
+        linear-gradient(135deg, rgba(19, 62, 124, 0.08), rgba(19, 62, 124, 0.02)),
+        #fff;
+}
+
+.sharedBudget-hero-copy {
+    display: grid;
+    gap: 0.75rem;
+    align-content: start;
+}
+
+.sharedBudget-hero-copy h2 {
+    margin: 0;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    line-height: 1.05;
+    color: var(--color-blue);
+}
+
+.sharedBudget-eyebrow,
+.sharedBudget-field-label,
+.sharedBudget-kpi-label {
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 800;
+}
+
+.sharedBudget-eyebrow,
+.sharedBudget-kpi-label {
+    color: var(--color-teal);
+}
+
+.sharedBudget-field-label {
+    color: var(--color-text-mutated);
+}
+
+.sharedBudget-period-card {
+    display: grid;
+    gap: 0.75rem;
+    padding: 1.1rem;
+    border-radius: 18px;
+    border: 1px solid rgba(19, 62, 124, 0.1);
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: var(--shadow-sm);
+    align-self: start;
+    justify-self: end;
+    width: 100%;
+    max-width: 320px;
+}
+
+.sharedBudget-period-card .btn-primary {
+    width: 100%;
+}
+
+.sharedBudget-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.sharedBudget-kpi-card {
+    display: grid;
+    gap: 0.45rem;
+    align-content: start;
+    min-height: 148px;
+}
+
+.sharedBudget-kpi-card strong {
+    font-size: clamp(1.6rem, 2.4vw, 2rem);
+    color: var(--color-blue);
+    line-height: 1;
+}
+
+.shared_budgets-show-layout {
+    display: block;
+}
+
+.shared_budgets-main-column {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.sharedBudget-summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 1rem;
+}
+
+.sharedBudget-period-form {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.sharedBudget-period-form .auth-input {
+    width: auto;
+    min-width: 170px;
+}
+
+.sharedBudget-period-card .auth-input {
+    width: 100%;
+    min-width: 0;
+}
+
+.sharedBudget-balance-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.sharedBudget-balance-card {
+    padding: 1.1rem 1.15rem;
+    border-radius: 18px;
+    border: 1px solid rgba(19, 62, 124, 0.1);
+    background: rgba(255, 255, 255, 0.55);
+    box-shadow: var(--shadow-sm);
+    display: grid;
+    gap: 0.35rem;
+}
+
+.sharedBudget-balance-card strong {
+    color: var(--color-blue);
+}
+
+.sharedBudget-balance-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.sharedBudget-balance-share {
+    padding: 0.3rem 0.6rem;
+    border-radius: 999px;
+    background: rgba(19, 62, 124, 0.08);
+    color: var(--color-blue);
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+
+.sharedBudget-balance-metrics {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin-top: 0.25rem;
+}
+
+.sharedBudget-balance-metrics div {
+    display: grid;
+    gap: 0.2rem;
+    padding: 0.8rem 0.9rem;
+    border-radius: 14px;
+    background: rgba(247, 250, 252, 0.9);
+}
+
+.sharedBudget-balance-metrics span {
+    font-size: 0.82rem;
+    color: var(--color-text-mutated);
+}
+
+.sharedBudget-balance-result {
+    margin-top: 0.2rem;
+}
+
+.sharedBudget-total-card {
+    padding: 1rem 1.15rem;
+    border-left: 5px solid var(--color-teal);
+}
+
+.sharedBudget-total-card strong,
+.sharedBudget-share-value {
+    font-size: 1.5rem;
+    color: var(--color-blue);
+}
+
+.shared_budgets-two-column {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 1.5rem;
+}
+
+.shared_budgets-panel {
+    display: grid;
+    gap: 1rem;
+    overflow: hidden;
+}
+
+.sharedBudget-section-heading {
+    display: grid;
+    gap: 0.35rem;
+}
+
+.sharedBudget-section-heading h3 {
+    margin: 0;
+}
+
+.shared_budgets-panel h4 {
+    margin: 0;
+    color: var(--color-blue);
+}
+
+.sharedBudget-empty-state {
+    display: grid;
+    gap: 0.35rem;
+    padding: 1rem 0;
+}
+
+.sharedBudget-invitations {
+    display: grid;
+    gap: 0.85rem;
+}
+
+.sharedBudget-invitation-list {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.sharedBudget-invitation-row,
+.sharedBudget-member-actions,
+.sharedBudget-settlement-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.9rem 1rem;
+    border-radius: 16px;
+    background: rgba(247, 250, 252, 0.92);
+    border: 1px solid rgba(19, 62, 124, 0.08);
+}
+
+.sharedBudget-invitation-row>div,
+.sharedBudget-member-actions>div,
+.sharedBudget-settlement-row>div {
+    min-width: 0;
+}
+
+.sharedBudget-member-static {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.95rem 1rem;
+    border-radius: 16px;
+    background: rgba(247, 250, 252, 0.92);
+    border: 1px solid rgba(19, 62, 124, 0.08);
+}
+
+.sharedBudget-invitation-row strong,
+.sharedBudget-member-actions strong,
+.sharedBudget-member-static strong,
+.sharedBudget-settlement-row strong {
+    color: var(--color-blue);
+}
+
+.sharedBudget-invitation-row p,
+.sharedBudget-member-actions p,
+.sharedBudget-member-static p,
+.sharedBudget-leave-box p {
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.sharedBudget-settlement-list {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.sharedBudget-settlement-row div {
+    display: flex;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+    align-items: baseline;
+}
+
+.sharedBudget-settlement-action {
+    justify-content: flex-end;
+}
+
+.sharedBudget-settlement-action form {
+    margin: 0;
+}
+
+.sharedBudget-settlement-row span,
+.sharedBudget-settlement-row small {
+    color: var(--color-text-mutated);
+}
+
+.sharedBudget-settlement-row>strong {
+    white-space: nowrap;
+}
+
+.sharedBudget-invitation-row form,
+.sharedBudget-member-actions form,
+.sharedBudget-leave-form {
+    margin: 0;
+}
+
+.sharedBudget-invitation-row .btn-secondary,
+.sharedBudget-member-actions .btn-secondary,
+.sharedBudget-leave-form .btn-secondary {
+    white-space: nowrap;
+    text-align: center;
+}
+
+.sharedBudget-leave-box {
+    display: grid;
+    gap: 0.7rem;
+    padding-top: 0.25rem;
+    border-top: 1px solid rgba(19, 62, 124, 0.08);
+}
+
+.sharedBudget-danger-box {
+    background: rgba(217, 45, 32, 0.06);
+    border-color: rgba(217, 45, 32, 0.16);
+}
+
+.sharedBudget-manage-block {
+    display: grid;
+    gap: 0.85rem;
+    padding: 1rem 1.05rem;
+    border-radius: 18px;
+    background: rgba(247, 250, 252, 0.72);
+    border: 1px solid rgba(19, 62, 124, 0.08);
+}
+
+.sharedBudget-leave-box h4 {
+    margin: 0;
+    color: var(--color-blue);
+}
+
+.sharedBudget-leave-form {
+    display: inline-flex;
+}
+
+.btn-small {
+    padding: 0.6rem 0.9rem;
+    font-size: 0.88rem;
+}
+
+.sharedBudget-member-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 132px;
+    align-items: center;
+    gap: 1rem;
+}
+
+.sharedBudget-member-row span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.sharedBudget-member-row .auth-input {
+    min-width: 0;
+}
+
+.sharedBudget-share-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 140px;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.05rem;
+    border-radius: 18px;
+    background: rgba(247, 250, 252, 0.92);
+    border: 1px solid rgba(19, 62, 124, 0.08);
+}
+
+.sharedBudget-share-person {
+    display: grid;
+    gap: 0.2rem;
+    min-width: 0;
+}
+
+.sharedBudget-share-person strong {
+    color: var(--color-blue);
+}
+
+.sharedBudget-share-person small {
+    color: var(--color-text-mutated);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.74rem;
+    font-weight: 700;
+}
+
+.sharedBudget-share-input-wrap {
+    position: relative;
+}
+
+.sharedBudget-share-input-wrap .auth-input {
+    padding-right: 2.2rem;
+    text-align: right;
+}
+
+.sharedBudget-share-input-wrap span {
+    position: absolute;
+    top: 50%;
+    right: 0.9rem;
+    transform: translateY(-50%);
+    color: var(--color-text-mutated);
+    font-weight: 700;
+}
+
+.sharedBudget-shares-submit {
+    min-width: 220px;
+    justify-self: start;
+    text-align: center;
+    border-radius: 999px;
+}
+
+.shared_budgets-form,
+.shared_budgets-shares-form {
+    display: grid;
+    gap: 0.9rem;
+}
+
+.shared_budgets-form .auth-input,
+.shared_budgets-shares-form .auth-input,
+.sharedBudget-period-form .auth-input {
+    min-width: 0;
+}
+
+.shared_budgets-form .btn-primary,
+.shared_budgets-shares-form .btn-primary {
+    justify-self: start;
+}
+
+.form-error,
+.form-success {
+    width: 100%;
+    max-width: none;
+    padding: 0.95rem 1rem;
+    border-radius: 14px;
+    font-size: 0.95rem;
+    border: 1px solid transparent;
+}
+
+.form-error {
+    background: rgba(153, 27, 27, 0.08);
+    color: #991b1b;
+    border-color: rgba(153, 27, 27, 0.14);
+}
+
+.form-success {
+    background: rgba(6, 95, 70, 0.08);
+    color: #065f46;
+    border-color: rgba(6, 95, 70, 0.14);
+}
+
+.text-positive {
+    color: #065f46;
+    font-weight: 700;
+}
+
+.text-negative {
+    color: #991b1b;
+    font-weight: 700;
+}
+
+.shared_budgets-members-list {
+    display: grid;
+    gap: 0.85rem;
+}
+
+.shared_budgets-panel table {
+    width: 100%;
+    min-width: 720px;
+}
+
+.sharedBudget-expenses-panel {
+    overflow-x: auto;
+}
+
+.sharedBudget-full-span {
+    grid-column: 1 / -1;
+}
+
+.sharedBudget-expenses-panel .recent-transactions-table {
+    min-width: 760px;
+}
+
+.shared_budgets-panel .recent-transactions-table {
+    display: table;
+}
+
+@media (max-width: 960px) {
+    .shared_budgets-section {
+        padding: 2.5rem 1rem 3rem;
+    }
+
+    .shared_budgets-header,
+    .sharedBudget-summary-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .shared_budgets-list-hero {
+        flex-direction: column;
+        align-items: stretch;
+        min-height: 0;
+    }
+
+    .shared_budgets-list-hero-meta {
+        align-items: flex-start;
+        text-align: left;
+        max-width: none;
+    }
+
+    .shared_budgets-hero-card,
+    .sharedBudget-kpi-grid,
+    .shared_budgets-main-column,
+    .shared_budgets-two-column {
+        grid-template-columns: 1fr;
+    }
+
+    .sharedBudget-period-card {
+        justify-self: stretch;
+        max-width: none;
+    }
+
+    .sharedBudget-period-form .auth-input {
+        width: 100%;
+    }
+
+    .sharedBudget-kpi-card {
+        min-height: auto;
+    }
+
+}
+
+@media (max-width: 640px) {
+
+    .shared_budgets-grid,
+    .sharedBudget-balance-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sharedBudget-balance-metrics {
+        grid-template-columns: 1fr;
+    }
+
+    .sharedBudget-create-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .sharedBudget-create-actions .btn-primary,
+    .sharedBudget-create-actions .btn-secondary {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .sharedBudget-member-row {
+        grid-template-columns: 1fr;
+    }
+
+    .sharedBudget-share-row {
+        grid-template-columns: 1fr;
+    }
+
+    .sharedBudget-member-static,
+    .sharedBudget-invitation-row,
+    .sharedBudget-member-actions,
+    .sharedBudget-settlement-row {
+        grid-template-columns: 1fr;
+    }
+
+    .sharedBudget-invitation-row .btn-secondary,
+    .sharedBudget-member-actions .btn-secondary,
+    .sharedBudget-leave-form .btn-secondary {
+        width: 100%;
+    }
+
+    .shared_budgets-form .btn-primary,
+    .shared_budgets-shares-form .btn-primary,
+    .shared_budgets-form-card .btn-primary,
+    .shared_budgets-form-card .btn-secondary {
+        width: 100%;
+        text-align: center;
+    }
+}
