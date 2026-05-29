@@ -1,8 +1,6 @@
 <?php
 // services/AuthService.php
 
-require_once __DIR__ . '/../models/User.php';
-
 /**
  * Klasa AuthService
  * 
@@ -51,6 +49,7 @@ class AuthService
             if (session_status() === PHP_SESSION_NONE) session_start();
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['first_name'] = $user['first_name'];
+            $_SESSION['email'] = $user['email'];
             return true;
         }
 

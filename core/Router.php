@@ -1,11 +1,4 @@
 <?php
-require_once __DIR__ . '/../controllers/HomeController.php';
-require_once __DIR__ . '/../controllers/AboutController.php';
-require_once __DIR__ . '/../controllers/ContactController.php';
-require_once __DIR__ . '/../controllers/ErrorController.php';
-require_once __DIR__ . '/../controllers/LoginController.php';
-require_once __DIR__ . '/../controllers/RegisterController.php';
-require_once __DIR__ . '/../core/Database.php';
 
 /**
  * Klasa Router
@@ -35,11 +28,9 @@ class Router
                 break;
 
             case 'transactions':
-                require_once __DIR__ . '/../controllers/TransactionsController.php';
                 (new TransactionsController())->show();
                 break;
             case 'transaction/delete':
-                require_once __DIR__ . '/../controllers/TransactionsController.php';
                 (new TransactionsController())->destroy();
                 break;
 
@@ -70,23 +61,70 @@ class Router
                 break;
 
             case 'dashboard':
-                require_once __DIR__ . '/../controllers/DashboardController.php';
                 (new DashboardController())->show();
                 break;
 
+            case 'wallet':
+                (new WalletController())->show();
+                break;
+
+            case 'shared_budgets':
+                (new SharedBudgetController())->index();
+                break;
+
+            case 'shared_budgets/create':
+                (new SharedBudgetController())->create();
+                break;
+
+            case 'shared_budgets/store':
+                (new SharedBudgetController())->store();
+                break;
+
+            case 'shared_budgets/show':
+                (new SharedBudgetController())->show();
+                break;
+
+            case 'shared_budgets/invite':
+                (new SharedBudgetController())->invite();
+                break;
+
+            case 'shared_budgets/accept':
+                (new SharedBudgetController())->acceptInvite();
+                break;
+
+            case 'shared_budgets/update-shares':
+                (new SharedBudgetController())->updateShares();
+                break;
+
+            case 'shared_budgets/settle':
+                (new SharedBudgetController())->settle();
+                break;
+
+            case 'shared_budgets/delete-invitation':
+                (new SharedBudgetController())->deleteInvitation();
+                break;
+
+            case 'shared_budgets/leave':
+                (new SharedBudgetController())->leave();
+                break;
+
+            case 'shared_budgets/remove-member':
+                (new SharedBudgetController())->removeMember();
+                break;
+
+            case 'shared_budgets/delete':
+                (new SharedBudgetController())->delete();
+                break;
+
             case 'transaction/add':
-                require_once __DIR__ . '/../controllers/TransactionsController.php';
                 (new TransactionsController())->store();
                 break;
 
             case 'logout':
-                require_once __DIR__ . '/../controllers/LogoutController.php';
                 (new LogoutController())->index();
                 break;
             
-            
             case 'summary':
-                require_once __DIR__ . '/../controllers/SummaryController.php';
                 (new SummaryController())->show();
                 break;
 

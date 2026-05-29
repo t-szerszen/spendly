@@ -16,13 +16,11 @@
 }
 
 .auth-card {
-    background: var(--glass-bg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid var(--glass-border);
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
     padding: 3.5rem 2.5rem;
-    border-radius: 24px;
-    box-shadow: var(--shadow-lg);
+    border-radius: 16px;
+    box-shadow: var(--shadow-soft);
     width: 100%;
     max-width: 480px;
     text-align: center;
@@ -62,10 +60,10 @@
 .auth-input {
     width: 100%;
     padding: 1rem 1.25rem;
-    border-radius: 12px;
-    border: 1px solid var(--glass-border);
-    background: rgba(255, 255, 255, 0.5);
-    font-family: 'Inter', sans-serif;
+    border-radius: 10px;
+    border: 1px solid var(--color-line);
+    background: rgba(255, 255, 255, 0.78);
+    font-family: 'Manrope', sans-serif;
     font-size: 1rem;
     color: var(--color-text);
     transition: all 0.3s ease;

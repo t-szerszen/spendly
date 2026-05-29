@@ -1,86 +1,143 @@
 <?php
-
 /**
- * Widok: Panel główny (Dashboard)
- * 
- * Główny widok dla zalogowanego użytkownika. Zawiera podsumowanie finansów 
- * (stan konta, wpływy, wydatki) pobierane z bazy danych, formularz szybkiego 
- * dodawania nowej transakcji oraz listę ostatnich operacji finansowych.
+ * Widok: Panel główny
+ *
+ * Dashboard jest szybkim startem aplikacji. Pokazuje aktualny miesiąc,
+ * szybkie dodawanie, skróty do modułów i ostatnie transakcje.
  */
 
 $totalExpense = $data['stats']['totalExpense'];
 $totalIncome = $data['stats']['totalIncome'];
 $balance = $data['stats']['balance'];
-$months = $data['months'];
 ?>
 <!DOCTYPE html>
 <html lang="pl">
 
-<!-- Head -->
-<?php include 'components/head.php'; ?>
+<?php include comp('head.php'); ?>
 
 <body>
-
-    <!-- Nawigacja -->
-    <?php include 'components/navDashboard.php'; ?>
+    <?php include comp('navDashboard.php'); ?>
 
     <main class="auth-section dashboard-section">
         <div class="container dashboard-container">
-            <form action="<?= url('dashboard'); ?>" method="GET">
-                <p> Wybierz miesiąc </p>
-                <select name="month">
-                    <?php foreach ($months as $value => $label): ?>
-                        <option value="<?= htmlspecialchars($value) ?>" <?= $value === ($data['selectedMonth'] ?? '') ? 'selected' : '' ?>>
-                            <?= htmlspecialchars($label) ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-                <button type="submit">Załaduj dane z tego miesiąca</button>
-            </form>
-            <h1 class="dashboard-title">Witaj w Spendly, <?= $_SESSION['first_name'] ?>!</h1>
+            <section class="dashboard-hero">
+                <div>
+                    <p class="dashboard-eyebrow">Panel główny</p>
+                    <h1 class="dashboard-title">Cześć, <?= htmlspecialchars($_SESSION['first_name']) ?>.</h1>
+                    <p class="dashboard-subtitle">
+                        Portfel jest miejscem zapisu wszystkich transakcji. Wspólne budżety służą do rozliczania udziałów i spłat.
+                    </p>
+                </div>
+
+                <div class="dashboard-hero-actions">
+                    <a href="<?= url('wallet') ?>" class="btn-primary dashboard-hero-button">Otwórz portfel</a>
+                    <a href="<?= url('shared_budgets') ?>" class="dashboard-text-link">Rozliczenia</a>
+                </div>
+            </section>
 
             <div class="stats-grid">
                 <div class="auth-card stat-card stat-balance">
-                    <h4>Stan konta</h4>
+                    <h4>Bilans miesiąca</h4>
                     <h2 class="stat-amount stat-balance-amount"><?= number_format($balance, 2) ?> zł</h2>
+                    <p>Przychody minus wydatki w <?= htmlspecialchars($data['selectedMonth']) ?>.</p>
                 </div>
+
                 <div class="auth-card stat-card stat-income">
-                    <h4>Wpływy</h4>
+                    <h4>Przychody</h4>
                     <h2 class="stat-amount stat-income-amount"><?= number_format($totalIncome, 2) ?> zł</h2>
+                    <p>Suma wpływów w aktualnym miesiącu.</p>
                 </div>
+
                 <div class="auth-card stat-card stat-expense">
                     <h4>Wydatki</h4>
                     <h2 class="stat-amount stat-expense-amount"><?= number_format($totalExpense, 2) ?> zł</h2>
+                    <p>Suma kosztów w aktualnym miesiącu.</p>
                 </div>
             </div>
 
-            <div class="auth-card dashboard-card">
-                <h3>Szybkie dodawanie</h3>
-                <form action="<?= url('transaction/add') ?>" method="POST" class="auth-form quick-add-form">
-                    <input value="<?= htmlspecialchars($_SESSION['last_added_date'] ?? date('Y-m-d')) ?>" type="date" name="date" required class="auth-input flex-1">
+            <?php if (!empty($_GET['transaction']) && $_GET['transaction'] === 'invalid'): ?>
+                <div class="form-error">Nie udało się dodać transakcji. Wspólny budżet można przypisać tylko do wydatku.</div>
+            <?php elseif (!empty($_GET['transaction']) && $_GET['transaction'] === 'forbidden-budget'): ?>
+                <div class="form-error">Nie możesz przypisać wydatku do budżetu, do którego nie należysz.</div>
+            <?php elseif (!empty($_GET['transaction']) && $_GET['transaction'] === 'added'): ?>
+                <div class="form-success">Transakcja została dodana.</div>
+            <?php endif; ?>
 
-                    <input type="number" step="0.01" name="amount" placeholder="Kwota" required
-                        class="auth-input flex-1">
+            <section class="dashboard-flow">
+                <div>
+                    <span>1</span>
+                    <strong>Dodaj w portfelu</strong>
+                    <p>Prywatny wydatek albo koszt wspólnego budżetu zapisujesz w jednym formularzu.</p>
+                </div>
+                <div>
+                    <span>2</span>
+                    <strong>Przypisz budżet</strong>
+                    <p>Wspólny koszt automatycznie trafia do rozliczenia wybranego miesiąca.</p>
+                </div>
+                <div>
+                    <span>3</span>
+                    <strong>Wyrównaj saldo</strong>
+                    <p>Moduł wspólnego budżetu pokazuje, kto komu powinien przelać pieniądze.</p>
+                </div>
+            </section>
 
-                    <select name="type" class="auth-input flex-1">
-                        <option value="expense">Wydatek</option>
-                        <option value="income">Przychód</option>
-                    </select>
+            <?php include comp('quickAdd.php'); ?>
 
-                    <select name="category_id" class="auth-input flex-1" required>
-                        <option value="" disabled selected>Wybierz kategorię</option>
-                        <?php foreach ($data['categories'] as $cat): ?>
-                            <option value="<?= $cat['id'] ?>"><?= $cat['name'] ?></option>
-                        <?php endforeach; ?>
-                    </select>
+            <section class="dashboard-shortcuts">
+                <div class="dashboard-section-heading">
+                    <p class="dashboard-eyebrow">Nawigacja</p>
+                    <h2>Najczęstsze ścieżki</h2>
+                </div>
 
-                    <input type="text" name="description" placeholder="Opis (opcjonalnie)" class="auth-input flex-2">
+                <div class="dashboard-shortcuts-grid">
+                    <a href="<?= url('wallet') ?>" class="auth-card dashboard-shortcut-card">
+                        <span>Portfel</span>
+                        <strong>Dodawanie transakcji</strong>
+                        <p>Centralne miejsce dla kosztów prywatnych i wspólnych.</p>
+                    </a>
 
-                    <button type="submit" class="btn-primary">Dodaj</button>
-                </form>
+                    <a href="<?= url('transactions') ?>" class="auth-card dashboard-shortcut-card">
+                        <span>Transakcje</span>
+                        <strong>Historia operacji</strong>
+                        <p>Lista wszystkich zapisanych przychodów i wydatków.</p>
+                    </a>
+
+                    <a href="<?= url('summary') ?>" class="auth-card dashboard-shortcut-card">
+                        <span>Podsumowanie</span>
+                        <strong>Statystyki</strong>
+                        <p>Sprawdź większy obraz swoich finansów.</p>
+                    </a>
+
+                    <a href="<?= url('shared_budgets') ?>" class="auth-card dashboard-shortcut-card">
+                        <span>Wspólny budżet</span>
+                        <strong>Rozliczenia</strong>
+                        <p>Sprawdzaj salda, udziały i proponowane spłaty między członkami.</p>
+                    </a>
+                </div>
+            </section>
+
+            <div class="dashboard-info-grid">
+                <div class="auth-card dashboard-card dashboard-info-card">
+                    <h3>Transakcje w tym miesiącu</h3>
+                    <strong><?= (int) $data['monthTransactionsCount'] ?></strong>
+                    <p>Tyle operacji masz zapisanych w aktualnym miesiącu.</p>
+                </div>
+
+                <div class="auth-card dashboard-card dashboard-info-card">
+                    <h3>Udział we wspólnych budżetach</h3>
+                    <strong><?= number_format($data['sharedBudgetMonthlyCost'] ?? 0, 2) ?> zł</strong>
+                    <p>Twoja część wspólnych kosztów w aktualnym miesiącu.</p>
+                </div>
             </div>
+
             <div class="auth-card dashboard-card recent-transactions-card">
-                <h3>Ostatnie transakcje</h3>
+                <div class="dashboard-card-header">
+                    <div>
+                        <h3>Ostatnie transakcje</h3>
+                        <p>Najnowsze operacje z całej historii.</p>
+                    </div>
+                    <a href="<?= url('wallet') ?>" class="dashboard-text-link">Zobacz portfel</a>
+                </div>
 
                 <?php if (!empty($data['recentTransactions'])): ?>
                     <table class="recent-transactions-table">
@@ -88,28 +145,26 @@ $months = $data['months'];
                             <tr>
                                 <th class="text-left">Data</th>
                                 <th class="text-left">Kategoria</th>
+                                <th class="text-left">Budżet</th>
                                 <th class="text-left">Opis</th>
                                 <th class="text-right">Kwota</th>
-                                <th class="text-right">Akcja</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($data['recentTransactions'] as $t): ?>
                                 <tr>
-                                    <td><?= $t['date'] ?></td>
+                                    <td><?= htmlspecialchars($t['date']) ?></td>
                                     <td><?= htmlspecialchars($t['category_name']) ?></td>
-                                    <td class="desc-cell"><?= htmlspecialchars($t['description']) ?></td>
-                                    <td
-                                        class="amount-cell <?= $t['type'] === 'expense' ? 'amount-expense' : 'amount-income' ?>">
-                                        <?= $t['type'] === 'expense' ? '-' : '+' ?> <?= number_format($t['amount'], 2) ?> zł
+                                    <td>
+                                        <?php if (!empty($t['shared_budget_name'])): ?>
+                                            <span class="transaction-budget-badge"><?= htmlspecialchars($t['shared_budget_name']) ?></span>
+                                        <?php else: ?>
+                                            <span class="transaction-budget-private">Prywatne</span>
+                                        <?php endif; ?>
                                     </td>
-                                    <td class="action-cell">
-                                        <form action="<?= url('transaction/delete') ?>" method="POST" class="delete-form">
-                                            <input type="hidden" name="id" value="<?= $t['id'] ?>">
-                                            <button type="submit" class="btn-delete">
-                                                Usuń
-                                            </button>
-                                        </form>
+                                    <td class="desc-cell"><?= htmlspecialchars($t['description']) ?></td>
+                                    <td class="amount-cell <?= $t['type'] === 'expense' ? 'amount-expense' : 'amount-income' ?>">
+                                        <?= $t['type'] === 'expense' ? '-' : '+' ?> <?= number_format($t['amount'], 2) ?> zł
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -119,6 +174,7 @@ $months = $data['months'];
                     <p class="no-recent-transactions">Brak zarejestrowanych transakcji.</p>
                 <?php endif; ?>
             </div>
+        </div>
     </main>
 </body>
 
