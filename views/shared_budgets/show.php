@@ -439,5 +439,7 @@ $positiveBalances = array_filter($monthlyBalance, static function ($row) {
         </div>
     </div>
 </main>
+
+<?php include comp('footer.php'); ?>
 </body>
 </html>

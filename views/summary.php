@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <?php include 'components/navDashboard.php'; ?>
+    <?php include comp('navDashboard.php'); ?>
 
     <main class="dashboard-main">
         <div class="dashboard-container">
@@ -222,5 +222,7 @@
     </script>
 
     <script src="<?= url('scripts/summary.js') ?>"></script>
+
+    <?php include comp('footer.php'); ?>
 </body>
 </html>

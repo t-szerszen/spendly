@@ -75,5 +75,7 @@ $sharedBudgetCount = count($shared_budgets);
         <?php endif; ?>
     </div>
 </main>
+
+<?php include comp('footer.php'); ?>
 </body>
 </html>
