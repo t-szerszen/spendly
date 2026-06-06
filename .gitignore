@@ -1,3 +1,4 @@
 .env
 config.php
 /vendor
+/tools/dbmate.exe

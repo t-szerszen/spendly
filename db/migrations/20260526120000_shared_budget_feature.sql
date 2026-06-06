@@ -1,4 +1,8 @@
 -- migrate:up
+ALTER TABLE `shared_budgets`
+    ADD COLUMN `created_by` INT UNSIGNED NULL AFTER `name`,
+    ADD COLUMN `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `owner_id`;
+
 UPDATE `shared_budgets`
 SET `created_by` = `owner_id`
 WHERE `created_by` IS NULL;

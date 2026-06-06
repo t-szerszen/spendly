@@ -171,13 +171,14 @@ class Transaction
     {
         $stmt = $this->db->prepare(
             'INSERT INTO transactions
-                (user_id, shared_budget_id, category_id, amount, type, entry_kind, description, date)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+                (user_id, shared_budget_id, recurring_transaction_id, category_id, amount, type, entry_kind, description, date)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
         );
 
         return $stmt->execute([
             $data['user_id'],
             $data['shared_budget_id'] ?? null,
+            $data['recurring_transaction_id'] ?? null,
             $data['category_id'],
             $data['amount'],
             $data['type'],
@@ -185,6 +186,18 @@ class Transaction
             $data['description'],
             $data['date']
         ]);
+    }
+
+    public function recurringEntryExists(int $recurringTransactionId, string $date): bool
+    {
+        $stmt = $this->db->prepare(
+            'SELECT COUNT(*)
+             FROM transactions
+             WHERE recurring_transaction_id = ? AND date = ?'
+        );
+        $stmt->execute([$recurringTransactionId, $date]);
+
+        return (int) $stmt->fetchColumn() > 0;
     }
 
     /**
