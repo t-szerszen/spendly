@@ -11,13 +11,16 @@
 class DashboardController
 {
     private $transactionModel;
+    private $recurringTransactionModel;
     private $sharedBudgetModel;
     private $authService;
     private $categoryModel;
 
     public function __construct()
     {
+        require_once __DIR__ . '/../models/RecurringTransaction.php';
         $this->transactionModel = new Transaction();
+        $this->recurringTransactionModel = new RecurringTransaction();
         $this->sharedBudgetModel = new SharedBudget();
         $this->authService = new AuthService();
         $this->categoryModel = new Category();
@@ -31,6 +34,7 @@ class DashboardController
         }
 
         $userId = $_SESSION['user_id'];
+        $this->recurringTransactionModel->generateDueForUser($userId, $this->transactionModel);
 
         $selectedDate = new DateTimeImmutable('first day of this month');
         $month = $selectedDate->format('Y-m');

@@ -20,9 +20,18 @@ $quickAddId = 'quick-add-' . uniqid();
             <label for="<?= $quickAddId ?>-shared">Wspólny budżet</label>
         </fieldset>
 
+        <input type="hidden" name="transaction_mode" value="single">
+        <label class="quick-add-repeat-toggle" for="<?= $quickAddId ?>-recurring">
+            <input id="<?= $quickAddId ?>-recurring" type="checkbox" name="transaction_mode" value="recurring">
+            <span class="quick-add-repeat-switch" aria-hidden="true"></span>
+            <span>
+                <strong>Płatność cykliczna</strong>
+            </span>
+        </label>
+
         <div class="quick-add-grid">
             <label>
-                <span>Data</span>
+                <span class="quick-add-date-label">Data</span>
                 <input value="<?= htmlspecialchars($_SESSION['last_added_date'] ?? date('Y-m-d')) ?>" type="date" name="date" required class="auth-input">
             </label>
 
@@ -59,10 +68,23 @@ $quickAddId = 'quick-add-' . uniqid();
                 </select>
                 <small>Wydatek zapisze się w portfelu i trafi do miesięcznego rozliczenia.</small>
             </label>
-
             <label class="quick-add-description">
                 <span>Opis</span>
                 <input type="text" name="description" placeholder="Opcjonalnie" class="auth-input">
+            </label>
+            <label class="quick-add-recurring-field" style="display: none;">
+                <span>Powtarzaj</span>
+                <select name="frequency" class="auth-input quick-add-frequency" disabled>
+                    <option value="weekly">Tygodniowo</option>
+                    <option value="monthly" selected>Miesięcznie</option>
+                    <option value="quarterly">Kwartalnie</option>
+                    <option value="yearly">Rocznie</option>
+                </select>
+            </label>
+
+            <label class="quick-add-recurring-field" style="display: none;">
+                <span>Data końcowa</span>
+                <input type="date" name="end_date" class="auth-input quick-add-end-date" disabled>
             </label>
         </div>
 
@@ -85,6 +107,11 @@ document.querySelectorAll('.quick-add-form').forEach((form) => {
     const scopeInputs = form.querySelectorAll('input[name="scope"]');
     const sharedInput = form.querySelector('input[name="scope"][value="shared"]');
     const sharedCopy = form.querySelector('.quick-add-shared-copy');
+    const recurringToggle = form.querySelector('input[name="transaction_mode"][value="recurring"]');
+    const recurringFields = form.querySelectorAll('.quick-add-recurring-field');
+    const frequencySelect = form.querySelector('.quick-add-frequency');
+    const endDateInput = form.querySelector('.quick-add-end-date');
+    const dateLabel = form.querySelector('.quick-add-date-label');
 
     if (!typeSelect || !budgetSelect || !budgetWrap) {
         return;
@@ -92,7 +119,8 @@ document.querySelectorAll('.quick-add-form').forEach((form) => {
 
     const syncBudgetState = () => {
         const isExpense = typeSelect.value === 'expense';
-        const selectedScope = form.querySelector('input[name="scope"]:checked')?.value ?? 'private';
+        const checkedScope = form.querySelector('input[name="scope"]:checked');
+        const selectedScope = checkedScope ? checkedScope.value : 'private';
         const sharedAvailable = sharedInput && sharedInput.dataset.empty !== '1';
         const canUseShared = isExpense && sharedAvailable;
         const isShared = selectedScope === 'shared' && canUseShared;
@@ -122,12 +150,49 @@ document.querySelectorAll('.quick-add-form').forEach((form) => {
         }
     };
 
+    const syncRecurringState = () => {
+        const isRecurring = recurringToggle && recurringToggle.checked === true;
+
+        form.classList.toggle('is-recurring', isRecurring);
+
+        recurringFields.forEach((field) => {
+            field.style.display = isRecurring ? '' : 'none';
+        });
+
+        if (recurringToggle) {
+            const repeatToggle = recurringToggle.closest('.quick-add-repeat-toggle');
+            if (repeatToggle) {
+                repeatToggle.classList.toggle('is-recurring', isRecurring);
+            }
+        }
+
+        if (frequencySelect) {
+            frequencySelect.disabled = !isRecurring;
+            frequencySelect.required = isRecurring;
+        }
+
+        if (endDateInput) {
+            endDateInput.disabled = !isRecurring;
+            if (!isRecurring) {
+                endDateInput.value = '';
+            }
+        }
+
+        if (dateLabel) {
+            dateLabel.textContent = isRecurring ? 'Data początkowa' : 'Data';
+        }
+    };
+
     if (sharedInput && sharedInput.disabled) {
         sharedInput.dataset.empty = '1';
     }
 
     typeSelect.addEventListener('change', syncBudgetState);
     scopeInputs.forEach((input) => input.addEventListener('change', syncBudgetState));
+    if (recurringToggle) {
+        recurringToggle.addEventListener('change', syncRecurringState);
+    }
     syncBudgetState();
+    syncRecurringState();
 });
 </script>

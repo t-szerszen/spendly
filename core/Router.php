@@ -33,6 +33,9 @@ class Router
             case 'transaction/delete':
                 (new TransactionsController())->destroy();
                 break;
+            case 'transaction/recurring/delete':
+                (new TransactionsController())->destroyRecurring();
+                break;
 
             case 'about':
                 (new AboutController())->show();

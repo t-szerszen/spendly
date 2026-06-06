@@ -117,6 +117,33 @@ CREATE TABLE `schema_migrations` (
   PRIMARY KEY (`version`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Table structure for table `recurring_transactions`
+--
+
+CREATE TABLE `recurring_transactions` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `shared_budget_id` int(10) unsigned DEFAULT NULL,
+  `category_id` int(10) unsigned NOT NULL,
+  `amount` decimal(15,2) NOT NULL,
+  `type` enum('income','expense','savings','pocket_money') NOT NULL,
+  `description` text DEFAULT NULL,
+  `frequency` enum('weekly','monthly','quarterly','yearly') NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date DEFAULT NULL,
+  `next_due_date` date NOT NULL,
+  `status` enum('active','cancelled','completed') NOT NULL DEFAULT 'active',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `idx_recurring_user_status_due` (`user_id`,`status`,`next_due_date`),
+  KEY `idx_recurring_shared_budget` (`shared_budget_id`),
+  KEY `idx_recurring_category` (`category_id`),
+  CONSTRAINT `fk_recurring_category` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`),
+  CONSTRAINT `fk_recurring_shared_budget` FOREIGN KEY (`shared_budget_id`) REFERENCES `shared_budgets` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `fk_recurring_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 
 --
 -- Table structure for table `transactions`
@@ -126,6 +153,7 @@ CREATE TABLE `transactions` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
   `shared_budget_id` int(10) unsigned DEFAULT NULL,
+  `recurring_transaction_id` int(10) unsigned DEFAULT NULL,
   `related_user_id` int(10) unsigned DEFAULT NULL,
   `settlement_id` int(10) unsigned DEFAULT NULL,
   `category_id` int(10) unsigned NOT NULL,
@@ -140,12 +168,14 @@ CREATE TABLE `transactions` (
   KEY `idx_transactions_user_type` (`user_id`,`type`),
   KEY `idx_transactions_shared_budget_month` (`shared_budget_id`,`date`),
   KEY `idx_transactions_entry_kind` (`entry_kind`),
+  KEY `idx_transactions_recurring_date` (`recurring_transaction_id`,`date`),
   KEY `idx_transactions_related_user` (`related_user_id`),
   KEY `idx_transactions_settlement` (`settlement_id`),
   KEY `fk_trans_shared_budget` (`shared_budget_id`),
   KEY `fk_trans_category` (`category_id`),
   CONSTRAINT `fk_trans_category` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`),
   CONSTRAINT `fk_trans_shared_budget` FOREIGN KEY (`shared_budget_id`) REFERENCES `shared_budgets` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `fk_transactions_recurring` FOREIGN KEY (`recurring_transaction_id`) REFERENCES `recurring_transactions` (`id`) ON DELETE SET NULL,
   CONSTRAINT `fk_transactions_related_user` FOREIGN KEY (`related_user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   CONSTRAINT `fk_transactions_settlement` FOREIGN KEY (`settlement_id`) REFERENCES `settlements` (`id`) ON DELETE SET NULL,
   CONSTRAINT `fk_trans_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
