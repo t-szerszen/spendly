@@ -6,6 +6,7 @@
  * zalogowanego użytkownika w formie tabeli. Zawiera możliwość usunięcia 
  * wybranej operacji z systemu.
  */
+$pageStyles = ['styles/pages/transactions.css'];
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -26,7 +27,7 @@
             <div class="transactions-stack">
                 <div class="auth-card transactions-card">
                     <div class="transactions-section-head">
-                        <h2>Transakcje cykliczne</h2>
+                        <h2 class="transactions-section-title">Transakcje cykliczne</h2>
                     </div>
                     <?php if (!empty($data['recurringTransactions'])): ?>
                         <table class="transactions-table">
@@ -102,7 +103,7 @@
 
                 <div class="auth-card transactions-card transactions-history-card">
                     <div class="transactions-section-head">
-                        <h2>Historia transakcji</h2>
+                        <h2 class="transactions-section-title">Historia transakcji</h2>
                     </div>
                     <?php if (!empty($data['transactions'])): ?>
                         <table class="transactions-table">

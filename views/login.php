@@ -6,6 +6,7 @@
  * Odbiera błędy z kontrolera w przypadku niepowodzenia (zmienna $error) 
  * i komunikaty po udanej rejestracji.
  */
+$pageStyles = ['styles/pages/login.css'];
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -18,8 +19,8 @@
 
     <main class="auth-section">
         <div class="auth-card">
-            <h2>Witaj ponownie</h2>
-            <p>Zaloguj się, aby zarządzać finansami</p>
+            <h2 class="auth-card-title">Witaj ponownie</h2>
+            <p class="auth-card-copy">Zaloguj się, aby zarządzać finansami</p>
             <?php if (isset($_GET['registered']) && $_GET['registered'] === 'success'): ?>
                 <div class="register-success">
                     Konto zostało utworzone! Możesz się teraz zalogować.

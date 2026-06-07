@@ -42,7 +42,7 @@
     margin-bottom: 1rem;
 }
 
-.transactions-section-head h2 {
+.transactions-section-title {
     margin: 0;
     color: var(--color-blue);
     font-size: 1.25rem;
@@ -58,29 +58,18 @@
     color: var(--color-text-mutated);
 }
 
-.transactions-table th {
+.transactions-table th,
+.transactions-table td {
     padding: 1rem;
 }
 
-.transactions-table th.text-left {
-    text-align: left;
-}
-
-.transactions-table th.text-right {
-    text-align: right;
-}
-
 .transactions-table tbody tr {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(18, 52, 95, 0.07);
     transition: background 0.2s;
 }
 
 .transactions-table tbody tr:hover {
-    background: rgba(255, 255, 255, 0.05);
-}
-
-.transactions-table td {
-    padding: 1rem;
+    background: rgba(18, 52, 95, 0.04);
 }
 
 .category-badge {
@@ -88,42 +77,6 @@
     padding: 0.3rem 0.6rem;
     border-radius: 6px;
     font-size: 0.85rem;
-}
-
-.desc-cell {
-    color: var(--color-text-mutated);
-}
-
-.amount-cell {
-    text-align: right;
-    font-weight: bold;
-}
-
-.amount-expense {
-    color: #ff4d4d;
-}
-
-.amount-income {
-    color: var(--color-green);
-}
-
-.action-cell {
-    text-align: right;
-}
-
-.delete-form {
-    margin: 0;
-    display: inline;
-}
-
-.btn-delete {
-    background: none;
-    border: none;
-    color: #ff4d4d;
-    cursor: pointer;
-    font-size: 0.85rem;
-    text-decoration: underline;
-    padding: 0;
 }
 
 .transaction-status-muted {

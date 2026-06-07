@@ -6,6 +6,7 @@
  * Oferuje przyciski pozwalające wrócić na stronę główną lub skontaktować się z pomocą.
  */
 $title = $data['title'] ?? 'Błąd 404 - Strona nie istnieje';
+$pageStyles = ['styles/pages/error.css'];
 ?>
 <!DOCTYPE html>
 <html lang="pl">

@@ -6,6 +6,7 @@
  * powody jego powstania. Prezentowana niezalogowanym użytkownikom.
  */
 $title = $data['title'] ?? 'O nas - Spendly';
+$pageStyles = ['styles/pages/about.css'];
 ?>
 <!DOCTYPE html>
 <html lang="pl">

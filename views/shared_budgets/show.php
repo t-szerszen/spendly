@@ -15,6 +15,7 @@ $memberCount = count($members);
 $positiveBalances = array_filter($monthlyBalance, static function ($row) {
     return $row['balance'] > 0;
 });
+$pageStyles = ['styles/pages/shared-budgets.css'];
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -26,7 +27,7 @@ $positiveBalances = array_filter($monthlyBalance, static function ($row) {
     <div class="container shared_budgets-container">
         <div class="shared_budgets-header">
             <div>
-                <h1 class="dashboard-title"><?= htmlspecialchars($sharedBudget['name']) ?></h1>
+                <h1 class="app-title"><?= htmlspecialchars($sharedBudget['name']) ?></h1>
                 <p class="shared_budgets-subtitle">Rozliczenie udziałów, sald i spłat za wybrany miesiąc.</p>
             </div>
             <a href="<?= url('shared_budgets') ?>" class="btn-secondary">Wróć do listy</a>
@@ -66,7 +67,7 @@ $positiveBalances = array_filter($monthlyBalance, static function ($row) {
             <div class="form-error">Każdy udział musi być w zakresie od 0 do 100.</div>
         <?php endif; ?>
         <?php if (!empty($_GET['shares']) && $_GET['shares'] === 'invalid-total'): ?>
-            <div class="form-error">Suma udziałów wszystkich członków musi wynosić dokładnie 100%.</div>
+            <div class="form-error">Suma udziałów musi wynosić 100% z tolerancją 0,01 punktu procentowego.</div>
         <?php endif; ?>
         <?php if (!empty($_GET['shares']) && $_GET['shares'] === 'forbidden'): ?>
             <div class="form-error">Tylko owner może edytować udziały.</div>
@@ -303,7 +304,7 @@ $positiveBalances = array_filter($monthlyBalance, static function ($row) {
                     <div class="sharedBudget-section-heading">
                         <div>
                             <h3>Udziały członków</h3>
-                            <p>Suma wszystkich udziałów musi wynosić dokładnie 100%.</p>
+                            <p>Możesz podawać wartości z dokładnością do 0,01%. Akceptowana suma to 99,99-100,01%.</p>
                         </div>
                     </div>
                     <?php if ($canManageSharedBudget): ?>
@@ -320,7 +321,7 @@ $positiveBalances = array_filter($monthlyBalance, static function ($row) {
                                         <div class="sharedBudget-share-input-wrap">
                                             <input
                                                 type="number"
-                                                step="1"
+                                                step="0.01"
                                                 min="0"
                                                 max="100"
                                                 name="shares[<?= (int) $member['user_id'] ?>]"

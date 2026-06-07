@@ -1,41 +1,36 @@
+<?php $pageStyles = ['styles/pages/summary.css']; ?>
 <!DOCTYPE html>
 <html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <title><?= htmlspecialchars($data['title']) ?></title>
-    <link rel="stylesheet" href="<?= url('styles/style.css') ?>">
-    <link rel="stylesheet" href="<?= url('styles/summary.css') ?>">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
+<?php include comp('head.php'); ?>
 <body>
     <?php include comp('navDashboard.php'); ?>
 
-    <main class="dashboard-main">
-        <div class="dashboard-container">
-            <div class="dashboard-header-zone">
-                <div class="title-section">
-                    <h1>Raporty i Statystyki</h1>
-                    <p>Zaawansowana analiza Twoich finansów</p>
+    <main class="summary-main">
+        <div class="summary-container">
+            <div class="summary-header-zone">
+                <div class="summary-title-section">
+                    <h1 class="summary-title">Raporty i Statystyki</h1>
+                    <p class="summary-subtitle">Zaawansowana analiza Twoich finansów</p>
                 </div>
 
-                <form method="GET" action="<?= url('summary') ?>" class="filter-form" id="filterForm">
+                <form method="GET" action="<?= url('summary') ?>" class="summary-filter-form" id="filterForm">
                     <input type="hidden" name="month" id="hiddenMonth" value="<?= $data['currentMonth'] ?>">
                     <input type="hidden" name="year" id="hiddenYear" value="<?= $data['currentYear'] ?>">
 
-                    <button type="button" class="nav-btn" id="prevMonthBtn">&larr;</button>
+                    <button type="button" class="summary-nav-button" id="prevMonthBtn">&larr;</button>
 
-                    <div class="date-inputs">
-                        <div class="input-group">
+                    <div class="summary-date-inputs">
+                        <div class="summary-input-group">
                             <label>Od:</label>
                             <input type="date" name="start_date" id="startDateInput" value="<?= $data['startDate'] ?>" max="<?= $data['today'] ?>">
                         </div>
-                        <div class="input-group">
+                        <div class="summary-input-group">
                             <label>Do:</label>
                             <input type="date" name="end_date" id="endDateInput" value="<?= $data['endDate'] ?>" max="<?= $data['today'] ?>">
                         </div>
                     </div>
 
-                    <button type="button" class="nav-btn" id="nextMonthBtn">&rarr;</button>
+                    <button type="button" class="summary-nav-button" id="nextMonthBtn">&rarr;</button>
                 </form>
             </div>
 
@@ -100,16 +95,16 @@
                 </div>
             </div>
 
-            <div class="dashboard-grid">
-                <div class="grid-col flex-col">
-                    <div class="report-card chart-card">
+            <div class="summary-dashboard-grid">
+                <div class="summary-grid-column summary-flex-column">
+                    <div class="summary-report-card chart-card">
                         <h2>Struktura wydatków</h2>
                         <div class="chart-box">
                             <canvas id="expenseChart"></canvas>
                         </div>
                     </div>
 
-                    <div class="report-card top-categories-card">
+                    <div class="summary-report-card top-categories-card">
                         <h2>TOP Kategorie wydatków</h2>
                         <div class="top-list">
                             <?php if (!empty($data['summary'])): ?>
@@ -133,17 +128,17 @@
                     </div>
                 </div>
 
-                <div class="grid-col">
-                    <div class="report-card calendar-card" id="calendarCard">
+                <div class="summary-grid-column">
+                    <div class="summary-report-card calendar-card" id="calendarCard">
                         <div class="calendar-card-header">
                             <h2>Kalendarz Transakcji</h2>
                             <div class="calendar-month-picker">
-                                <button type="button" class="nav-btn" id="prevCalendarMonthBtn">&larr;</button>
+                                <button type="button" class="summary-nav-button" id="prevCalendarMonthBtn">&larr;</button>
                                 <span id="calendarMonthLabel"></span>
-                                <button type="button" class="nav-btn" id="nextCalendarMonthBtn">&rarr;</button>
+                                <button type="button" class="summary-nav-button" id="nextCalendarMonthBtn">&rarr;</button>
                             </div>
                         </div>
-                        <p class="card-sub">Dzienne podsumowanie przychodów i wydatków</p>
+                        <p class="summary-card-subtitle">Dzienne podsumowanie przychodów i wydatków</p>
                         <div class="calendar-wrapper">
                             <div class="calendar-weekdays">
                                 <div>Pon</div><div>Wt</div><div>Śr</div><div>Czw</div><div>Pt</div><div>Sob</div><div>Nd</div>
@@ -154,16 +149,16 @@
                 </div>
             </div>
 
-            <div class="report-card monthly-balance-card">
+            <div class="summary-report-card monthly-balance-card">
                 <div class="monthly-balance-header">
                     <div>
                         <h2>Bilans miesięczny</h2>
-                        <p class="card-sub">Przychody minus wydatki w kolejnych miesiącach</p>
+                        <p class="summary-card-subtitle">Przychody minus wydatki w kolejnych miesiącach</p>
                     </div>
                     <div class="monthly-balance-controls">
-                        <button type="button" class="nav-btn" id="prevMonthlyBalanceBtn">&larr;</button>
+                        <button type="button" class="summary-nav-button" id="prevMonthlyBalanceBtn">&larr;</button>
                         <span id="monthlyBalanceRange"></span>
-                        <button type="button" class="nav-btn" id="nextMonthlyBalanceBtn">&rarr;</button>
+                        <button type="button" class="summary-nav-button" id="nextMonthlyBalanceBtn">&rarr;</button>
                     </div>
                 </div>
                 <div class="monthly-balance-chart-box">
@@ -174,11 +169,11 @@
     </main>
 
     <div class="calendar-quick-add" id="calendarQuickAdd" hidden>
-        <div class="quick-add-head">
+        <div class="summary-quick-add-header">
             <strong>Dodaj transakcję</strong>
             <button type="button" id="closeQuickAdd" aria-label="Zamknij">&times;</button>
         </div>
-        <form action="<?= url('transaction/add') ?>" method="POST" class="quick-add-popover-form">
+        <form action="<?= url('transaction/add') ?>" method="POST" class="summary-quick-add-form">
             <input type="hidden" name="return_to" value="summary">
             <input type="hidden" name="summary_start_date" value="<?= htmlspecialchars($data['startDate']) ?>">
             <input type="hidden" name="summary_end_date" value="<?= htmlspecialchars($data['endDate']) ?>">
@@ -210,7 +205,7 @@
                 <input type="text" name="description" placeholder="Opcjonalnie">
             </label>
 
-            <button type="submit" class="quick-add-submit">Dodaj</button>
+            <button type="submit" class="summary-quick-add-submit">Dodaj</button>
         </form>
     </div>
 
@@ -224,6 +219,7 @@
         ) ?>"
     ></div>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="<?= url('scripts/summary.js') ?>"></script>
 
     <?php include comp('footer.php'); ?>

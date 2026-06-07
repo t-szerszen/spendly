@@ -6,6 +6,7 @@
  * zespołem Spendly (e-mail, Discord, lokalizacja).
  */
 $title = $data['title'] ?? 'Kontakt - Spendly';
+$pageStyles = ['styles/pages/contact.css'];
 ?>
 <!DOCTYPE html>
 <html lang="pl">

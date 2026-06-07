@@ -9,6 +9,7 @@
 $totalExpense = $data['stats']['totalExpense'];
 $totalIncome = $data['stats']['totalIncome'];
 $balance = $data['stats']['balance'];
+$pageStyles = ['styles/pages/wallet.css'];
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -18,21 +19,21 @@ $balance = $data['stats']['balance'];
 <body>
     <?php include comp('navDashboard.php'); ?>
 
-    <main class="auth-section dashboard-section wallet-section">
-        <div class="container dashboard-container">
-            <section class="dashboard-hero wallet-hero">
+    <main class="auth-section app-section wallet-section">
+        <div class="container app-container">
+            <section class="app-hero wallet-hero">
                 <div>
-                    <p class="dashboard-eyebrow">Portfel</p>
-                    <h1 class="dashboard-title">Wszystkie transakcje zaczynają się tutaj</h1>
-                    <p class="dashboard-subtitle">
+                    <p class="app-eyebrow">Portfel</p>
+                    <h1 class="app-title">Wszystkie transakcje zaczynają się tutaj</h1>
+                    <p class="app-subtitle">
                         Dodawaj prywatne wydatki, przychody i koszty wspólnego budżetu z jednego miejsca.
                     </p>
                 </div>
 
                 <form action="<?= url('wallet') ?>" method="GET" class="wallet-month-form">
-                    <label for="wallet-month">Wybrany miesiąc</label>
+                    <label for="wallet-month" class="wallet-month-label">Wybrany miesiąc</label>
                     <div class="wallet-month-controls">
-                        <input id="wallet-month" type="month" name="month" value="<?= htmlspecialchars($data['selectedMonth']) ?>" class="auth-input">
+                        <input id="wallet-month" type="month" name="month" value="<?= htmlspecialchars($data['selectedMonth']) ?>" class="auth-input wallet-month-input">
                         <button type="submit" class="btn-primary">Załaduj</button>
                     </div>
                 </form>
@@ -55,7 +56,7 @@ $balance = $data['stats']['balance'];
                 </div>
             </div>
 
-            <div class="auth-card dashboard-card dashboard-info-card wallet-sharedBudget-card">
+            <div class="auth-card app-card app-info-card wallet-sharedBudget-card">
                 <h3>Twój udział we wspólnych budżetach</h3>
                 <strong><?= number_format($data['sharedBudgetMonthlyCost'] ?? 0, 2) ?> zł</strong>
                 <p>Twój udział we wspólnych kosztach dla wybranego miesiąca.</p>
@@ -71,13 +72,13 @@ $balance = $data['stats']['balance'];
 
             <?php include comp('quickAdd.php'); ?>
 
-            <div class="auth-card dashboard-card recent-transactions-card">
-                <div class="dashboard-card-header">
+            <div class="auth-card app-card recent-transactions-card">
+                <div class="app-card-header">
                     <div>
-                        <h3>Transakcje w wybranym miesiącu</h3>
-                        <p>Prywatne wpisy i koszty przypisane do wspólnych budżetów dla <?= htmlspecialchars($data['selectedMonth']) ?>.</p>
+                        <h3 class="app-card-header-title">Transakcje w wybranym miesiącu</h3>
+                        <p class="app-card-header-copy">Prywatne wpisy i koszty przypisane do wspólnych budżetów dla <?= htmlspecialchars($data['selectedMonth']) ?>.</p>
                     </div>
-                    <a href="<?= url('transactions') ?>" class="dashboard-text-link">Pełna historia</a>
+                    <a href="<?= url('transactions') ?>" class="app-text-link">Pełna historia</a>
                 </div>
 
                 <?php if (!empty($data['transactions'])): ?>

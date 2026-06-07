@@ -2,6 +2,9 @@
 
 class SharedBudgetController
 {
+    private const SHARE_TOTAL_BASIS_POINTS = 10000;
+    private const SHARE_TOTAL_TOLERANCE_BASIS_POINTS = 1;
+
     private $authService;
     private $sharedBudgetModel;
     private $memberModel;
@@ -280,7 +283,7 @@ class SharedBudgetController
             $totalBasisPoints += $shareBasisPoints;
         }
 
-        if ($totalBasisPoints !== 10000) {
+        if (abs($totalBasisPoints - self::SHARE_TOTAL_BASIS_POINTS) > self::SHARE_TOTAL_TOLERANCE_BASIS_POINTS) {
             header('Location: ' . url('shared_budgets/show?id=' . $sharedBudgetId . '&shares=invalid-total' . $this->buildPeriodQuery($period)));
             exit;
         }
