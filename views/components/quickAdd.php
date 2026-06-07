@@ -2,11 +2,11 @@
 $sharedBudgets = $data['sharedBudgets'] ?? [];
 $quickAddId = 'quick-add-' . uniqid();
 ?>
-<div class="auth-card dashboard-card quick-add-card">
-    <div class="quick-add-head">
+<div class="auth-card app-card quick-add-card">
+    <div class="quick-add-card-header">
         <div>
-            <p class="dashboard-eyebrow">Centrum zapisu</p>
-            <h3>Szybkie dodawanie</h3>
+            <p class="app-eyebrow">Centrum zapisu</p>
+            <h3 class="quick-add-title">Szybkie dodawanie</h3>
         </div>
         <span class="quick-add-status">Portfel zapisuje wszystko</span>
     </div>

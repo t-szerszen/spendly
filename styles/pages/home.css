@@ -1,3 +1,5 @@
+@import url('home-features.css');
+
 .hero {
     max-width: 1200px;
     margin: 4rem auto 5rem;
@@ -99,20 +101,20 @@
 }
 
 .slide {
-    display: none !important;
-    width: 100% !important;
-    min-height: 760px !important;
-    height: 760px !important;
-    background-size: cover !important;
-    background-position: center !important;
-    align-items: center !important;
-    justify-content: center !important;
-    padding: 4rem 5rem !important;
-    position: relative !important;
+    display: none;
+    width: 100%;
+    min-height: 760px;
+    height: 760px;
+    background-size: cover;
+    background-position: center;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 5rem;
+    position: relative;
 }
 
 .slide.active {
-    display: flex !important;
+    display: flex;
 }
 
 .slide-overlay {
@@ -228,7 +230,7 @@
     }
 
     .slide {
-        padding: 1.75rem !important;
+        padding: 1.75rem;
     }
 
     .slide-content h3 {
@@ -261,10 +263,10 @@
     }
 
     .slide {
-        min-height: 620px !important;
-        height: 620px !important;
-        padding: 1.25rem !important;
-        align-items: flex-end !important;
+        min-height: 620px;
+        height: 620px;
+        padding: 1.25rem;
+        align-items: flex-end;
     }
 
     .slide-content p {

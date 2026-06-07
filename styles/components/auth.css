@@ -1,14 +1,3 @@
-/* styles/login.css */
-
-.register-success {
-    background: rgba(74, 180, 75, 0.1);
-    color: var(--color-green);
-    padding: 1rem;
-    border-radius: 12px;
-    margin-bottom: 1.5rem;
-    border: 1px solid rgba(74, 180, 75, 0.2);
-}
-
 .auth-section {
     display: flex;
     justify-content: center;
@@ -29,7 +18,7 @@
     transition: transform 0.3s ease;
 }
 
-.auth-card h2 {
+.auth-card-title {
     font-size: 2.5rem;
     font-weight: 800;
     margin-bottom: 1rem;
@@ -38,10 +27,9 @@
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: var(--color-blue);
-    /* Fallback */
 }
 
-.auth-card p {
+.auth-card-copy {
     font-size: 1.1rem;
     color: var(--color-text-mutated);
     margin-bottom: 2.5rem;
@@ -53,7 +41,6 @@
     gap: 1.25rem;
 }
 
-/* Row for First Name and Last Name */
 .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -79,6 +66,7 @@
     box-shadow: 0 0 0 4px rgba(38, 155, 138, 0.1);
 }
 
+.form-error,
 .error-message {
     background: rgba(214, 48, 49, 0.1);
     color: #d63031;
@@ -87,6 +75,17 @@
     margin-bottom: 1.5rem;
     font-size: 0.9rem;
     border: 1px solid rgba(214, 48, 49, 0.2);
+    text-align: left;
+}
+
+.form-success,
+.register-success {
+    background: rgba(74, 180, 75, 0.1);
+    color: var(--color-green);
+    padding: 1rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(74, 180, 75, 0.2);
     text-align: left;
 }
 
@@ -110,7 +109,6 @@
     text-decoration: underline;
 }
 
-/* Responsywność dla urządzeń mobilnych */
 @media (max-width: 480px) {
     .form-row {
         grid-template-columns: 1fr;

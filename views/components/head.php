@@ -6,6 +6,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <?php $pageStyles = $pageStyles ?? []; ?>
     <!-- Styl CSS -->
     <link rel="stylesheet" href="<?= url('styles/style.css') ?>?v=<?= time() ?>">
+    <?php foreach ($pageStyles as $pageStyle): ?>
+        <link rel="stylesheet" href="<?= url($pageStyle) ?>?v=<?= time() ?>">
+    <?php endforeach; ?>
 </head>

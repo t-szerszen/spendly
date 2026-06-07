@@ -6,6 +6,7 @@
  * Zawiera sekcję Hero, listę kluczowych funkcjonalności oraz odnośniki do logowania/rejestracji.
  */
 $title = $data['title'] ?? 'Spendly - Mądrze zarządzaj swoimi finansami';
+$pageStyles = ['styles/pages/home.css'];
 ?>
 <!DOCTYPE html>
 <html lang="pl">

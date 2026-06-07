@@ -6,6 +6,7 @@
  * adres e-mail i hasło. Wyświetla błędy walidacji
  * zajęty e-mail).
  */
+$pageStyles = ['styles/pages/register.css'];
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -18,8 +19,8 @@
 
     <main class="auth-section">
         <div class="auth-card">
-            <h2>Dołącz do nas</h2>
-            <p>Zacznij mądrze planować wydatki</p>
+            <h2 class="auth-card-title">Dołącz do nas</h2>
+            <p class="auth-card-copy">Zacznij mądrze planować wydatki</p>
 
             <?php if (isset($error)): ?>
                 <div class="error-message"><?= $error ?></div>

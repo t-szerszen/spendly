@@ -1,5 +1,6 @@
 <?php
 $error = $error ?? null;
+$pageStyles = ['styles/pages/shared-budgets.css'];
 ?>
 <!DOCTYPE html>
 <html lang="pl">
