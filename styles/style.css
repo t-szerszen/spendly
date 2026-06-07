@@ -1,3 +1,4 @@
+/* Główny plik stylów importuje warstwy CSS w kolejności od podstaw do widoków. */
 @import url('base/base.css');
 @import url('components/layout.css');
 @import url('components/buttons.css');

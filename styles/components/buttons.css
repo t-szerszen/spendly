@@ -1,4 +1,5 @@
 .btn-primary {
+    /* Główny przycisk akcji używany w formularzach, kartach i nawigacji. */
     background: var(--gradient-brand);
     color: white;
     padding: 0.6rem 1.5rem;
@@ -16,6 +17,7 @@
 }
 
 .btn-secondary {
+    /* Drugorzędny przycisk dla akcji pomocniczych, powrotów i linków alternatywnych. */
     background: white;
     color: var(--color-blue);
     padding: 0.6rem 1.5rem;
@@ -34,6 +36,7 @@
 }
 
 .btn-danger {
+    /* Przycisk akcji destrukcyjnych, takich jak usunięcie budżetu. */
     background: linear-gradient(135deg, #b42318, #d92d20);
     color: white;
     padding: 0.6rem 1.5rem;
@@ -53,6 +56,7 @@
 }
 
 .btn-small {
+    /* Kompaktowy wariant przycisku używany w gęstych wierszach tabel i paneli. */
     padding: 0.6rem 0.9rem;
     font-size: 0.88rem;
 }

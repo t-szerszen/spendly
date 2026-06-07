@@ -1,3 +1,4 @@
+/* Sekcja błędu centruje komunikat systemowy i zapewnia odpowiedni odstęp od nawigacji. */
 .error-section {
     max-width: 800px;
     margin: 6rem auto 8rem;
@@ -8,6 +9,7 @@
     align-items: center;
 }
 
+/* Karta błędu grupuje kod, opis oraz akcje powrotu do aplikacji. */
 .error-card {
     background: var(--glass-bg);
     backdrop-filter: blur(12px);
@@ -19,6 +21,7 @@
     width: 100%;
 }
 
+/* Kod błędu jest głównym elementem wizualnym strony i korzysta z gradientu marki. */
 .error-code {
     font-size: 8rem;
     font-weight: 800;
@@ -32,6 +35,7 @@
     text-shadow: 0 10px 20px rgba(29, 121, 155, 0.2);
 }
 
+/* Opis i przyciski prowadzą użytkownika do dalszego działania po wystąpieniu błędu. */
 .error-title {
     font-size: 2rem;
     color: var(--color-blue);

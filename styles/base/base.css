@@ -1,4 +1,5 @@
 :root {
+    /* Globalne tokeny kolorów, cieni i gradientów używane we wszystkich widokach. */
     --color-blue: #12345f;
     --color-cyan: #247c93;
     --color-teal: #20836f;
@@ -20,12 +21,14 @@
 }
 
 * {
+    /* Reset modelu pudełkowego stabilizujący obliczanie wymiarów elementów. */
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
 body {
+    /* Bazowa typografia, tło aplikacji i pionowy układ strony z footerem na dole. */
     min-height: 100vh;
     display: flex;
     flex-direction: column;

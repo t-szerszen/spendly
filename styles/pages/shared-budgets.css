@@ -1,9 +1,11 @@
+/* Widok budżetów współdzielonych ustawia przestrzeń roboczą dla listy, formularzy i szczegółów. */
 .shared_budgets-section {
     align-items: flex-start;
     min-height: auto;
     padding: 3.5rem 2rem 4rem;
 }
 
+/* Kontener centralizuje zawartość i narzuca wspólną szerokość modułu. */
 .shared_budgets-container {
     width: 100%;
     max-width: 1200px;
@@ -16,6 +18,7 @@
     max-width: 720px;
 }
 
+/* Nagłówek widoku zestawia opis sekcji z głównymi akcjami użytkownika. */
 .shared_budgets-header {
     display: flex;
     justify-content: space-between;
@@ -34,6 +37,7 @@
     color: var(--color-text-mutated);
 }
 
+/* Siatka listy budżetów dopasowuje liczbę kart do dostępnego miejsca. */
 .shared_budgets-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 380px));
@@ -41,6 +45,7 @@
     justify-content: start;
 }
 
+/* Wspólne karty widoku dziedziczą układ i wyrównanie zgodne z panelem aplikacji. */
 .sharedBudget-card,
 .shared_budgets-form-card,
 .shared_budgets-panel,
@@ -55,6 +60,7 @@
     text-align: left;
 }
 
+/* Pojedyncza karta budżetu działa jak link do szczegółów i sygnalizuje interakcję hoverem. */
 .sharedBudget-card {
     display: grid;
     gap: 1rem;
@@ -79,6 +85,7 @@
     margin: 0;
 }
 
+/* Hero listy podsumowuje stan budżetów przed właściwą siatką kart. */
 .shared_budgets-list-hero {
     display: flex;
     justify-content: space-between;
@@ -94,6 +101,7 @@
 }
 
 .shared_budgets-list-copy,
+/* Metryki w hero pokazują najważniejsze informacje w zwartej, prawej kolumnie. */
 .shared_budgets-list-hero-meta {
     display: grid;
     gap: 0.75rem;
@@ -148,6 +156,7 @@
     gap: 0.65rem;
 }
 
+/* Odznaka na karcie wskazuje typ albo status budżetu bez obciążania nagłówka. */
 .sharedBudget-card-badge {
     justify-self: start;
     padding: 0.35rem 0.7rem;
@@ -158,6 +167,7 @@
     font-weight: 700;
 }
 
+/* Metadane karty grupują zakres, udział i podstawowe wartości budżetu. */
 .sharedBudget-card-meta {
     display: grid;
     gap: 0.8rem;
@@ -206,6 +216,7 @@
     gap: 1.25rem;
 }
 
+/* Formularz tworzenia budżetu utrzymuje czytelny pionowy przepływ pól i akcji. */
 .shared_budgets-create-card {
     display: grid;
     gap: 1.5rem;
@@ -258,6 +269,7 @@
     gap: 1.25rem;
 }
 
+/* Karta szczegółów budżetu łączy opis z panelem wyboru okresu. */
 .shared_budgets-hero-card {
     display: grid;
     grid-template-columns: minmax(0, 1.5fr) minmax(280px, 360px);
@@ -299,6 +311,7 @@
     color: var(--color-text-mutated);
 }
 
+/* Karta okresu pozwala filtrować dane widoku szczegółów według miesiąca. */
 .sharedBudget-period-card {
     display: grid;
     gap: 0.75rem;
@@ -317,6 +330,7 @@
     width: 100%;
 }
 
+/* Siatka KPI pokazuje podstawowe wartości wspólnego budżetu w równych kaflach. */
 .sharedBudget-kpi-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -340,12 +354,14 @@
     display: block;
 }
 
+/* Główna kolumna szczegółów rozkłada panele budżetu na dwie kolumny. */
 .shared_budgets-main-column {
     display: grid;
     gap: 1.5rem;
     grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+/* Wiersz podsumowania łączy opis bieżącego okresu z formularzem przełączania daty. */
 .sharedBudget-summary-row {
     display: flex;
     justify-content: space-between;
@@ -370,6 +386,7 @@
     min-width: 0;
 }
 
+/* Karty bilansu prezentują udział poszczególnych osób w kosztach. */
 .sharedBudget-balance-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -430,6 +447,7 @@
     margin-top: 0.2rem;
 }
 
+/* Panel całkowity wyróżnia sumę budżetu mocniejszą ramką po lewej stronie. */
 .sharedBudget-total-card {
     padding: 1rem 1.15rem;
     border-left: 5px solid var(--color-teal);
@@ -441,12 +459,14 @@
     color: var(--color-blue);
 }
 
+/* Układ dwóch kolumn oddziela zarządzanie budżetem od list pomocniczych. */
 .shared_budgets-two-column {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 1.5rem;
 }
 
+/* Panel grupuje listy członków, zaproszeń, rozliczeń i transakcji. */
 .shared_budgets-panel {
     display: grid;
     gap: 1rem;
@@ -483,6 +503,7 @@
     gap: 0.75rem;
 }
 
+/* Wiersze zaproszeń, członków i rozliczeń mają wspólny układ tekstu oraz akcji. */
 .sharedBudget-invitation-row,
 .sharedBudget-member-actions,
 .sharedBudget-settlement-row {
@@ -570,6 +591,7 @@
     text-align: center;
 }
 
+/* Sekcja opuszczenia budżetu oddziela akcję ryzykowną od standardowych ustawień. */
 .sharedBudget-leave-box {
     display: grid;
     gap: 0.7rem;
@@ -582,6 +604,7 @@
     border-color: rgba(217, 45, 32, 0.16);
 }
 
+/* Blok zarządzania scala formularze administracyjne w jednym obszarze karty. */
 .sharedBudget-manage-block {
     display: grid;
     gap: 0.85rem;
@@ -616,6 +639,7 @@
     min-width: 0;
 }
 
+/* Wiersze udziałów pozwalają przypisać procentowy udział każdemu członkowi budżetu. */
 .sharedBudget-share-row {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 140px;
@@ -697,6 +721,7 @@
     min-width: 720px;
 }
 
+/* Tabele transakcji w budżecie zachowują przewijanie poziome przy mniejszej szerokości. */
 .sharedBudget-expenses-panel {
     overflow-x: auto;
 }
@@ -713,6 +738,7 @@
     display: table;
 }
 
+/* Układ tabletowy zwija szerokie panele i hero do pojedynczej kolumny. */
 @media (max-width: 960px) {
     .shared_budgets-section {
         padding: 2.5rem 1rem 3rem;
@@ -758,6 +784,7 @@
 
 }
 
+/* Układ mobilny upraszcza listy, akcje i formularze do pełnej szerokości ekranu. */
 @media (max-width: 640px) {
 
     .shared_budgets-grid,

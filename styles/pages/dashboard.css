@@ -1,8 +1,10 @@
 .dashboard-hero-button {
+    /* Główny przycisk w hero dashboardu zachowuje stałą szerokość tekstu. */
     white-space: nowrap;
 }
 
 .dashboard-flow {
+    /* Trzystopniowy opis przepływu: dodanie kosztu, przypisanie budżetu i rozliczenie. */
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1rem;
@@ -10,6 +12,7 @@
 }
 
 .dashboard-flow div {
+    /* Pojedynczy krok procesu prezentowany jako mała karta informacyjna. */
     display: grid;
     grid-template-columns: auto minmax(0, 1fr);
     gap: 0.15rem 0.75rem;
@@ -44,16 +47,19 @@
 }
 
 .dashboard-shortcuts {
+    /* Sekcja skrótów do najczęściej używanych modułów aplikacji. */
     margin-top: 2rem;
 }
 
 .dashboard-shortcuts-grid {
+    /* Siatka linków prowadzących do głównych funkcji systemu. */
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1rem;
 }
 
 .dashboard-shortcut-card {
+    /* Karta skrótu zachowuje wygląd panelu, ale działa jak link. */
     display: block;
     color: inherit;
     text-decoration: none;
@@ -92,6 +98,7 @@
 }
 
 .dashboard-info-grid {
+    /* Dodatkowe kafelki aktywności użytkownika w bieżącym miesiącu. */
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
@@ -99,6 +106,7 @@
 }
 
 @media (max-width: 980px) {
+    /* Proces, skróty i informacje przechodzą do prostszego układu na tabletach. */
     .dashboard-flow,
     .dashboard-info-grid {
         grid-template-columns: 1fr;
@@ -110,6 +118,7 @@
 }
 
 @media (max-width: 640px) {
+    /* Skróty dashboardu układają się w jedną kolumnę na telefonach. */
     .dashboard-shortcuts-grid {
         grid-template-columns: 1fr;
     }

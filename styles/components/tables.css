@@ -1,8 +1,10 @@
 .recent-transactions-card {
+    /* Karta z tabelą ostatnich lub miesięcznych transakcji. */
     margin-top: 2rem;
 }
 
 .recent-transactions-table {
+    /* Wspólny styl tabel transakcji w dashboardzie, portfelu i historii. */
     width: 100%;
     border-collapse: collapse;
     margin-top: 1rem;
@@ -19,6 +21,7 @@
 }
 
 .text-left {
+    /* Pomocnicze wyrównanie tekstu w nagłówkach i komórkach tabeli. */
     text-align: left;
 }
 
@@ -38,11 +41,13 @@
 }
 
 .amount-income {
+    /* Kolor kwoty przychodowej. */
     color: var(--color-green);
     font-weight: 800;
 }
 
 .amount-expense {
+    /* Kolor kwoty wydatkowej. */
     color: #d45245;
     font-weight: 800;
 }
@@ -56,6 +61,7 @@
 }
 
 .delete-form {
+    /* Formularz usuwania pozostaje inline wewnątrz komórki tabeli. */
     margin: 0;
     display: inline;
 }
@@ -72,6 +78,7 @@
 
 .transaction-budget-badge,
 .transaction-budget-private {
+    /* Etykiety informujące, czy wpis jest prywatny, czy przypisany do budżetu. */
     display: inline-flex;
     align-items: center;
     min-height: 1.75rem;
@@ -98,6 +105,7 @@
 }
 
 @media (max-width: 640px) {
+    /* Tabela transakcji może przewijać się poziomo na wąskich ekranach. */
     .recent-transactions-card {
         overflow-x: auto;
     }

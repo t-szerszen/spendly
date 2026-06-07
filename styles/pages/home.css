@@ -1,6 +1,7 @@
 @import url('home-features.css');
 
 .hero {
+    /* Główna sekcja powitalna strony startowej. */
     max-width: 1200px;
     margin: 4rem auto 5rem;
     padding: 0 2rem;
@@ -11,6 +12,7 @@
 }
 
 .hero-eyebrow {
+    /* Mała etykieta nad głównym nagłówkiem hero. */
     display: inline-flex;
     align-items: center;
     padding: 0.45rem 0.9rem;
@@ -25,6 +27,7 @@
 }
 
 .hero h1 {
+    /* Główny komunikat marketingowy z brandowym gradientem tekstu. */
     font-size: clamp(2.8rem, 6vw, 4.9rem);
     font-weight: 800;
     line-height: 1.05;
@@ -46,6 +49,7 @@
 }
 
 .hero-buttons {
+    /* Kontener głównych akcji publicznych: rejestracji i informacji. */
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
@@ -53,6 +57,7 @@
 }
 
 .hero-points {
+    /* Trzy krótkie argumenty wartości pod sekcją hero. */
     width: 100%;
     margin-top: 2.5rem;
     display: grid;
@@ -83,6 +88,7 @@
 }
 
 .slider {
+    /* Slider prezentujący kluczowe funkcjonalności aplikacji. */
     position: relative;
     overflow: hidden;
     border-radius: 32px;
@@ -101,6 +107,7 @@
 }
 
 .slide {
+    /* Pojedynczy slajd z obrazem tła i treścią. */
     display: none;
     width: 100%;
     min-height: 760px;
@@ -114,10 +121,12 @@
 }
 
 .slide.active {
+    /* Aktualnie widoczny slajd aktywowany przez JavaScript. */
     display: flex;
 }
 
 .slide-overlay {
+    /* Przyciemnienie tła poprawiające czytelność tekstu na obrazie. */
     position: absolute;
     inset: 0;
     background: linear-gradient(180deg, rgba(0, 0, 0, 0.52), rgba(0, 0, 0, 0.92));
@@ -146,6 +155,7 @@
 }
 
 .slider-arrow {
+    /* Przyciski poprzedniego i następnego slajdu. */
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -176,6 +186,7 @@
 }
 
 .slider-controls {
+    /* Kropki nawigacyjne wskazujące aktualny slajd. */
     display: flex;
     justify-content: center;
     gap: 0.75rem;
@@ -199,6 +210,7 @@
 }
 
 .bottom-highlight {
+    /* Końcowy komunikat wzmacniający przekaz strony startowej. */
     max-width: 1200px;
     margin: 2rem auto;
     padding: 0.35rem 2rem 1rem;
@@ -221,6 +233,7 @@
 }
 
 @media (max-width: 900px) {
+    /* Hero i slider przechodzą do prostszego układu na tabletach. */
     .hero {
         margin-top: 3rem;
     }
@@ -239,6 +252,7 @@
 }
 
 @media (max-width: 640px) {
+    /* Widok mobilny zmniejsza wysokość slidera i układa CTA w kolumnę. */
     .hero {
         padding: 0 1.25rem;
     }
