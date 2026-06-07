@@ -37,6 +37,7 @@ class Settlement
     {
         $total = $this->getSharedExpenseTotal($sharedBudgetId, $year, $month);
         $paidByUserId = $this->getPaidByUser($sharedBudgetId, $year, $month);
+        $settlementTotals = $this->getPostedSettlementTotals($sharedBudgetId, sprintf('%04d-%02d', $year, $month));
         $settlementAdjustments = $this->getPostedSettlementAdjustments($sharedBudgetId, sprintf('%04d-%02d', $year, $month));
         $members = $this->memberModel->getMembers($sharedBudgetId);
 
@@ -45,6 +46,8 @@ class Settlement
             $userId = (int) $member['user_id'];
             $paid = (float) ($paidByUserId[$userId] ?? 0);
             $shouldPay = round($total * ((float) $member['share_percent'] / 100), 2);
+            $transferredOut = (float) ($settlementTotals[$userId]['transferred_out'] ?? 0);
+            $receivedIn = (float) ($settlementTotals[$userId]['received_in'] ?? 0);
             $settlementAdjustment = (float) ($settlementAdjustments[$userId] ?? 0);
 
             // Posted settlements reduce the remaining debt without changing the original expense totals.
@@ -54,6 +57,8 @@ class Settlement
                 'share_percent' => (float) $member['share_percent'],
                 'paid' => $paid,
                 'should_pay' => $shouldPay,
+                'transferred_out' => $transferredOut,
+                'received_in' => $receivedIn,
                 'balance' => round($paid - $shouldPay + $settlementAdjustment, 2),
             ];
         }
@@ -247,6 +252,40 @@ class Settlement
         }
 
         return $adjustments;
+    }
+
+    private function getPostedSettlementTotals($sharedBudgetId, $periodMonth): array
+    {
+        $totals = [];
+
+        foreach ($this->getByMonth($sharedBudgetId, $periodMonth) as $settlement) {
+            if ($settlement['status'] !== 'posted') {
+                continue;
+            }
+
+            $fromUserId = (int) $settlement['from_user_id'];
+            $toUserId = (int) $settlement['to_user_id'];
+            $amount = (float) $settlement['amount'];
+
+            if (!isset($totals[$fromUserId])) {
+                $totals[$fromUserId] = [
+                    'transferred_out' => 0.0,
+                    'received_in' => 0.0,
+                ];
+            }
+
+            if (!isset($totals[$toUserId])) {
+                $totals[$toUserId] = [
+                    'transferred_out' => 0.0,
+                    'received_in' => 0.0,
+                ];
+            }
+
+            $totals[$fromUserId]['transferred_out'] += $amount;
+            $totals[$toUserId]['received_in'] += $amount;
+        }
+
+        return $totals;
     }
 
     private function getSettlementCategoryId(): int

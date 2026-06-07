@@ -174,6 +174,14 @@ $positiveBalances = array_filter($monthlyBalance, static function ($row) {
                                         <span>Powinno pokryć</span>
                                         <strong><?= number_format($row['should_pay'], 2) ?> zł</strong>
                                     </div>
+                                    <div>
+                                        <span>Przelano w rozliczeniu</span>
+                                        <strong><?= number_format($row['transferred_out'], 2) ?> zł</strong>
+                                    </div>
+                                    <div>
+                                        <span>Otrzymano w rozliczeniu</span>
+                                        <strong><?= number_format($row['received_in'], 2) ?> zł</strong>
+                                    </div>
                                 </div>
                                 <p class="sharedBudget-balance-result <?= $row['balance'] >= 0 ? 'text-positive' : 'text-negative' ?>">
                                     Saldo netto: <?= number_format($row['balance'], 2) ?> zł
