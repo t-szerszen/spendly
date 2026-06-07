@@ -140,6 +140,7 @@
     gap: 6px;
     margin-top: 8px;
 }
+
 .comparison-badges span {
     display: inline-flex;
     align-items: center;
@@ -156,8 +157,13 @@
 .comparison-badges.neutral span { background: var(--color-surface-muted); color: var(--color-text-mutated); }
 
 .insight-card,
-.balance-line-card { min-height: 170px; }
-.balance-line-card { grid-column: span 2; }
+.balance-line-card {
+    min-height: 170px;
+}
+
+.balance-line-card {
+    grid-column: span 2;
+}
 
 .mini-chart-box {
     height: 118px;
@@ -222,8 +228,14 @@
 }
 
 .chart-card,
-.top-categories-card { flex: 1 1 0; }
-.calendar-card { height: 100%; }
+.top-categories-card {
+    flex: 1 1 0;
+}
+
+.calendar-card {
+    height: 100%;
+}
+
 .chart-card,
 .calendar-card,
 .top-categories-card {
@@ -279,7 +291,10 @@
     gap: 16px;
     margin-bottom: 10px;
 }
-.calendar-card-header h2 { margin: 0; }
+
+.calendar-card-header h2 {
+    margin: 0;
+}
 
 .calendar-month-picker {
     display: flex;
@@ -288,6 +303,7 @@
     gap: 10px;
     min-width: 230px;
 }
+
 .calendar-month-picker span {
     min-width: 125px;
     color: var(--color-blue);
@@ -303,6 +319,7 @@
     min-width: 0;
     min-height: 0;
 }
+
 .calendar-weekdays {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -313,6 +330,7 @@
     margin-bottom: 10px;
     font-size: 13px;
 }
+
 .calendar-days {
     display: grid;
     flex: 1 1 auto;
@@ -321,6 +339,7 @@
     gap: 8px;
     min-height: 0;
 }
+
 .calendar-day {
     background: var(--color-surface-muted);
     border-radius: 8px;
@@ -377,7 +396,11 @@
     transition: 0.16s ease;
     width: 22px;
 }
-.calendar-day:hover .calendar-add-link { opacity: 1; transform: scale(1); }
+
+.calendar-day:hover .calendar-add-link {
+    opacity: 1;
+    transform: scale(1);
+}
 
 .calendar-quick-add {
     background: #fff;
@@ -390,13 +413,18 @@
     width: min(310px, calc(100vw - 24px));
     z-index: 50;
 }
+
 .quick-add-head {
     align-items: center;
     display: flex;
     justify-content: space-between;
     margin-bottom: 12px;
 }
-.quick-add-head strong { font-size: 14px; }
+
+.quick-add-head strong {
+    font-size: 14px;
+}
+
 .quick-add-head button {
     background: transparent;
     border: none;
@@ -406,16 +434,19 @@
     line-height: 1;
     padding: 0 2px;
 }
+
 .quick-add-popover-form {
     display: grid;
     gap: 10px;
 }
+
 .quick-add-popover-form label {
     color: var(--color-text-mutated);
     display: grid;
     font-size: 12px;
     gap: 5px;
 }
+
 .quick-add-popover-form input,
 .quick-add-popover-form select {
     background: var(--color-surface);
@@ -426,6 +457,7 @@
     min-height: 36px;
     padding: 7px 9px;
 }
+
 .quick-add-submit {
     background: var(--gradient-brand);
     border: none;
@@ -444,12 +476,17 @@
     gap: 20px;
     justify-content: space-between;
 }
-.monthly-balance-header h2 { margin-bottom: 15px; }
+
+.monthly-balance-header h2 {
+    margin-bottom: 15px;
+}
+
 .monthly-balance-controls {
     align-items: center;
     display: flex;
     gap: 10px;
 }
+
 .monthly-balance-controls span {
     color: var(--color-text-mutated);
     font-size: 13px;
@@ -457,20 +494,28 @@
     min-width: 190px;
     text-align: center;
 }
+
 .monthly-balance-chart-box {
     height: clamp(260px, 34vh, 380px);
     position: relative;
 }
 
 @media (max-width: 1024px) {
+
     .dashboard-grid,
     .kpi-grid,
     .insight-grid {
         grid-template-columns: 1fr;
     }
 
-    .balance-line-card { grid-column: auto; }
-    .grid-col { min-height: auto; }
+    .balance-line-card {
+        grid-column: auto;
+    }
+
+    .grid-col {
+        min-height: auto;
+    }
+
     .chart-card,
     .top-categories-card,
     .calendar-card {

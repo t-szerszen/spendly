@@ -33,10 +33,7 @@ $title = $data['title'] ?? 'Błąd 404 - Strona nie istnieje';
         </div>
     </main>
 
-    <!-- Stopka -->
-    <footer>
-        <p>&copy; <?php echo date('Y'); ?> Spendly. Wszelkie prawa zastrzeżone.</p>
-    </footer>
+    <?php include comp('footer.php'); ?>
 
 </body>
 

@@ -1,9 +1,6 @@
 <?php
 // controllers/SummaryController.php
 
-require_once __DIR__ . '/../services/AuthService.php';
-require_once __DIR__ . '/../models/Category.php';
-
 class SummaryController
 {
     private $db;

@@ -1,8 +1,18 @@
 // public/scripts/summary.js
 
 document.addEventListener("DOMContentLoaded", function () {
-    const dataContainer = window.dashboardData || {};
-    if (!dataContainer) return;
+    const dataContainerEl = document.getElementById('summary-data');
+    let dataContainer = {};
+
+    if (dataContainerEl && dataContainerEl.dataset.dashboard) {
+        try {
+            dataContainer = JSON.parse(dataContainerEl.dataset.dashboard);
+        } catch (error) {
+            dataContainer = {};
+        }
+    } else if (window.dashboardData) {
+        dataContainer = window.dashboardData;
+    }
 
     dataContainer.categories = Array.isArray(dataContainer.categories) ? dataContainer.categories : [];
     dataContainer.amounts = Array.isArray(dataContainer.amounts) ? dataContainer.amounts : [];

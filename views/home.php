@@ -70,10 +70,7 @@ $title = $data['title'] ?? 'Spendly - Mądrze zarządzaj swoimi finansami';
         <h2 class="bottom-highlight-heading">Spendly — bo świadomość finansowa zaczyna się od zrozumienia własnych wydatków.</h2>
     </section>
 
-    <!-- Stopka -->
-    <footer>
-        <p>&copy; <?php echo date('Y'); ?> Spendly. Wszelkie prawa zastrzeżone.</p>
-    </footer>
+    <?php include comp('footer.php'); ?>
 
     <script>
         (function() {

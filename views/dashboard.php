@@ -176,6 +176,8 @@ $balance = $data['stats']['balance'];
             </div>
         </div>
     </main>
+
+    <?php include comp('footer.php'); ?>
 </body>
 
 </html>

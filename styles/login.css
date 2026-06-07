@@ -3,10 +3,12 @@
 .register-success {
     background: rgba(74, 180, 75, 0.1);
     color: var(--color-green);
-    padding: 1rem; border-radius: 12px;
+    padding: 1rem;
+    border-radius: 12px;
     margin-bottom: 1.5rem;
     border: 1px solid rgba(74, 180, 75, 0.2);
 }
+
 .auth-section {
     display: flex;
     justify-content: center;
@@ -35,7 +37,8 @@
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    color: var(--color-blue); /* Fallback */
+    color: var(--color-blue);
+    /* Fallback */
 }
 
 .auth-card p {
@@ -112,6 +115,7 @@
     .form-row {
         grid-template-columns: 1fr;
     }
+
     .auth-card {
         padding: 2rem 1.5rem;
     }

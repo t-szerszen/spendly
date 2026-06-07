@@ -65,10 +65,7 @@ $title = $data['title'] ?? 'O nas - Spendly';
         </div>
     </main>
 
-    <!-- Stopka -->
-    <footer>
-        <p>&copy; <?php echo date('Y'); ?> Spendly. Wszelkie prawa zastrzeżone.</p>
-    </footer>
+    <?php include comp('footer.php'); ?>
 
 </body>
 

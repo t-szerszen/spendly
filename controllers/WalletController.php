@@ -10,7 +10,6 @@ class WalletController
 
     public function __construct()
     {
-        require_once __DIR__ . '/../models/RecurringTransaction.php';
         $this->transactionModel = new Transaction();
         $this->recurringTransactionModel = new RecurringTransaction();
         $this->sharedBudgetModel = new SharedBudget();

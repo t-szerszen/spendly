@@ -81,8 +81,8 @@ CREATE TABLE IF NOT EXISTS `settlements` (
         FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `categories` (`name`, `is_system`)
-SELECT 'Rozliczenie wspolnego budzetu', 1
+INSERT INTO `categories` (`name`, `is_system`, `type`)
+SELECT 'Rozliczenie wspolnego budzetu', 1, 'expense'
 WHERE NOT EXISTS (
     SELECT 1
     FROM `categories`
