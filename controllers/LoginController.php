@@ -32,10 +32,12 @@ class LoginController
     public function login()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $email = $_POST['email'] ?? '';
-            $password = $_POST['password'] ?? '';
+            $email = trim((string) ($_POST['email'] ?? ''));
+            $password = (string) ($_POST['password'] ?? '');
 
-            if ($this->authService->login($email, $password)) {
+            $result = $this->authService->login($email, $password);
+
+            if ($result['success']) {
                 if (!empty($_SESSION['pending_shared_budget_invite_token'])) {
                     $token = $_SESSION['pending_shared_budget_invite_token'];
                     header('Location: ' . url('shared_budgets/accept?token=' . urlencode($token)));
@@ -45,7 +47,7 @@ class LoginController
                 header('Location: ' . url('dashboard'));
                 exit;
             } else {
-                $error = "Błędny email lub hasło.";
+                $error = $result['error'];
                 $data = ['title' => 'Logowanie'];
                 require_once __DIR__ . '/../views/login.php';
             }

@@ -30,7 +30,7 @@
             <?php endif; ?>
 
             <form action="<?= url('login') ?>" method="POST" class="auth-form">
-                <input type="text" name="email" placeholder="Adres e-mail" required class="auth-input">
+                <input type="email" name="email" placeholder="Adres e-mail" required class="auth-input" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
                 <input type="password" name="password" placeholder="Hasło" required class="auth-input">
                 <button type="submit" class="btn-primary">Zaloguj się</button>
             </form>
