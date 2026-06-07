@@ -1,4 +1,5 @@
 .quick-add-card {
+    /* Karta współdzielonego formularza szybkiego dodawania transakcji. */
     display: grid;
     gap: 1.2rem;
     border: 1px solid rgba(18, 52, 95, 0.1);
@@ -6,6 +7,7 @@
 }
 
 .quick-add-card-header {
+    /* Nagłówek formularza z tytułem i statusem kontekstu zapisu. */
     display: flex;
     justify-content: space-between;
     gap: 1rem;
@@ -28,11 +30,13 @@
 }
 
 .quick-add-form {
+    /* Główna siatka pól formularza szybkiego dodawania. */
     display: grid;
     gap: 1rem;
 }
 
 .quick-add-scope {
+    /* Przełącznik zakresu transakcji: prywatna lub wspólny budżet. */
     display: inline-grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.35rem;
@@ -73,6 +77,7 @@
 }
 
 .quick-add-repeat-toggle {
+    /* Przełącznik trybu płatności cyklicznej. */
     display: inline-grid;
     grid-template-columns: auto minmax(0, 1fr);
     align-items: center;
@@ -98,6 +103,7 @@
 }
 
 .quick-add-repeat-switch {
+    /* Wizualny przełącznik stanu cykliczności. */
     position: relative;
     width: 2.65rem;
     height: 1.45rem;
@@ -150,6 +156,7 @@
 }
 
 .quick-add-scope.is-income {
+    /* Przychody nie mogą być przypisane do wspólnego budżetu. */
     grid-template-columns: 1fr;
 }
 
@@ -159,6 +166,7 @@
 }
 
 .quick-add-grid {
+    /* Układ pól zoptymalizowany pod szybkie wpisanie transakcji. */
     display: grid;
     grid-template-columns: minmax(150px, 0.8fr) minmax(130px, 0.7fr) minmax(150px, 0.8fr) minmax(180px, 1fr);
     gap: 0.9rem;
@@ -177,6 +185,7 @@
 }
 
 .quick-add-budget-wrap {
+    /* Pole budżetu zajmuje szerszy obszar, bo zawiera select i opis pomocniczy. */
     grid-column: span 2;
 }
 
@@ -189,6 +198,7 @@
 }
 
 .quick-add-form.is-recurring .quick-add-recurring-field {
+    /* Pola cykliczności pojawiają się dopiero po aktywacji trybu recurring. */
     display: grid;
 }
 
@@ -211,6 +221,7 @@
 }
 
 @media (max-width: 640px) {
+    /* Formularz szybkiego dodawania przechodzi do jednej kolumny na telefonach. */
     .quick-add-grid,
     .quick-add-card-header {
         flex-direction: column;

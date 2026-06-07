@@ -1,9 +1,11 @@
+/* Sekcja funkcji prezentuje najważniejsze możliwości aplikacji na stronie głównej. */
 .features {
     max-width: 1200px;
     margin: 0 auto 6rem;
     padding: 0 2rem;
 }
 
+/* Tytuł sekcji utrzymuje wspólną hierarchię typograficzną dla bloków informacyjnych. */
 .section-title {
     text-align: center;
     font-size: 2.5rem;
@@ -11,12 +13,14 @@
     color: var(--color-blue);
 }
 
+/* Siatka automatycznie dopasowuje liczbę kart do dostępnej szerokości ekranu. */
 .features-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
 }
 
+/* Karta funkcji wykorzystuje efekt szkła i subtelny hover zgodny z resztą interfejsu. */
 .feature-card {
     background: var(--glass-bg);
     backdrop-filter: blur(12px);
@@ -34,6 +38,7 @@
     box-shadow: var(--shadow-lg);
 }
 
+/* Ikona stanowi wizualny punkt zaczepienia dla opisu funkcji. */
 .feature-icon {
     width: 64px;
     height: 64px;

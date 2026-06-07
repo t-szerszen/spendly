@@ -1,15 +1,18 @@
+/* Główny obszar podsumowania finansowego ustawia bazowe odstępy i kolorystykę widoku. */
 .summary-main {
     color: var(--color-text);
     min-height: 100vh;
     padding: 3rem 2rem;
 }
 
+/* Kontener utrzymuje stałą szerokość raportu niezależnie od szerokości okna. */
 .summary-container {
     max-width: 1200px;
     margin: 0 auto;
     width: 100%;
 }
 
+/* Nagłówek widoku łączy tytuł raportu z formularzem filtrowania zakresu dat. */
 .summary-header-zone {
     display: flex;
     justify-content: space-between;
@@ -36,6 +39,7 @@
     margin: 0;
 }
 
+/* Formularz filtrów pozwala przełączać analizowany okres bez zmiany układu strony. */
 .summary-filter-form {
     display: flex;
     align-items: center;
@@ -74,6 +78,7 @@
     font: inherit;
 }
 
+/* Przyciski nawigacji obsługują przechodzenie między kolejnymi zakresami czasu. */
 .summary-nav-button {
     display: inline-flex;
     align-items: center;
@@ -98,6 +103,7 @@
 
 .summary-nav-button:disabled { cursor: not-allowed; opacity: 0.45; }
 
+/* Siatki KPI i insightów prezentują najważniejsze liczby w równych kolumnach. */
 .kpi-grid,
 .insight-grid {
     display: grid;
@@ -106,6 +112,7 @@
     margin-bottom: 1.5rem;
 }
 
+/* Karta KPI wyróżnia pojedynczą metrykę raportu finansowego. */
 .kpi-card {
     background: rgba(255, 255, 255, 0.94);
     padding: 1.35rem;
@@ -129,11 +136,13 @@
     margin-bottom: 0.35rem;
 }
 
+/* Kolory wartości ułatwiają rozpoznanie dodatniego, ujemnego albo neutralnego wyniku. */
 .kpi-value.positive { color: var(--color-green); }
 .kpi-value.negative { color: #d45245; }
 .kpi-value.neutral { color: var(--color-cyan); }
 .kpi-sub { font-size: 0.78rem; color: var(--color-text-mutated); }
 
+/* Porównania okresów są wyświetlane jako kompaktowe etykiety statusu. */
 .comparison-badges {
     display: flex;
     flex-wrap: wrap;
@@ -171,6 +180,7 @@
     position: relative;
 }
 
+/* Wskaźnik tempa pokazuje bieżący trend w formie krótkiego paska postępu. */
 .pace-meter {
     height: 8px;
     margin-top: 16px;
@@ -192,6 +202,7 @@
 .pace-note.negative { color: #d45245; }
 .pace-note.neutral { color: var(--color-text-mutated); }
 
+/* Główna siatka raportu rozdziela wykresy, listy i kalendarz na dwie kolumny. */
 .summary-dashboard-grid {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
@@ -207,6 +218,7 @@
 }
 .summary-flex-column { gap: 1.5rem; }
 
+/* Karty raportu nadają wspólną ramę wykresom, listom i kalendarzowi. */
 .summary-report-card {
     background: rgba(255, 255, 255, 0.94);
     border-radius: 16px;
@@ -243,12 +255,14 @@
     flex-direction: column;
 }
 
+/* Obszar wykresu ma stabilną wysokość, aby biblioteka wykresów mogła poprawnie renderować canvas. */
 .chart-box {
     flex: 1 1 auto;
     min-height: 240px;
     position: relative;
 }
 
+/* Lista top kategorii wykorzystuje paski postępu do porównania udziału wydatków. */
 .top-list {
     display: flex;
     flex: 1 1 auto;
@@ -284,6 +298,7 @@
     border-radius: inherit;
 }
 
+/* Nagłówek kalendarza zawiera tytuł oraz przełącznik aktualnego miesiąca. */
 .calendar-card-header {
     display: flex;
     align-items: center;
@@ -331,6 +346,7 @@
     font-size: 13px;
 }
 
+/* Siatka kalendarza zachowuje stały układ siedmiu kolumn i sześciu wierszy. */
 .calendar-days {
     display: grid;
     flex: 1 1 auto;
@@ -340,6 +356,7 @@
     min-height: 0;
 }
 
+/* Komórka dnia pokazuje przychody, wydatki oraz stan wizualny zależny od bilansu. */
 .calendar-day {
     background: var(--color-surface-muted);
     border-radius: 8px;
@@ -375,6 +392,7 @@
 .calendar-day.no-expense { border-color: rgba(113, 128, 147, 0.16); }
 .calendar-day.future-day { opacity: 0.55; }
 
+/* Przycisk szybkiego dodawania pojawia się dopiero po najechaniu na dzień kalendarza. */
 .calendar-add-link {
     align-items: center;
     background: var(--color-blue);
@@ -402,6 +420,7 @@
     transform: scale(1);
 }
 
+/* Pływający formularz umożliwia dodanie transakcji bez opuszczania podsumowania. */
 .calendar-quick-add {
     background: #fff;
     border: 1px solid var(--color-line);
@@ -469,6 +488,7 @@
     margin-top: 2px;
 }
 
+/* Karta bilansu miesięcznego prezentuje dłuższy wykres zmian w czasie. */
 .monthly-balance-card { margin-top: 1.5rem; }
 .monthly-balance-header {
     align-items: flex-start;
@@ -500,6 +520,7 @@
     position: relative;
 }
 
+/* Układ tabletowy zwija raport do jednej kolumny i zwiększa wysokość głównych kart. */
 @media (max-width: 1024px) {
 
     .summary-dashboard-grid,
@@ -523,6 +544,7 @@
     }
 }
 
+/* Układ mobilny upraszcza formularze, kalendarz i nagłówki do pionowego przepływu. */
 @media (max-width: 640px) {
     .summary-main {
         padding: 2rem 1rem;

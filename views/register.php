@@ -1,17 +1,15 @@
 <?php
 /**
- * Widok: Rejestracja (Register)
+ * Widok: Rejestracja
  * 
- * Formularz tworzenia nowego konta użytkownika. Zbiera imię, nazwisko, 
- * adres e-mail i hasło. Wyświetla błędy walidacji
- * zajęty e-mail).
+ * Prezentuje formularz tworzenia konta użytkownika.
+ * Obsługuje komunikaty błędów walidacji przekazane przez RegisterController.
  */
 $pageStyles = ['styles/pages/register.css'];
 ?>
 <!DOCTYPE html>
 <html lang="pl">
 
-<!-- Head -->
 <?php include comp('head.php'); ?>
 
 <body>
@@ -22,10 +20,12 @@ $pageStyles = ['styles/pages/register.css'];
             <h2 class="auth-card-title">Dołącz do nas</h2>
             <p class="auth-card-copy">Zacznij mądrze planować wydatki</p>
 
+            <!-- Komunikat błędu przekazany przez RegisterController po nieudanej rejestracji. -->
             <?php if (isset($error)): ?>
                 <div class="error-message"><?= $error ?></div>
             <?php endif; ?>
 
+            <!-- Formularz tworzenia konta przesyłany do akcji RegisterController::register(). -->
             <form action="<?= url('register') ?>" method="POST" class="auth-form">
                 <div class="form-row">
                     <input type="text" name="first_name" placeholder="Imię" required class="auth-input" value="<?= htmlspecialchars($_POST['first_name'] ?? '') ?>">
@@ -36,6 +36,7 @@ $pageStyles = ['styles/pages/register.css'];
                 <button type="submit" class="btn-primary">Utwórz konto</button>
             </form>
 
+            <!-- Link kierujący istniejących użytkowników do formularza logowania. -->
             <div class="auth-footer">
                 Masz już konto? <a href="<?= url('login') ?>">Zaloguj się</a>
             </div>

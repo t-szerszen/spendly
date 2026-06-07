@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Model Settlement
+ *
+ * Odpowiada za wyliczanie sald członków wspólnego budżetu,
+ * proponowanie minimalnych spłat oraz księgowanie wykonanych rozliczeń w portfelach.
+ */
 class Settlement
 {
     private const CATEGORY_NAME = 'Rozliczenie wspolnego budzetu';
@@ -15,6 +21,7 @@ class Settlement
 
     public function getByMonth($sharedBudgetId, $periodMonth): array
     {
+        // Pobiera historię zaksięgowanych spłat dla wskazanego miesiąca.
         $stmt = $this->db->prepare(
             'SELECT s.*,
                     from_user.first_name AS from_first_name,
@@ -35,6 +42,7 @@ class Settlement
 
     public function getMonthlyBalance($sharedBudgetId, $year, $month): array
     {
+        // Łączy wydatki, udziały członków i wykonane spłaty w saldo netto każdej osoby.
         $total = $this->getSharedExpenseTotal($sharedBudgetId, $year, $month);
         $paidByUserId = $this->getPaidByUser($sharedBudgetId, $year, $month);
         $settlementTotals = $this->getPostedSettlementTotals($sharedBudgetId, sprintf('%04d-%02d', $year, $month));
@@ -50,7 +58,7 @@ class Settlement
             $receivedIn = (float) ($settlementTotals[$userId]['received_in'] ?? 0);
             $settlementAdjustment = (float) ($settlementAdjustments[$userId] ?? 0);
 
-            // Posted settlements reduce the remaining debt without changing the original expense totals.
+            // Zaksięgowane spłaty zmniejszają pozostały dług bez zmiany pierwotnych kosztów.
             $balance[] = [
                 'user_id' => $userId,
                 'name' => trim($member['first_name'] . ' ' . $member['last_name']),
@@ -68,6 +76,7 @@ class Settlement
 
     public function getSuggestedTransfers($sharedBudgetId, $year, $month): array
     {
+        // Buduje minimalną listę przelewów między dłużnikami i wierzycielami.
         $balances = $this->getMonthlyBalance($sharedBudgetId, $year, $month);
         $debtors = [];
         $creditors = [];
@@ -124,6 +133,7 @@ class Settlement
 
     public function findSuggestedTransfer($sharedBudgetId, $year, $month, $fromUserId, $toUserId): ?array
     {
+        // Weryfikuje pojedynczą spłatę względem aktualnych sugestii rozliczenia.
         foreach ($this->getSuggestedTransfers($sharedBudgetId, $year, $month) as $transfer) {
             if ((int) $transfer['from_user_id'] === $fromUserId && (int) $transfer['to_user_id'] === $toUserId) {
                 return $transfer;
@@ -135,6 +145,7 @@ class Settlement
 
     public function post(array $data): int
     {
+        // Księgowanie spłaty tworzy rekord settlement oraz dwie odpowiadające mu transakcje portfelowe.
         $this->db->beginTransaction();
 
         try {
@@ -157,7 +168,7 @@ class Settlement
             $settlementId = (int) $this->db->lastInsertId();
             $description = 'Rozliczenie ' . $data['period_month'] . ' ' . $data['counterparty_name'];
 
-            // A settlement is financial only when both wallet entries are created with the settlement row.
+            // Rozliczenie jest kompletne dopiero po utworzeniu wpisu wychodzącego i przychodzącego.
             $this->insertSettlementTransaction([
                 'user_id' => $data['from_user_id'],
                 'shared_budget_id' => $data['shared_budget_id'],
@@ -198,6 +209,7 @@ class Settlement
 
     private function getSharedExpenseTotal($sharedBudgetId, $year, $month): float
     {
+        // Suma obejmuje wyłącznie standardowe wydatki wspólnego budżetu.
         $stmt = $this->db->prepare(
             'SELECT COALESCE(SUM(amount), 0)
              FROM transactions
@@ -214,6 +226,7 @@ class Settlement
 
     private function getPaidByUser($sharedBudgetId, $year, $month): array
     {
+        // Agreguje kwoty faktycznie opłacone przez poszczególnych członków.
         $stmt = $this->db->prepare(
             'SELECT user_id, COALESCE(SUM(amount), 0) AS paid
              FROM transactions
@@ -236,6 +249,7 @@ class Settlement
 
     private function getPostedSettlementAdjustments($sharedBudgetId, $periodMonth): array
     {
+        // Korekty salda wynikają z już zaksięgowanych spłat w danym miesiącu.
         $adjustments = [];
 
         foreach ($this->getByMonth($sharedBudgetId, $periodMonth) as $settlement) {
@@ -256,6 +270,7 @@ class Settlement
 
     private function getPostedSettlementTotals($sharedBudgetId, $periodMonth): array
     {
+        // Sumy rozliczeń są prezentowane osobno jako przelewy wychodzące i otrzymane.
         $totals = [];
 
         foreach ($this->getByMonth($sharedBudgetId, $periodMonth) as $settlement) {
@@ -290,6 +305,7 @@ class Settlement
 
     private function getSettlementCategoryId(): int
     {
+        // Systemowa kategoria rozliczeń jest tworzona automatycznie przy pierwszym użyciu.
         $stmt = $this->db->prepare('SELECT id FROM categories WHERE name = ? LIMIT 1');
         $stmt->execute([self::CATEGORY_NAME]);
         $categoryId = $stmt->fetchColumn();
@@ -306,6 +322,7 @@ class Settlement
 
     private function insertSettlementTransaction(array $data): void
     {
+        // Techniczny wpis portfelowy powiązany z zaksięgowaną spłatą.
         $stmt = $this->db->prepare(
             'INSERT INTO transactions
                 (user_id, shared_budget_id, related_user_id, settlement_id, category_id, amount, type, entry_kind, description, date)

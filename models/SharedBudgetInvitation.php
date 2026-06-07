@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Model SharedBudgetInvitation
+ *
+ * Obsługuje zaproszenia email do wspólnych budżetów:
+ * tworzenie tokenów, weryfikację statusu oraz czyszczenie nieaktywnych rekordów.
+ */
 class SharedBudgetInvitation
 {
     private $db;
@@ -11,6 +17,7 @@ class SharedBudgetInvitation
 
     public function create($data)
     {
+        // Przed utworzeniem nowego zaproszenia usuwane są rekordy zaakceptowane i wygasłe.
         $this->deleteAcceptedAndExpired();
 
         $stmt = $this->db->prepare(
@@ -32,6 +39,7 @@ class SharedBudgetInvitation
 
     public function findByToken($token)
     {
+        // Token jest głównym identyfikatorem procesu akceptacji zaproszenia.
         $stmt = $this->db->prepare(
             'SELECT *
              FROM shared_budget_invitations
@@ -77,6 +85,7 @@ class SharedBudgetInvitation
 
     public function emailAlreadyInvited($sharedBudgetId, $email)
     {
+        // Blokuje wysłanie drugiego aktywnego zaproszenia na ten sam adres.
         $stmt = $this->db->prepare(
             'SELECT 1
              FROM shared_budget_invitations
@@ -93,6 +102,7 @@ class SharedBudgetInvitation
 
     public function showInvitedToSharedBudget($sharedBudgetId)
     {
+        // Zwraca aktywne zaproszenia widoczne w panelu zarządzania członkami.
         $this->deleteAcceptedAndExpired();
 
         $stmt = $this->db->prepare(
@@ -131,6 +141,7 @@ class SharedBudgetInvitation
 
     private function deleteAcceptedAndExpired(): void
     {
+        // Utrzymuje listę zaproszeń w stanie obejmującym tylko rekordy wymagające obsługi.
         $stmt = $this->db->prepare(
             'DELETE FROM shared_budget_invitations
              WHERE status = "accepted"

@@ -2,8 +2,9 @@
 /**
  * Widok: Portfel
  *
- * Tutaj jest pełna praca z miesiącem: wybór okresu, quick add,
- * podsumowanie i lista transakcji z wybranego miesiąca.
+ * Prezentuje miesięczny widok portfela użytkownika.
+ * Zawiera wybór okresu, statystyki miesiąca, formularz szybkiego dodawania
+ * oraz listę transakcji z możliwością usunięcia wpisu.
  */
 
 $totalExpense = $data['stats']['totalExpense'];
@@ -39,6 +40,7 @@ $pageStyles = ['styles/pages/wallet.css'];
                 </form>
             </section>
 
+            <!-- Podstawowe statystyki finansowe dla wybranego miesiąca. -->
             <div class="stats-grid">
                 <div class="auth-card stat-card stat-balance">
                     <h4>Bilans miesiąca</h4>
@@ -62,6 +64,7 @@ $pageStyles = ['styles/pages/wallet.css'];
                 <p>Twój udział we wspólnych kosztach dla wybranego miesiąca.</p>
             </div>
 
+            <!-- Komunikaty zwrotne po dodaniu transakcji z formularza szybkiego dodawania. -->
             <?php if (!empty($_GET['transaction']) && $_GET['transaction'] === 'invalid'): ?>
                 <div class="form-error">Nie udało się dodać transakcji. Sprawdź kwotę, datę, kategorię i typ wpisu.</div>
             <?php elseif (!empty($_GET['transaction']) && $_GET['transaction'] === 'forbidden-budget'): ?>
@@ -70,6 +73,7 @@ $pageStyles = ['styles/pages/wallet.css'];
                 <div class="form-success">Transakcja została dodana.</div>
             <?php endif; ?>
 
+            <!-- Współdzielony formularz dodawania transakcji prywatnych, wspólnych i cyklicznych. -->
             <?php include comp('quickAdd.php'); ?>
 
             <div class="auth-card app-card recent-transactions-card">
@@ -82,6 +86,7 @@ $pageStyles = ['styles/pages/wallet.css'];
                 </div>
 
                 <?php if (!empty($data['transactions'])): ?>
+                    <!-- Lista obejmuje transakcje prywatne oraz wpisy przypisane do wspólnych budżetów. -->
                     <table class="recent-transactions-table">
                         <thead>
                             <tr>

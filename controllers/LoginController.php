@@ -4,10 +4,9 @@
 /**
  * Klasa LoginController
  * 
- * Zarządza procesem uwierzytelniania użytkowników. Wyświetla formularz logowania,
- * weryfikuje poprawność wprowadzonych danych (email i hasło weryfikowane
- * funkcją password_verify), a po udanym logowaniu inicjuje sesję i przekierowuje
- * na panel główny.
+ * Odpowiada za obsługę procesu logowania użytkownika.
+ * Wyświetla formularz uwierzytelniania, przekazuje dane do AuthService
+ * oraz kieruje zalogowanego użytkownika do panelu głównego lub zaproszenia budżetowego.
  */
 class LoginController
 {
@@ -20,6 +19,7 @@ class LoginController
 
     public function show()
     {
+        // Zalogowany użytkownik nie powinien ponownie widzieć formularza logowania.
         if ($this->authService->isLoggedIn()) {
             header('Location: ' . url('dashboard'));
             exit;
@@ -31,6 +31,7 @@ class LoginController
 
     public function login()
     {
+        // Obsługuje wyłącznie dane przesłane metodą POST z formularza logowania.
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email = trim((string) ($_POST['email'] ?? ''));
             $password = (string) ($_POST['password'] ?? '');
@@ -39,6 +40,7 @@ class LoginController
 
             if ($result['success']) {
                 if (!empty($_SESSION['pending_shared_budget_invite_token'])) {
+                    // Po logowaniu użytkownik wraca do oczekującego zaproszenia do wspólnego budżetu.
                     $token = $_SESSION['pending_shared_budget_invite_token'];
                     header('Location: ' . url('shared_budgets/accept?token=' . urlencode($token)));
                     exit;

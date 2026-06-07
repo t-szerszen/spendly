@@ -4,10 +4,9 @@
 /**
  * Klasa TransactionsController
  * 
- * Obsługuje operacje związane z transakcjami zalogowanego użytkownika.
- * Umożliwia wyświetlanie pełnej historii transakcji, dodawanie nowych
- * rekordów (przychodów i wydatków) oraz usuwanie istniejących transakcji.
- * Chroni akcje przed dostępem niezalogowanych osób.
+ * Odpowiada za historię transakcji oraz zapis operacji finansowych użytkownika.
+ * Obsługuje transakcje jednorazowe, definicje płatności cyklicznych,
+ * usuwanie wpisów oraz przekierowania do widoków, z których wykonano akcję.
  */
 class TransactionsController
 {
@@ -26,12 +25,14 @@ class TransactionsController
 
     public function show()
     {
+        // Widok historii jest dostępny wyłącznie dla zalogowanego użytkownika.
         if (!$this->authService->isLoggedIn()) {
             header('Location: ' . url('login'));
             exit;
         }
 
         $userId = $_SESSION['user_id'];
+        // Przed pobraniem historii generowane są zaległe wpisy z płatności cyklicznych.
         $this->recurringTransactionModel->generateDueForUser($userId, $this->transactionModel);
         $transactions = $this->transactionModel->getAllByUser($userId);
         $recurringTransactions = $this->recurringTransactionModel->getAllByUser($userId);
@@ -46,6 +47,7 @@ class TransactionsController
 
     public function store()
     {
+        // Wspólna akcja zapisu dla formularzy dodawania transakcji w dashboardzie i portfelu.
         if (!$this->authService->isLoggedIn()) {
             header('Location: ' . url('login'));
             exit;
@@ -59,15 +61,18 @@ class TransactionsController
             $month = $this->getFormattedMonth($date);
             $_SESSION['last_added_date'] = $date;
 
+            // Walidacja chroni przed niepoprawnym typem, kwotą, datą i trybem transakcji.
             if (!$this->isValidTransactionPayload($_POST, $sharedBudgetId, $transactionMode)) {
                 $this->redirectAfterStore($_POST['redirect_to'] ?? 'dashboard', $month, 'invalid');
             }
 
+            // Wspólny budżet można przypisać tylko wtedy, gdy użytkownik ma do niego dostęp.
             if ($sharedBudgetId !== null && !$this->sharedBudgetModel->userHasAccess($sharedBudgetId, (int) $_SESSION['user_id'])) {
                 $this->redirectAfterStore($_POST['redirect_to'] ?? 'dashboard', $month, 'forbidden-budget');
             }
 
             if ($transactionMode === 'recurring') {
+                // Tryb cykliczny zapisuje definicję i od razu generuje należne wpisy.
                 $this->recurringTransactionModel->add([
                     'user_id' => $_SESSION['user_id'],
                     'start_date' => $date,
@@ -82,6 +87,7 @@ class TransactionsController
                 $this->recurringTransactionModel->generateDueForUser((int) $_SESSION['user_id'], $this->transactionModel);
                 $this->redirectAfterStore($_POST['redirect_to'] ?? 'dashboard', $month, 'recurring-added');
             } else {
+                // Tryb pojedynczy zapisuje standardową transakcję portfelową.
                 $this->transactionModel->add([
                     'user_id' => $_SESSION['user_id'],
                     'date' => $date,
@@ -100,6 +106,7 @@ class TransactionsController
 
     public function destroyRecurring()
     {
+        // Usuwa definicję płatności cyklicznej należącą do użytkownika.
         if (!$this->authService->isLoggedIn()) {
             header('Location: ' . url('login'));
             exit;
@@ -118,6 +125,7 @@ class TransactionsController
 
     public function destroy()
     {
+        // Usuwa pojedynczą transakcję i wraca do kontekstu, z którego wywołano akcję.
         if (!$this->authService->isLoggedIn()) {
             header('Location: ' . url('login'));
             exit;
@@ -149,6 +157,7 @@ class TransactionsController
 
     private function getFormattedMonth($date)
     {
+        // Zamienia datę transakcji na format YYYY-MM używany przy powrocie do portfela.
         $month = (new DateTimeImmutable('first day of this month'))->format('Y-m');
 
         if (!$date) {
@@ -165,6 +174,7 @@ class TransactionsController
 
     private function resolveSharedBudgetId($rawSharedBudgetId): ?int
     {
+        // Pusta wartość lub "private" oznacza transakcję prywatną bez wspólnego budżetu.
         if ($rawSharedBudgetId === null || $rawSharedBudgetId === '' || $rawSharedBudgetId === 'private') {
             return null;
         }
@@ -176,6 +186,7 @@ class TransactionsController
 
     private function isValidTransactionPayload(array $payload, ?int $sharedBudgetId, string $transactionMode = 'single'): bool
     {
+        // Centralna walidacja danych formularza dodawania transakcji.
         $date = $payload['date'] ?? '';
         $type = $payload['type'] ?? '';
         $categoryId = (int) ($payload['category_id'] ?? 0);
@@ -222,6 +233,7 @@ class TransactionsController
 
     private function redirectAfterStore(string $redirectTo, string $month, string $status): void
     {
+        // Formularz może wracać do portfela lub dashboardu z odpowiednim statusem operacji.
         if ($redirectTo === 'wallet') {
             header('Location: ' . url('wallet?month=' . urlencode($month) . '&transaction=' . urlencode($status)));
             exit;
@@ -233,6 +245,7 @@ class TransactionsController
 
     private function isValidDate(string $date): bool
     {
+        // Waliduje ścisły format daty YYYY-MM-DD bez automatycznej korekty niepoprawnych wartości.
         $parsedDate = DateTimeImmutable::createFromFormat('!Y-m-d', $date);
         $errors = DateTimeImmutable::getLastErrors();
 

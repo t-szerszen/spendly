@@ -34,6 +34,7 @@
                 </form>
             </div>
 
+            <!-- Główne wskaźniki finansowe przygotowane przez SummaryController. -->
             <div class="kpi-grid">
                 <div class="kpi-card">
                     <h3>Przychody (Incomes)</h3>
@@ -71,6 +72,7 @@
                 </div>
             </div>
 
+            <!-- Wskaźniki uzupełniające: tempo wydatków, prognoza oraz bilans dzienny. -->
             <div class="insight-grid">
                 <div class="kpi-card insight-card">
                     <h3>Tempo wydawania</h3>
@@ -168,6 +170,7 @@
         </div>
     </main>
 
+    <!-- Formularz szybkiego dodawania transakcji inicjowany z poziomu kalendarza. -->
     <div class="calendar-quick-add" id="calendarQuickAdd" hidden>
         <div class="summary-quick-add-header">
             <strong>Dodaj transakcję</strong>
@@ -209,6 +212,7 @@
         </form>
     </div>
 
+    <!-- Kontener danych JSON przekazywanych z PHP do warstwy JavaScript. -->
     <div
         id="summary-data"
         hidden

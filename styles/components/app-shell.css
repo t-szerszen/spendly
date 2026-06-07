@@ -1,15 +1,18 @@
 .app-section {
+    /* Główna przestrzeń robocza widoków aplikacji po zalogowaniu. */
     align-items: flex-start;
     padding-top: 3rem;
 }
 
 .app-container {
+    /* Wspólny kontener ograniczający szerokość dashboardu, portfela i modułów aplikacji. */
     max-width: 1200px;
     margin: 0 auto;
     width: 100%;
 }
 
 .app-hero {
+    /* Panel nagłówkowy z tytułem widoku i akcjami kontekstowymi. */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -23,6 +26,7 @@
 }
 
 .app-eyebrow {
+    /* Mała etykieta kontekstowa nad tytułem sekcji. */
     margin: 0 0 0.75rem;
     color: var(--color-green);
     font-size: 0.8rem;
@@ -53,6 +57,7 @@
 }
 
 .stats-grid {
+    /* Siatka podstawowych kafelków finansowych. */
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
@@ -90,6 +95,7 @@
 }
 
 .app-card {
+    /* Uniwersalna karta treści w widokach aplikacyjnych. */
     max-width: 100%;
     text-align: left;
 }
@@ -104,6 +110,7 @@
 }
 
 .app-card-header {
+    /* Nagłówek karty z tekstem po lewej i akcją po prawej. */
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
@@ -121,6 +128,7 @@
 }
 
 .app-text-link {
+    /* Tekstowy link akcji w kartach i nagłówkach aplikacji. */
     color: var(--color-green);
     font-weight: 800;
     text-decoration: none;
@@ -141,16 +149,19 @@
 }
 
 .text-positive {
+    /* Oznaczenie wartości korzystnej lub dodatniej. */
     color: var(--color-green);
     font-weight: 700;
 }
 
 .text-negative {
+    /* Oznaczenie wartości niekorzystnej lub ujemnej. */
     color: #d45245;
     font-weight: 700;
 }
 
 @media (max-width: 980px) {
+    /* Na mniejszych ekranach nagłówki i statystyki przechodzą do jednej kolumny. */
     .app-hero,
     .app-card-header {
         flex-direction: column;
@@ -162,6 +173,7 @@
 }
 
 @media (max-width: 640px) {
+    /* Kompaktowe odstępy i układ akcji dla widoku mobilnego. */
     .app-section {
         padding-top: 2rem;
     }

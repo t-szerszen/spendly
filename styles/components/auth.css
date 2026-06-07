@@ -1,4 +1,5 @@
 .auth-section {
+    /* Centralna przestrzeń formularzy logowania i rejestracji. */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -7,6 +8,7 @@
 }
 
 .auth-card {
+    /* Karta formularza uwierzytelniania. */
     background: var(--color-surface);
     border: 1px solid var(--color-line);
     padding: 3.5rem 2.5rem;
@@ -19,6 +21,7 @@
 }
 
 .auth-card-title {
+    /* Nagłówek karty auth z brandowym gradientem tekstu. */
     font-size: 2.5rem;
     font-weight: 800;
     margin-bottom: 1rem;
@@ -36,18 +39,21 @@
 }
 
 .auth-form {
+    /* Pionowy układ pól formularzy logowania, rejestracji i prostych akcji. */
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
 }
 
 .form-row {
+    /* Dwukolumnowy układ pól używany w formularzu rejestracji. */
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
 }
 
 .auth-input {
+    /* Wspólny styl pól tekstowych, dat i selectów w formularzach. */
     width: 100%;
     padding: 1rem 1.25rem;
     border-radius: 10px;
@@ -68,6 +74,7 @@
 
 .form-error,
 .error-message {
+    /* Komunikaty błędów formularzy i akcji użytkownika. */
     background: rgba(214, 48, 49, 0.1);
     color: #d63031;
     padding: 1rem;
@@ -80,6 +87,7 @@
 
 .form-success,
 .register-success {
+    /* Komunikaty pozytywnego zakończenia operacji. */
     background: rgba(74, 180, 75, 0.1);
     color: var(--color-green);
     padding: 1rem;
@@ -90,6 +98,7 @@
 }
 
 .auth-footer {
+    /* Dolna sekcja formularzy z przejściem między logowaniem i rejestracją. */
     margin-top: 2rem;
     padding-top: 2rem;
     border-top: 1px solid var(--glass-border);
@@ -110,6 +119,7 @@
 }
 
 @media (max-width: 480px) {
+    /* Formularze auth przechodzą do jednej kolumny na wąskich ekranach. */
     .form-row {
         grid-template-columns: 1fr;
     }

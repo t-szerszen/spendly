@@ -1,10 +1,10 @@
 <?php
 /**
- * Komponent: Nawigacja Panelu Głównego (Zalogowany)
+ * Komponent: Nawigacja panelu użytkownika
  * 
- * Górny pasek nawigacyjny wyświetlany w widokach, które wymagają zalogowania
- * (jak Dashboard, Transakcje). Wyświetla powitanie, odnośniki do głównych sekcji
- * zarządzania budżetem oraz przycisk wylogowania.
+ * Renderuje górny pasek nawigacyjny dla widoków wymagających zalogowania.
+ * Zawiera odnośniki do głównych modułów aplikacji, informację o aktywnym użytkowniku
+ * oraz link uruchamiający proces wylogowania.
  */
 ?>
 <header>
@@ -22,6 +22,7 @@
                 <span class="user-info-text">
                     Zalogowano jako: <strong class="user-info-name"><?= $_SESSION['first_name'] ?></strong>
                 </span>
+                <!-- Link kieruje do LogoutController, który kończy sesję użytkownika. -->
                 <a href="<?= url('logout') ?>" class="btn-secondary btn-logout">Wyloguj</a>
             </div>
         </nav>

@@ -1,4 +1,11 @@
 <?php
+/**
+ * Email: Zaproszenie do wspólnego budżetu
+ *
+ * Szablon wiadomości wysyłanej do osoby zapraszanej do budżetu.
+ * Zawiera nazwę budżetu, osobę zapraszającą oraz unikalny link akceptacyjny.
+ */
+
 $sharedBudgetName = $data['sharedBudgetName'];
 $inviterName = $data['inviterName'];
 $inviteUrl = $data['inviteUrl'];

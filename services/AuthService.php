@@ -4,8 +4,9 @@
 /**
  * Klasa AuthService
  * 
- * Odpowiada za logikę biznesową związaną z autoryzacją i uwierzytelnianiem.
- * Stanowi łącznik między kontrolerami a modelem User.
+ * Odpowiada za logikę uwierzytelniania i obsługę sesji użytkownika.
+ * Pośredniczy między kontrolerami a modelem User w procesach rejestracji,
+ * logowania, wylogowania oraz sprawdzania statusu sesji.
  */
 class AuthService
 {
@@ -22,7 +23,7 @@ class AuthService
     }
 
     /**
-     * Rejestruje nowego użytkownika.
+     * Rejestruje nowego użytkownika po sprawdzeniu unikalności adresu e-mail.
      */
     public function register($data)
     {
@@ -33,12 +34,12 @@ class AuthService
             return ['success' => false, 'error' => $validationError];
         }
 
-        // Sprawdzenie czy email już istnieje
+        // Adres e-mail jest identyfikatorem logowania, dlatego musi być unikalny.
         if ($this->userModel->findByEmail($normalizedData['email'])) {
             return ['success' => false, 'error' => 'Ten email jest już zajęty.'];
         }
 
-        // Hashowanie hasła
+        // Hasło jest zapisywane wyłącznie w postaci skrótu BCRYPT.
         $normalizedData['password'] = password_hash($normalizedData['password'], PASSWORD_BCRYPT);
 
         $result = $this->userModel->create($normalizedData);
@@ -51,7 +52,7 @@ class AuthService
     }
 
     /**
-     * Loguje użytkownika.
+     * Weryfikuje poświadczenia i zapisuje podstawowe dane użytkownika w sesji.
      */
     public function login($email, $password)
     {
@@ -89,17 +90,18 @@ class AuthService
     }
 
     /**
-     * Wylogowuje użytkownika.
+     * Czyści dane sesji i kończy aktywne uwierzytelnienie użytkownika.
      */
     public function logout()
     {
+        // session_start() jest wymagane, aby można było bezpiecznie usunąć dane sesyjne.
         if (session_status() === PHP_SESSION_NONE) session_start();
         session_unset();
         session_destroy();
     }
 
     /**
-     * Sprawdza czy użytkownik jest zalogowany.
+     * Sprawdza, czy w sesji istnieje identyfikator zalogowanego użytkownika.
      */
     public function isLoggedIn()
     {

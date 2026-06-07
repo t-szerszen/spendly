@@ -1,9 +1,9 @@
 <?php
 /**
- * Widok: Kontakt (Contact)
+ * Widok: Kontakt
  * 
- * Strona kontaktowa wyświetlająca informacje o tym, jak skontaktować się z 
- * zespołem Spendly (e-mail, Discord, lokalizacja).
+ * Prezentuje publiczną stronę kontaktową z kanałami komunikacji,
+ * społecznością oraz informacją o trybie pracy zespołu.
  */
 $title = $data['title'] ?? 'Kontakt - Spendly';
 $pageStyles = ['styles/pages/contact.css'];
@@ -11,23 +11,22 @@ $pageStyles = ['styles/pages/contact.css'];
 <!DOCTYPE html>
 <html lang="pl">
 
-<!-- Head -->
 <?php include comp('head.php'); ?>
 
 <body>
 
-    <!-- Nawigacja -->
     <?php include comp('nav.php'); ?>
 
-    <!-- Sekcja Kontakt -->
+    <!-- Główna sekcja kontaktowa z kartami kanałów komunikacji. -->
     <main class="contact-section">
+        <!-- Nagłówek strony z krótkim wprowadzeniem dla użytkownika. -->
         <div class="contact-header">
             <h1>Skontaktuj się z nami</h1>
             <p>Masz pytania, propozycje współpracy a może znalazłeś błąd? Jesteśmy do Twojej dyspozycji.</p>
         </div>
 
         <div class="contact-grid">
-            <!-- Karta Email -->
+            <!-- Karta kontaktu mailowego. -->
             <div class="contact-card">
                 <div class="contact-icon">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

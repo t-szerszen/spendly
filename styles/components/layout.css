@@ -1,4 +1,5 @@
 header {
+    /* Stały górny pasek nawigacyjny współdzielony przez widoki publiczne i zalogowane. */
     position: sticky;
     top: 0;
     z-index: 50;
@@ -9,6 +10,7 @@ header {
 }
 
 .nav-container {
+    /* Kontener ograniczający szerokość nawigacji i układający logo obok linków. */
     max-width: 1200px;
     margin: 0 auto;
     padding: 0.65rem 2rem;
@@ -23,6 +25,7 @@ header {
 }
 
 .nav-links {
+    /* Lista linków nawigacyjnych z możliwością zawijania na mniejszych ekranach. */
     display: flex;
     gap: 1rem;
     align-items: center;
@@ -43,7 +46,18 @@ header {
     color: var(--color-blue);
 }
 
+.nav-links a.btn-primary {
+    /* Wariant przycisku w navbarze zachowuje biały tekst mimo reguł zwykłych linków. */
+    color: #fff;
+}
+
+.nav-links a.btn-primary:hover {
+    background: var(--gradient-brand);
+    color: #fff;
+}
+
 .site-footer {
+    /* Stopka strony umieszczana na dole układu. */
     text-align: center;
     padding: 2rem;
     color: var(--color-text-mutated);
@@ -52,6 +66,7 @@ header {
 }
 
 .user-info {
+    /* Sekcja informacji o aktywnym użytkowniku i akcji wylogowania. */
     display: flex;
     align-items: center;
     gap: 1.5rem;
@@ -73,6 +88,7 @@ header {
 }
 
 @media (max-width: 980px) {
+    /* Nawigacja przechodzi do układu pionowego na tabletach i mniejszych ekranach. */
     .nav-container {
         align-items: flex-start;
         flex-direction: column;

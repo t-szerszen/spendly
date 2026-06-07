@@ -4,9 +4,9 @@
 /**
  * Klasa DashboardController
  * 
- * Odpowiada za wyświetlanie panelu głównego dla zalogowanego użytkownika.
- * Dashboard jest szybkim startem: pokazuje aktualny miesiąc, quick add,
- * skróty do głównych modułów oraz kilka ostatnich transakcji.
+ * Odpowiada za przygotowanie panelu głównego dla zalogowanego użytkownika.
+ * Łączy podstawowe statystyki bieżącego miesiąca, ostatnie transakcje,
+ * dane formularza szybkiego dodawania oraz skróty do najważniejszych modułów aplikacji.
  */
 class DashboardController
 {
@@ -27,17 +27,21 @@ class DashboardController
 
     public function show()
     {
+        // Zabezpiecza panel główny przed dostępem niezalogowanych użytkowników.
         if (!$this->authService->isLoggedIn()) {
             header('Location: ' . url('login'));
             exit;
         }
 
         $userId = $_SESSION['user_id'];
+
+        // Przed wyświetleniem panelu generowane są zaległe transakcje cykliczne użytkownika.
         $this->recurringTransactionModel->generateDueForUser($userId, $this->transactionModel);
 
         $selectedDate = new DateTimeImmutable('first day of this month');
         $month = $selectedDate->format('Y-m');
 
+        // Dane zbierane dla kafelków statystycznych, formularza szybkiego dodawania i listy ostatnich operacji.
         $categories = $this->categoryModel->getCategories();
         $recentTransactions = $this->transactionModel->getRecent($userId, 5);
         $monthTransactions = $this->transactionModel->getByMonth($userId, $month);
@@ -51,6 +55,7 @@ class DashboardController
         );
         $sharedBudgets = $this->sharedBudgetModel->findByUser($userId);
 
+        // Struktura przekazywana do widoku dashboard.php i komponentu quickAdd.php.
         $data = [
             'title' => 'Dashboard',
             'categories' => $categories,

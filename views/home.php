@@ -1,9 +1,9 @@
 <?php
 /**
- * Widok: Strona Główna (Home)
+ * Widok: Strona główna
  * 
- * Odpowiada za prezentację publicznej strony głównej (landing page) aplikacji Spendly.
- * Zawiera sekcję Hero, listę kluczowych funkcjonalności oraz odnośniki do logowania/rejestracji.
+ * Prezentuje publiczną stronę startową aplikacji Spendly.
+ * Zawiera sekcję powitalną, główne akcje rejestracji i informacji oraz slider funkcjonalności.
  */
 $title = $data['title'] ?? 'Spendly - Mądrze zarządzaj swoimi finansami';
 $pageStyles = ['styles/pages/home.css'];
@@ -11,15 +11,13 @@ $pageStyles = ['styles/pages/home.css'];
 <!DOCTYPE html>
 <html lang="pl">
 
-<!-- Head -->
 <?php include comp('head.php'); ?>
 
 <body>
 
-    <!-- Nawigacja -->
     <?php include comp('nav.php'); ?>
 
-    <!-- Sekcja Hero -->
+    <!-- Sekcja powitalna z głównym komunikatem i akcjami publicznymi. -->
     <section class="hero">
         <span class="hero-eyebrow">Finanse osobiste i wspólne rozliczenia</span>
         <h1>Odzyskaj kontrolę nad wydatkami</h1>
@@ -44,7 +42,7 @@ $pageStyles = ['styles/pages/home.css'];
         </div>
     </section>
 
-    <!-- Sekcja Funkcjonalności / O projekcie -->
+    <!-- Slider prezentujący najważniejsze funkcjonalności aplikacji. -->
     <section class="features slider-section">
         <h2 class="section-title">Dlaczego Spendly?</h2>
         <div class="slider">

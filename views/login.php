@@ -1,17 +1,15 @@
 <?php
 /**
- * Widok: Logowanie (Login)
+ * Widok: Logowanie
  * 
- * Wyświetla formularz logowania dla użytkowników (email i hasło).
- * Odbiera błędy z kontrolera w przypadku niepowodzenia (zmienna $error) 
- * i komunikaty po udanej rejestracji.
+ * Prezentuje formularz uwierzytelniania użytkownika.
+ * Obsługuje komunikat po udanej rejestracji oraz błąd logowania przekazany z kontrolera.
  */
 $pageStyles = ['styles/pages/login.css'];
 ?>
 <!DOCTYPE html>
 <html lang="pl">
 
-<!-- Head -->
 <?php include comp('head.php'); ?>
 
 <body>
@@ -26,16 +24,19 @@ $pageStyles = ['styles/pages/login.css'];
                     Konto zostało utworzone! Możesz się teraz zalogować.
                 </div>
             <?php endif; ?>
+            <!-- Komunikat błędu przekazany przez LoginController po nieudanej próbie logowania. -->
             <?php if (isset($error)): ?>
                 <div class="error-message"><?= $error ?></div>
             <?php endif; ?>
 
+            <!-- Formularz przesyła dane logowania do akcji LoginController::login(). -->
             <form action="<?= url('login') ?>" method="POST" class="auth-form">
                 <input type="email" name="email" placeholder="Adres e-mail" required class="auth-input" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
                 <input type="password" name="password" placeholder="Hasło" required class="auth-input">
                 <button type="submit" class="btn-primary">Zaloguj się</button>
             </form>
 
+            <!-- Link kierujący nowych użytkowników do procesu rejestracji. -->
             <div class="auth-footer">
                 Nie masz konta? <a href="<?= url('register') ?>">Załóż je teraz</a>
             </div>

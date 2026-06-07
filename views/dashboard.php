@@ -2,8 +2,8 @@
 /**
  * Widok: Panel główny
  *
- * Dashboard jest szybkim startem aplikacji. Pokazuje aktualny miesiąc,
- * szybkie dodawanie, skróty do modułów i ostatnie transakcje.
+ * Prezentuje podsumowanie bieżącego miesiąca, formularz szybkiego dodawania,
+ * skróty do głównych modułów aplikacji oraz podgląd ostatnich transakcji.
  */
 
 $totalExpense = $data['stats']['totalExpense'];
@@ -36,6 +36,7 @@ $pageStyles = ['styles/pages/dashboard.css'];
                 </div>
             </section>
 
+            <!-- Podstawowe statystyki finansowe dla bieżącego miesiąca. -->
             <div class="stats-grid">
                 <div class="auth-card stat-card stat-balance">
                     <h4>Bilans miesiąca</h4>
@@ -56,6 +57,7 @@ $pageStyles = ['styles/pages/dashboard.css'];
                 </div>
             </div>
 
+            <!-- Komunikaty zwrotne po próbie dodania transakcji z formularza szybkiego dodawania. -->
             <?php if (!empty($_GET['transaction']) && $_GET['transaction'] === 'invalid'): ?>
                 <div class="form-error">Nie udało się dodać transakcji. Wspólny budżet można przypisać tylko do wydatku.</div>
             <?php elseif (!empty($_GET['transaction']) && $_GET['transaction'] === 'forbidden-budget'): ?>
@@ -64,6 +66,7 @@ $pageStyles = ['styles/pages/dashboard.css'];
                 <div class="form-success">Transakcja została dodana.</div>
             <?php endif; ?>
 
+            <!-- Krótki opis przepływu pracy między portfelem i modułem wspólnych budżetów. -->
             <section class="dashboard-flow">
                 <div>
                     <span>1</span>
@@ -82,8 +85,10 @@ $pageStyles = ['styles/pages/dashboard.css'];
                 </div>
             </section>
 
+            <!-- Współdzielony komponent formularza szybkiego dodawania transakcji. -->
             <?php include comp('quickAdd.php'); ?>
 
+            <!-- Skróty do najczęściej używanych modułów aplikacji. -->
             <section class="dashboard-shortcuts">
                 <div class="app-section-heading">
                     <p class="app-eyebrow">Nawigacja</p>
@@ -117,6 +122,7 @@ $pageStyles = ['styles/pages/dashboard.css'];
                 </div>
             </section>
 
+            <!-- Uzupełniające informacje o aktywności użytkownika w bieżącym miesiącu. -->
             <div class="dashboard-info-grid">
                 <div class="auth-card app-card app-info-card">
                     <h3>Transakcje w tym miesiącu</h3>

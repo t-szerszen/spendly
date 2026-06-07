@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const dataContainerEl = document.getElementById('summary-data');
     let dataContainer = {};
 
+    // Odczyt danych wygenerowanych w PHP; window.dashboardData pozostaje zgodnością wsteczną.
     if (dataContainerEl && dataContainerEl.dataset.dashboard) {
         try {
             dataContainer = JSON.parse(dataContainerEl.dataset.dashboard);
@@ -21,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
     dataContainer.dailyBalanceData = Array.isArray(dataContainer.dailyBalanceData) ? dataContainer.dailyBalanceData : [];
     dataContainer.monthlyBalanceTotals = dataContainer.monthlyBalanceTotals || {};
 
-    // --- Selektory DOM ---
+    // --- Referencje DOM używane przez moduł raportów ---
     const elements = {
         startDate: document.getElementById('startDateInput'),
         endDate: document.getElementById('endDateInput'),
@@ -41,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const today = new Date(dataContainer.today);
     const monthNames = ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'];
 
-    // --- Helpery do Formatowania i Dat ---
+    // --- Funkcje pomocnicze do obsługi dat i wartości pieniężnych ---
     const formatDateString = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
     const formatMonthKey = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
     const clampToToday = d => d > today ? new Date(today) : d;
@@ -61,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const sameOrBeforeMonth = (d1, d2) => 
         d1.getFullYear() < d2.getFullYear() || (d1.getFullYear() === d2.getFullYear() && d1.getMonth() <= d2.getMonth());
 
-    // Pomocnik do szybkiego tworzenia nodów DOM
+    // Ujednolicony helper do tworzenia prostych elementów DOM.
     const createEl = (tag, classes = [], text = '') => {
         const el = document.createElement(tag);
         if (classes.length) el.classList.add(...classes);
@@ -69,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return el;
     };
 
-    // --- 1. Popover (Szybkie dodawanie) ---
+    // --- Formularz szybkiego dodawania transakcji ---
     const closeQuickAdd = () => elements.popover && (elements.popover.hidden = true);
     
     if (elements.closePopover) elements.closePopover.addEventListener('click', closeQuickAdd);
@@ -89,6 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const pop = elements.popover.getBoundingClientRect();
         const s = 10;
 
+        // Pozycja formularza jest ograniczana do dostępnego obszaru okna przeglądarki.
         let left = Math.min(Math.max(s, rect.right + s + pop.width > window.innerWidth - s ? rect.left - pop.width - s : rect.right + s), window.innerWidth - pop.width - s);
         let top = Math.min(Math.max(s, rect.top + pop.height > window.innerHeight - s ? window.innerHeight - pop.height - s : rect.top), window.innerHeight - pop.height - s);
 
@@ -96,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
         elements.popover.style.top = `${top}px`;
     }
 
-    // --- 2. Inteligentna Walidacja Dat i Nawigacja ---
+    // --- Walidacja zakresu dat i nawigacja miesięczna ---
     function handleDateChange(isStart) {
         if (!elements.startDate.value || !elements.endDate.value) return;
         let start = clampToToday(new Date(elements.startDate.value));
@@ -141,7 +143,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (elements.prevMonth) elements.prevMonth.addEventListener('click', () => changeMonth(-1));
     if (elements.nextMonth) elements.nextMonth.addEventListener('click', () => changeMonth(1));
 
-    // --- 3. Kalendarz ---
+    // --- Kalendarz transakcji ---
     let displayedMonth = new Date(dataContainer.calendarYear, dataContainer.calendarMonth - 1, 1);
     const maxCalendarMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 
@@ -164,6 +166,7 @@ document.addEventListener("DOMContentLoaded", function () {
             dayCell.appendChild(createEl('span', ['day-num'], day));
 
             const dateKey = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            // Dane dzienne obejmują oddzielne sumy przychodów i wydatków oraz status bilansu.
             const tx = dataContainer.calendarTransactions ? dataContainer.calendarTransactions[dateKey] : null;
             const exp = tx ? parseFloat(tx.expense || 0) : 0, inc = tx ? parseFloat(tx.income || 0) : 0;
 
@@ -197,7 +200,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (elements.nextCal) elements.nextCal.addEventListener('click', () => { displayedMonth.setMonth(displayedMonth.getMonth() + 1); renderCalendar(); });
     renderCalendar();
 
-    // --- 4. WYKRESY (Chart.js Config Shared) ---
+    // --- Konfiguracja wykresów Chart.js ---
     const chartTextColor = '#60707d';
     const chartGridColor = 'rgba(18, 52, 95, 0.08)';
     const chartBlue = '#12345f';
@@ -205,6 +208,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const chartGreen = '#4a8f3d';
     const chartRed = '#d45245';
 
+    // Skala logarytmiczna ogranicza dominację skrajnie wysokich wartości na wykresach.
     const commonScales = {
         x: { grid: { display: false }, ticks: { color: chartTextColor } },
         y: { 
@@ -217,7 +221,7 @@ document.addEventListener("DOMContentLoaded", function () {
         tooltip: { callbacks: { label: ctx => `Bilans: ${formatMoney(rawDataSource[ctx.dataIndex] || 0)}` } }
     });
 
-    // Wykres Bilansu Dziennego
+    // Wykres bilansu dziennego.
     const dailyBalanceCtx = document.getElementById('dailyBalanceChart');
     if (dailyBalanceCtx) {
         const raw = dataContainer.dailyBalanceData || [];
@@ -231,7 +235,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Wykres Bilansu Miesięcznego
+    // Wykres bilansu miesięcznego z ruchomym zakresem dwunastu miesięcy.
     const monthlyCtx = document.getElementById('monthlyBalanceChart');
     if (monthlyCtx) {
         const mTotals = dataContainer.monthlyBalanceTotals || {};
@@ -240,6 +244,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let monthlyChart = null;
 
         function getSlice() {
+            // Przygotowuje etykiety, wartości skalowane oraz wartości źródłowe dla tooltipów.
             const labels = [], values = [], raws = [];
             const start = new Date(endMonth.getFullYear(), endMonth.getMonth() - 11, 1);
             const shortMonths = ['Sty', 'Lut', 'Mar', 'Kwi', 'Maj', 'Cze', 'Lip', 'Sie', 'Wrz', 'Paź', 'Lis', 'Gru'];
@@ -283,7 +288,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('nextMonthlyBalanceBtn')?.addEventListener('click', () => { endMonth.setMonth(endMonth.getMonth() + 1); updateMonthly(); });
     }
 
-    // Wykres Pączek (Doughnut)
+    // Wykres struktury wydatków według kategorii.
     const ctx = document.getElementById('expenseChart');
     if (ctx && dataContainer.amounts.length > 0) {
         new Chart(ctx.getContext('2d'), {
