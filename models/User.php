@@ -49,4 +49,10 @@ class User
             $data['password']
         ]);
     }
+
+    public function updatePasswordHash($id, $passwordHash)
+    {
+        $stmt = $this->db->prepare("UPDATE users SET password = ? WHERE id = ?");
+        return $stmt->execute([$passwordHash, $id]);
+    }
 }

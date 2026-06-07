@@ -9,6 +9,7 @@
 $totalExpense = $data['stats']['totalExpense'];
 $totalIncome = $data['stats']['totalIncome'];
 $balance = $data['stats']['balance'];
+$pageStyles = ['styles/pages/dashboard.css'];
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -18,21 +19,20 @@ $balance = $data['stats']['balance'];
 <body>
     <?php include comp('navDashboard.php'); ?>
 
-    <main class="auth-section dashboard-section">
-        <div class="container dashboard-container">
-            <!-- Sekcja powitalna z głównymi akcjami prowadzącymi do portfela i rozliczeń. -->
-            <section class="dashboard-hero">
+    <main class="auth-section app-section">
+        <div class="container app-container">
+            <section class="app-hero">
                 <div>
-                    <p class="dashboard-eyebrow">Panel główny</p>
-                    <h1 class="dashboard-title">Cześć, <?= htmlspecialchars($_SESSION['first_name']) ?>.</h1>
-                    <p class="dashboard-subtitle">
+                    <p class="app-eyebrow">Panel główny</p>
+                    <h1 class="app-title">Cześć, <?= htmlspecialchars($_SESSION['first_name']) ?>.</h1>
+                    <p class="app-subtitle">
                         Portfel jest miejscem zapisu wszystkich transakcji. Wspólne budżety służą do rozliczania udziałów i spłat.
                     </p>
                 </div>
 
-                <div class="dashboard-hero-actions">
+                <div class="app-hero-actions">
                     <a href="<?= url('wallet') ?>" class="btn-primary dashboard-hero-button">Otwórz portfel</a>
-                    <a href="<?= url('shared_budgets') ?>" class="dashboard-text-link">Rozliczenia</a>
+                    <a href="<?= url('shared_budgets') ?>" class="app-text-link">Rozliczenia</a>
                 </div>
             </section>
 
@@ -90,9 +90,9 @@ $balance = $data['stats']['balance'];
 
             <!-- Skróty do najczęściej używanych modułów aplikacji. -->
             <section class="dashboard-shortcuts">
-                <div class="dashboard-section-heading">
-                    <p class="dashboard-eyebrow">Nawigacja</p>
-                    <h2>Najczęstsze ścieżki</h2>
+                <div class="app-section-heading">
+                    <p class="app-eyebrow">Nawigacja</p>
+                    <h2 class="app-section-title">Najczęstsze ścieżki</h2>
                 </div>
 
                 <div class="dashboard-shortcuts-grid">
@@ -124,27 +124,26 @@ $balance = $data['stats']['balance'];
 
             <!-- Uzupełniające informacje o aktywności użytkownika w bieżącym miesiącu. -->
             <div class="dashboard-info-grid">
-                <div class="auth-card dashboard-card dashboard-info-card">
+                <div class="auth-card app-card app-info-card">
                     <h3>Transakcje w tym miesiącu</h3>
                     <strong><?= (int) $data['monthTransactionsCount'] ?></strong>
                     <p>Tyle operacji masz zapisanych w aktualnym miesiącu.</p>
                 </div>
 
-                <div class="auth-card dashboard-card dashboard-info-card">
+                <div class="auth-card app-card app-info-card">
                     <h3>Udział we wspólnych budżetach</h3>
                     <strong><?= number_format($data['sharedBudgetMonthlyCost'] ?? 0, 2) ?> zł</strong>
                     <p>Twoja część wspólnych kosztów w aktualnym miesiącu.</p>
                 </div>
             </div>
 
-            <!-- Tabela najnowszych transakcji prezentowana jako szybki podgląd historii. -->
-            <div class="auth-card dashboard-card recent-transactions-card">
-                <div class="dashboard-card-header">
+            <div class="auth-card app-card recent-transactions-card">
+                <div class="app-card-header">
                     <div>
-                        <h3>Ostatnie transakcje</h3>
-                        <p>Najnowsze operacje z całej historii.</p>
+                        <h3 class="app-card-header-title">Ostatnie transakcje</h3>
+                        <p class="app-card-header-copy">Najnowsze operacje z całej historii.</p>
                     </div>
-                    <a href="<?= url('wallet') ?>" class="dashboard-text-link">Zobacz portfel</a>
+                    <a href="<?= url('wallet') ?>" class="app-text-link">Zobacz portfel</a>
                 </div>
 
                 <?php if (!empty($data['recentTransactions'])): ?>

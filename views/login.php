@@ -5,6 +5,7 @@
  * Prezentuje formularz uwierzytelniania użytkownika.
  * Obsługuje komunikat po udanej rejestracji oraz błąd logowania przekazany z kontrolera.
  */
+$pageStyles = ['styles/pages/login.css'];
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -16,9 +17,8 @@
 
     <main class="auth-section">
         <div class="auth-card">
-            <h2>Witaj ponownie</h2>
-            <p>Zaloguj się, aby zarządzać finansami</p>
-            <!-- Komunikat potwierdzający utworzenie konta po przekierowaniu z rejestracji. -->
+            <h2 class="auth-card-title">Witaj ponownie</h2>
+            <p class="auth-card-copy">Zaloguj się, aby zarządzać finansami</p>
             <?php if (isset($_GET['registered']) && $_GET['registered'] === 'success'): ?>
                 <div class="register-success">
                     Konto zostało utworzone! Możesz się teraz zalogować.
@@ -31,7 +31,7 @@
 
             <!-- Formularz przesyła dane logowania do akcji LoginController::login(). -->
             <form action="<?= url('login') ?>" method="POST" class="auth-form">
-                <input type="text" name="email" placeholder="Adres e-mail" required class="auth-input">
+                <input type="email" name="email" placeholder="Adres e-mail" required class="auth-input" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
                 <input type="password" name="password" placeholder="Hasło" required class="auth-input">
                 <button type="submit" class="btn-primary">Zaloguj się</button>
             </form>

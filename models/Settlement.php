@@ -314,7 +314,7 @@ class Settlement
             return (int) $categoryId;
         }
 
-        $insertStmt = $this->db->prepare('INSERT INTO categories (name, is_system, type) VALUES (?, 1, "expense")');
+        $insertStmt = $this->db->prepare('INSERT INTO categories (name, type) VALUES (?, "expense")');
         $insertStmt->execute([self::CATEGORY_NAME]);
 
         return (int) $this->db->lastInsertId();

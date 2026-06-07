@@ -5,6 +5,7 @@
  * Prezentuje definicje płatności cyklicznych oraz pełną historię transakcji
  * zalogowanego użytkownika. Udostępnia akcje usuwania wpisów i przejście do portfela.
  */
+$pageStyles = ['styles/pages/transactions.css'];
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -26,7 +27,7 @@
                 <!-- Sekcja definicji płatności cyklicznych zapisanych przez użytkownika. -->
                 <div class="auth-card transactions-card">
                     <div class="transactions-section-head">
-                        <h2>Transakcje cykliczne</h2>
+                        <h2 class="transactions-section-title">Transakcje cykliczne</h2>
                     </div>
                     <?php if (!empty($data['recurringTransactions'])): ?>
                         <!-- Tabela pokazuje konfigurację płatności cyklicznych oraz ich status. -->
@@ -105,7 +106,7 @@
                 <!-- Sekcja pełnej historii pojedynczych i wygenerowanych transakcji. -->
                 <div class="auth-card transactions-card transactions-history-card">
                     <div class="transactions-section-head">
-                        <h2>Historia transakcji</h2>
+                        <h2 class="transactions-section-title">Historia transakcji</h2>
                     </div>
                     <?php if (!empty($data['transactions'])): ?>
                         <!-- Tabela historii obejmuje kategorię, budżet, opis, kwotę i akcję usunięcia. -->

@@ -6,6 +6,7 @@
  * założenia produktu oraz wyróżniki aplikacji Spendly.
  */
 $title = $data['title'] ?? 'O nas - Spendly';
+$pageStyles = ['styles/pages/about.css'];
 ?>
 <!DOCTYPE html>
 <html lang="pl">

@@ -27,17 +27,10 @@ class RegisterController
     {
         // Obsługuje wyłącznie dane przesłane metodą POST z formularza rejestracji.
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $firstName = $_POST['first_name'] ?? '';
-            $lastName = $_POST['last_name'] ?? '';
-            $email = $_POST['email'] ?? '';
-            $password = $_POST['password'] ?? '';
-
-            // Minimalna walidacja wymaganych pól przed przekazaniem danych do serwisu.
-            if (empty($firstName) || empty($email) || $password === '') {
-                $error = "Wypełnij wszystkie wymagane pola.";
-                require_once __DIR__ . '/../views/register.php';
-                return;
-            }
+            $firstName = trim((string) ($_POST['first_name'] ?? ''));
+            $lastName = trim((string) ($_POST['last_name'] ?? ''));
+            $email = trim((string) ($_POST['email'] ?? ''));
+            $password = (string) ($_POST['password'] ?? '');
 
             // AuthService odpowiada za zapis użytkownika oraz reguły unikalności adresu e-mail.
             $result = $this->authService->register([

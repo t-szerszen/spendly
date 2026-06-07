@@ -5,6 +5,7 @@
  * Prezentuje formularz tworzenia konta użytkownika.
  * Obsługuje komunikaty błędów walidacji przekazane przez RegisterController.
  */
+$pageStyles = ['styles/pages/register.css'];
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -16,8 +17,8 @@
 
     <main class="auth-section">
         <div class="auth-card">
-            <h2>Dołącz do nas</h2>
-            <p>Zacznij mądrze planować wydatki</p>
+            <h2 class="auth-card-title">Dołącz do nas</h2>
+            <p class="auth-card-copy">Zacznij mądrze planować wydatki</p>
 
             <!-- Komunikat błędu przekazany przez RegisterController po nieudanej rejestracji. -->
             <?php if (isset($error)): ?>
@@ -27,10 +28,10 @@
             <!-- Formularz tworzenia konta przesyłany do akcji RegisterController::register(). -->
             <form action="<?= url('register') ?>" method="POST" class="auth-form">
                 <div class="form-row">
-                    <input type="text" name="first_name" placeholder="Imię" required class="auth-input">
-                    <input type="text" name="last_name" placeholder="Nazwisko" required class="auth-input">
+                    <input type="text" name="first_name" placeholder="Imię" required class="auth-input" value="<?= htmlspecialchars($_POST['first_name'] ?? '') ?>">
+                    <input type="text" name="last_name" placeholder="Nazwisko" required class="auth-input" value="<?= htmlspecialchars($_POST['last_name'] ?? '') ?>">
                 </div>
-                <input type="email" name="email" placeholder="Adres e-mail" required class="auth-input">
+                <input type="email" name="email" placeholder="Adres e-mail" required class="auth-input" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
                 <input type="password" name="password" placeholder="Hasło" required class="auth-input">
                 <button type="submit" class="btn-primary">Utwórz konto</button>
             </form>

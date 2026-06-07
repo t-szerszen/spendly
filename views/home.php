@@ -6,6 +6,7 @@
  * Zawiera sekcję powitalną, główne akcje rejestracji i informacji oraz slider funkcjonalności.
  */
 $title = $data['title'] ?? 'Spendly - Mądrze zarządzaj swoimi finansami';
+$pageStyles = ['styles/pages/home.css'];
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -18,12 +19,26 @@ $title = $data['title'] ?? 'Spendly - Mądrze zarządzaj swoimi finansami';
 
     <!-- Sekcja powitalna z głównym komunikatem i akcjami publicznymi. -->
     <section class="hero">
-        <h1>Odzyskaj pełną kontrolę nad budżetem</h1>
-        <p>Spendly to nowoczesne narzędzie, z którym w łatwy i przyjemny sposób przeanalizujesz swoje wydatki, ustalisz
-            plany oszczędnościowe i osiągniesz wolność finansową.</p>
+        <span class="hero-eyebrow">Finanse osobiste i wspólne rozliczenia</span>
+        <h1>Odzyskaj kontrolę nad wydatkami</h1>
+        <p>Spendly porządkuje codzienne transakcje, pokazuje realny obraz budżetu i ułatwia rozliczenia między kilkoma osobami. Wszystko w jednym, prostym panelu.</p>
         <div class="hero-buttons">
             <a href="<?= url('register') ?>" class="btn-primary">Załóż darmowe konto</a>
             <a href="<?= url('about') ?>" class="btn-secondary">Dowiedz się więcej</a>
+        </div>
+        <div class="hero-points">
+            <div class="hero-point">
+                <strong>Jedno miejsce</strong>
+                <span>Wydatki prywatne, przychody i koszty wspólne bez przełączania się między narzędziami.</span>
+            </div>
+            <div class="hero-point">
+                <strong>Czytelny obraz miesiąca</strong>
+                <span>Szybko zobaczysz, kto zapłacił, ile wydał i jaki jest realny bilans po rozliczeniach.</span>
+            </div>
+            <div class="hero-point">
+                <strong>Mniej ręcznego liczenia</strong>
+                <span>System sam podpowiada, kto komu powinien przelać pieniądze we wspólnym budżecie.</span>
+            </div>
         </div>
     </section>
 
@@ -50,8 +65,8 @@ $title = $data['title'] ?? 'Spendly - Mądrze zarządzaj swoimi finansami';
                 <div class="slide" style="background-image: url('<?= asset('slajd-trzy.png') ?>'); display:none;">
                     <div class="slide-overlay"></div>
                     <div class="slide-content">
-                        <h3>Planowanie i Cele</h3>
-                        <p>Wyznaczaj realistyczne limity budżetowe oraz cele oszczędnościowe (np. na wymarzony wyjazd). Spendly przypilnuje, żebyś mieścił się w limitach.</p>
+                        <h3>Shared Budgets</h3>
+                        <p>Twórz wspólne budżety z partnerem, znajomymi albo współlokatorami. Spendly pokazuje udział każdej osoby, historię wspólnych kosztów i proponuje przelewy potrzebne do wyrównania rozliczeń.</p>
                     </div>
                 </div>
             </div>
@@ -65,71 +80,12 @@ $title = $data['title'] ?? 'Spendly - Mądrze zarządzaj swoimi finansami';
     </section>
 
     <section class="bottom-highlight">
-        <h2 class="bottom-highlight-heading">Spendly — bo świadomość finansowa zaczyna się od zrozumienia własnych wydatków.</h2>
+        <h2 class="bottom-highlight-heading">Spendly — bo każda złotówka ma swoją historię.</h2>
     </section>
 
     <?php include comp('footer.php'); ?>
 
-    <script>
-        (function() {
-            // Lokalna logika slidera strony głównej: slajdy, przyciski i automatyczna zmiana.
-            const sliderInner = document.getElementById('featureSlider');
-            const slides = document.querySelectorAll('#featureSlider .slide');
-            const buttons = document.querySelectorAll('.slider-button');
-            const prevButton = document.querySelector('.slider-prev');
-            const nextButton = document.querySelector('.slider-next');
-            let currentIndex = 0;
-            let timer = null;
-
-            function showSlide(index) {
-                // Indeks jest zawijany, aby nawigacja działała cyklicznie.
-                if (index < 0) index = slides.length - 1;
-                if (index >= slides.length) index = 0;
-                slides.forEach((slide, idx) => {
-                    slide.style.display = idx === index ? 'flex' : 'none';
-                    slide.classList.toggle('active', idx === index);
-                });
-                buttons.forEach((btn, idx) => btn.classList.toggle('active', idx === index));
-                currentIndex = index;
-            }
-
-            function nextSlide() {
-                showSlide(currentIndex + 1);
-            }
-
-            function resetTimer() {
-                // Interwał jest resetowany po ręcznej zmianie slajdu.
-                if (timer) clearInterval(timer);
-                timer = setInterval(nextSlide, 7000);
-            }
-
-            buttons.forEach((button, index) => {
-                button.addEventListener('click', () => {
-                    showSlide(index);
-                    resetTimer();
-                });
-            });
-
-            if (prevButton) {
-                prevButton.addEventListener('click', () => {
-                    showSlide(currentIndex - 1);
-                    resetTimer();
-                });
-            }
-
-            if (nextButton) {
-                nextButton.addEventListener('click', () => {
-                    showSlide(currentIndex + 1);
-                    resetTimer();
-                });
-            }
-
-            if (slides.length) {
-                showSlide(0);
-                resetTimer();
-            }
-        })();
-    </script>
+    <script src="<?= url('scripts/homeSlider.js') ?>"></script>
 </body>
 
 </html>

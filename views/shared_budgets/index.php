@@ -8,6 +8,7 @@
 
 $shared_budgets = $data['shared_budgets'];
 $sharedBudgetCount = count($shared_budgets);
+$pageStyles = ['styles/pages/shared-budgets.css'];
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -20,7 +21,7 @@ $sharedBudgetCount = count($shared_budgets);
         <!-- Nagłówek listy oraz główna akcja utworzenia nowego budżetu. -->
         <div class="shared_budgets-header">
             <div>
-                <h1 class="dashboard-title">Wspólne budżety</h1>
+                <h1 class="app-title">Wspólne budżety</h1>
                 <p class="shared_budgets-subtitle">Lista wspólnych budżetów, do których masz dostęp.</p>
             </div>
             <a href="<?= url('shared_budgets/create') ?>" class="btn-primary">+ Nowy budżet</a>

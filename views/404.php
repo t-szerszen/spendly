@@ -6,6 +6,7 @@
  * Udostępnia akcje powrotu na stronę główną oraz przejścia do kontaktu.
  */
 $title = $data['title'] ?? 'Błąd 404 - Strona nie istnieje';
+$pageStyles = ['styles/pages/error.css'];
 ?>
 <!DOCTYPE html>
 <html lang="pl">

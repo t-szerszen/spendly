@@ -43,12 +43,6 @@ header {
     color: var(--color-blue);
 }
 
-body {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
 .site-footer {
     text-align: center;
     padding: 2rem;

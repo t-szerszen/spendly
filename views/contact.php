@@ -6,6 +6,7 @@
  * społecznością oraz informacją o trybie pracy zespołu.
  */
 $title = $data['title'] ?? 'Kontakt - Spendly';
+$pageStyles = ['styles/pages/contact.css'];
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -39,21 +40,7 @@ $title = $data['title'] ?? 'Kontakt - Spendly';
                 <a href="mailto:kontakt@spendly.pl">kontakt@spendly.pl</a>
             </div>
 
-            <!-- Karta społeczności i kanału komunikacji grupowej. -->
-            <div class="contact-card">
-                <div class="contact-icon">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z">
-                        </path>
-                    </svg>
-                </div>
-                <h3>Społeczność</h3>
-                <p>Dołącz do naszego kanału:</p>
-                <a href="#">Discord Spendly</a>
-            </div>
-
-            <!-- Karta informacji organizacyjnej o trybie pracy zespołu. -->
+            <!-- Karta Lokalizacja -->
             <div class="contact-card">
                 <div class="contact-icon">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

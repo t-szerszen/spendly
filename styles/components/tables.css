@@ -1,0 +1,104 @@
+.recent-transactions-card {
+    margin-top: 2rem;
+}
+
+.recent-transactions-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.recent-transactions-table thead tr {
+    border-bottom: 1px solid var(--glass-border);
+    color: var(--color-text-mutated);
+}
+
+.recent-transactions-table th,
+.recent-transactions-table td {
+    padding: 1rem;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right,
+.recent-transactions-table .amount-cell,
+.recent-transactions-table .action-cell {
+    text-align: right;
+}
+
+.recent-transactions-table tbody tr {
+    border-bottom: 1px solid rgba(18, 52, 95, 0.07);
+}
+
+.recent-transactions-table .amount-cell,
+.recent-transactions-table .action-cell {
+    white-space: nowrap;
+}
+
+.amount-income {
+    color: var(--color-green);
+    font-weight: 800;
+}
+
+.amount-expense {
+    color: #d45245;
+    font-weight: 800;
+}
+
+.desc-cell {
+    color: var(--color-text-mutated);
+}
+
+.action-cell {
+    text-align: right;
+}
+
+.delete-form {
+    margin: 0;
+    display: inline;
+}
+
+.btn-delete {
+    background: none;
+    border: none;
+    color: #ff4d4d;
+    cursor: pointer;
+    font-size: 0.85rem;
+    text-decoration: underline;
+    padding: 0;
+}
+
+.transaction-budget-badge,
+.transaction-budget-private {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.75rem;
+    padding: 0.25rem 0.65rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.transaction-budget-badge {
+    background: rgba(21, 82, 127, 0.1);
+    color: var(--color-blue);
+}
+
+.transaction-budget-private {
+    background: rgba(35, 185, 126, 0.1);
+    color: var(--color-green);
+}
+
+.no-recent-transactions {
+    margin-top: 1rem;
+    color: var(--color-text-mutated);
+}
+
+@media (max-width: 640px) {
+    .recent-transactions-card {
+        overflow-x: auto;
+    }
+}
