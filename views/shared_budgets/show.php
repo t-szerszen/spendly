@@ -430,7 +430,11 @@ $positiveBalances = array_filter($monthlyBalance, static function ($row) {
                             <form action="<?= url('shared_budgets/delete') ?>" method="POST" class="sharedBudget-leave-form">
                                 <input type="hidden" name="shared_budget_id" value="<?= (int) $sharedBudget['id'] ?>">
                                 <input type="hidden" name="period" value="<?= htmlspecialchars($selectedPeriod) ?>">
-                                <button type="submit" class="btn-danger" onclick="return confirm('Na pewno usunąć cały wspólny budżet?');">Usuń wspólny budżet</button>
+                                <button
+                                    type="submit"
+                                    class="btn-danger"
+                                    data-confirm="Na pewno usunąć cały wspólny budżet?"
+                                >Usuń wspólny budżet</button>
                             </form>
                         </div>
                     <?php endif; ?>
@@ -441,5 +445,6 @@ $positiveBalances = array_filter($monthlyBalance, static function ($row) {
 </main>
 
 <?php include comp('footer.php'); ?>
+<script src="<?= url('scripts/confirmActions.js') ?>"></script>
 </body>
 </html>

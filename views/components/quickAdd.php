@@ -50,10 +50,15 @@ $quickAddId = 'quick-add-' . uniqid();
 
             <label>
                 <span>Kategoria</span>
-                <select name="category_id" class="auth-input" required>
+                <select name="category_id" class="auth-input quick-add-category" required>
                     <option value="" disabled selected>Wybierz kategorię</option>
                     <?php foreach ($data['categories'] as $cat): ?>
-                        <option value="<?= (int) $cat['id'] ?>"><?= htmlspecialchars($cat['name']) ?></option>
+                        <option
+                            value="<?= (int) $cat['id'] ?>"
+                            data-type="<?= htmlspecialchars($cat['type'] ?? 'expense') ?>"
+                        >
+                            <?= htmlspecialchars($cat['name']) ?>
+                        </option>
                     <?php endforeach; ?>
                 </select>
             </label>

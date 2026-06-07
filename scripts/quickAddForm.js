@@ -1,5 +1,6 @@
 document.querySelectorAll('.quick-add-form').forEach((form) => {
     const typeSelect = form.querySelector('.quick-add-type');
+    const categorySelect = form.querySelector('.quick-add-category');
     const budgetSelect = form.querySelector('.quick-add-budget');
     const budgetWrap = form.querySelector('.quick-add-budget-wrap');
     const scopeFieldset = form.querySelector('.quick-add-scope');
@@ -12,9 +13,29 @@ document.querySelectorAll('.quick-add-form').forEach((form) => {
     const endDateInput = form.querySelector('.quick-add-end-date');
     const dateLabel = form.querySelector('.quick-add-date-label');
 
-    if (!typeSelect || !budgetSelect || !budgetWrap) {
+    if (!typeSelect || !categorySelect || !budgetSelect || !budgetWrap) {
         return;
     }
+
+    const syncCategoryState = () => {
+        const selectedType = typeSelect.value;
+        const categoryOptions = categorySelect.querySelectorAll('option[data-type]');
+
+        categoryOptions.forEach((option) => {
+            const matchesType = option.dataset.type === selectedType;
+            option.hidden = !matchesType;
+            option.disabled = !matchesType;
+        });
+
+        const selectedOption = categorySelect.selectedOptions[0];
+        if (
+            selectedOption &&
+            selectedOption.dataset.type &&
+            selectedOption.dataset.type !== selectedType
+        ) {
+            categorySelect.value = '';
+        }
+    };
 
     const syncBudgetState = () => {
         const isExpense = typeSelect.value === 'expense';
@@ -87,10 +108,12 @@ document.querySelectorAll('.quick-add-form').forEach((form) => {
     }
 
     typeSelect.addEventListener('change', syncBudgetState);
+    typeSelect.addEventListener('change', syncCategoryState);
     scopeInputs.forEach((input) => input.addEventListener('change', syncBudgetState));
     if (recurringToggle) {
         recurringToggle.addEventListener('change', syncRecurringState);
     }
     syncBudgetState();
+    syncCategoryState();
     syncRecurringState();
 });
