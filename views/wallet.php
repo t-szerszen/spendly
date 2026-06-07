@@ -2,8 +2,9 @@
 /**
  * Widok: Portfel
  *
- * Tutaj jest pełna praca z miesiącem: wybór okresu, quick add,
- * podsumowanie i lista transakcji z wybranego miesiąca.
+ * Prezentuje miesięczny widok portfela użytkownika.
+ * Zawiera wybór okresu, statystyki miesiąca, formularz szybkiego dodawania
+ * oraz listę transakcji z możliwością usunięcia wpisu.
  */
 
 $totalExpense = $data['stats']['totalExpense'];
@@ -20,6 +21,7 @@ $balance = $data['stats']['balance'];
 
     <main class="auth-section dashboard-section wallet-section">
         <div class="container dashboard-container">
+            <!-- Nagłówek portfela z formularzem wyboru miesiąca. -->
             <section class="dashboard-hero wallet-hero">
                 <div>
                     <p class="dashboard-eyebrow">Portfel</p>
@@ -38,6 +40,7 @@ $balance = $data['stats']['balance'];
                 </form>
             </section>
 
+            <!-- Podstawowe statystyki finansowe dla wybranego miesiąca. -->
             <div class="stats-grid">
                 <div class="auth-card stat-card stat-balance">
                     <h4>Bilans miesiąca</h4>
@@ -55,12 +58,14 @@ $balance = $data['stats']['balance'];
                 </div>
             </div>
 
+            <!-- Podsumowanie kosztów wspólnych budżetów przypadających na użytkownika. -->
             <div class="auth-card dashboard-card dashboard-info-card wallet-sharedBudget-card">
                 <h3>Twój udział we wspólnych budżetach</h3>
                 <strong><?= number_format($data['sharedBudgetMonthlyCost'] ?? 0, 2) ?> zł</strong>
                 <p>Twój udział we wspólnych kosztach dla wybranego miesiąca.</p>
             </div>
 
+            <!-- Komunikaty zwrotne po dodaniu transakcji z formularza szybkiego dodawania. -->
             <?php if (!empty($_GET['transaction']) && $_GET['transaction'] === 'invalid'): ?>
                 <div class="form-error">Nie udało się dodać transakcji. Sprawdź kwotę, datę, kategorię i typ wpisu.</div>
             <?php elseif (!empty($_GET['transaction']) && $_GET['transaction'] === 'forbidden-budget'): ?>
@@ -69,8 +74,10 @@ $balance = $data['stats']['balance'];
                 <div class="form-success">Transakcja została dodana.</div>
             <?php endif; ?>
 
+            <!-- Współdzielony formularz dodawania transakcji prywatnych, wspólnych i cyklicznych. -->
             <?php include comp('quickAdd.php'); ?>
 
+            <!-- Tabela transakcji ograniczona do aktualnie wybranego miesiąca. -->
             <div class="auth-card dashboard-card recent-transactions-card">
                 <div class="dashboard-card-header">
                     <div>
@@ -81,6 +88,7 @@ $balance = $data['stats']['balance'];
                 </div>
 
                 <?php if (!empty($data['transactions'])): ?>
+                    <!-- Lista obejmuje transakcje prywatne oraz wpisy przypisane do wspólnych budżetów. -->
                     <table class="recent-transactions-table">
                         <thead>
                             <tr>

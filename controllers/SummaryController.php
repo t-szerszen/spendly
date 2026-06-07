@@ -1,6 +1,13 @@
 <?php
 // controllers/SummaryController.php
 
+/**
+ * Klasa SummaryController
+ *
+ * Odpowiada za przygotowanie widoku raportów finansowych dla zalogowanego użytkownika.
+ * Agreguje dane transakcji w wybranym zakresie dat.
+ * przygotowuje porównania okresów oraz zestawy danych dla wykresów i kalendarza.
+ */
 class SummaryController
 {
     private $db;
@@ -16,6 +23,7 @@ class SummaryController
 
     public function show()
     {
+        // Obsługuje żądanie strony raportów oraz przygotowuje komplet danych dla widoku.
         if (!$this->authService->isLoggedIn()) {
             header('Location: ' . url('login'));
             exit;
@@ -27,6 +35,7 @@ class SummaryController
         $previousRange = $this->getPreviousRange($range['start'], $range['days']);
         $calendarMonth = $this->getCalendarMonth($today);
 
+        // Porównania bazują na wybranym zakresie oraz poprzednim okresie o tej samej długości.
         $stats = $this->getPeriodStats($userId, $range['start'], $range['end']);
         $previousStats = $this->getPeriodStats($userId, $previousRange['start'], $previousRange['end']);
         $paceTrend = $this->formatPaceTrend(
@@ -35,6 +44,7 @@ class SummaryController
             $range['days']
         );
 
+        // Zestawy danych wykresów są agregowane po stronie serwera i renderowane w warstwie JavaScript.
         $expenseChart = [
             'labels' => array_column($summary = $this->getCategorySummary($userId, $range['start'], $range['end']), 'category_name'),
             'data' => array_map('floatval', array_column($summary, 'total_amount')),
@@ -71,6 +81,7 @@ class SummaryController
             'categories' => $this->categoryModel->getCategories(),
         ];
 
+        // Dane serializowane do JSON i udostępniane skryptowi summary.js.
         $data['jsData'] = [
             'categories' => $expenseChart['labels'],
             'amounts' => $expenseChart['data'],
@@ -93,6 +104,7 @@ class SummaryController
 
     private function getSelectedRange(string $today): array
     {
+        // Wyznacza zakres raportu na podstawie parametrów GET z ograniczeniem do bieżącej daty.
         $month = isset($_GET['month']) ? (int) $_GET['month'] : (int) date('m');
         $year = isset($_GET['year']) ? (int) $_GET['year'] : (int) date('Y');
         $month = max(1, min(12, $month));
@@ -127,6 +139,7 @@ class SummaryController
 
     private function getPreviousRange(string $startDate, int $days): array
     {
+        // Wyznacza poprzedni okres referencyjny o tej samej liczbie dni.
         $start = new DateTimeImmutable($startDate);
 
         return [
@@ -137,6 +150,7 @@ class SummaryController
 
     private function getCalendarMonth(string $today): DateTimeImmutable
     {
+        // Pobiera miesiąc widoczny w kalendarzu, niezależny od głównego zakresu raportu.
         $requested = $_GET['calendar_month'] ?? date('Y-m');
         $calendarMonth = DateTimeImmutable::createFromFormat('Y-m-d', $requested . '-01');
 
@@ -149,6 +163,7 @@ class SummaryController
 
     private function getPeriodStats(int $userId, string $startDate, string $endDate): array
     {
+        // Agreguje podstawowe wskaźniki finansowe dla wskazanego okresu.
         $totalIncome = $this->sumAmount($userId, $startDate, $endDate, 'income');
         $totalExpenses = $this->sumAmount($userId, $startDate, $endDate, 'expense');
         $avgTransaction = $this->avgAmount($userId, $startDate, $endDate, 'expense');
@@ -205,6 +220,7 @@ class SummaryController
 
     private function getCategorySummary(int $userId, string $startDate, string $endDate): array
     {
+        // Agreguje wydatki według kategorii dla listy rankingowej i wykresu struktury kosztów.
         $stmt = $this->db->prepare("
             SELECT c.name as category_name, SUM(t.amount) as total_amount
             FROM transactions t
@@ -220,6 +236,7 @@ class SummaryController
 
     private function getCalendarTransactions(int $userId, string $today): array
     {
+        // Przygotowuje dzienne sumy przychodów i wydatków używane w kalendarzu transakcji.
         $stmt = $this->db->prepare("
             SELECT date as date_key,
                 SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END) as expense_total,
@@ -244,6 +261,7 @@ class SummaryController
 
     private function getDailyBalanceChart(int $userId, string $startDate, string $endDate): array
     {
+        // Tworzy serię bilansu dziennego, uzupełniając brakujące dni wartością zerową.
         $stmt = $this->db->prepare("
             SELECT date as date_key,
                 SUM(CASE WHEN type = 'income' THEN amount ELSE -amount END) as daily_balance
@@ -275,6 +293,7 @@ class SummaryController
 
     private function getMonthlyBalanceChart(int $userId, string $today): array
     {
+        // Agreguje bilans miesięczny dla wykresu obejmującego kolejne miesiące.
         $stmt = $this->db->prepare("
             SELECT DATE_FORMAT(date, '%Y-%m') as month_key,
                 SUM(CASE WHEN type = 'income' THEN amount ELSE -amount END) as monthly_balance
@@ -307,6 +326,7 @@ class SummaryController
 
     private function formatComparison(float $current, float $previous, bool $lowerIsBetter, int $periodDays): array
     {
+        // Formatuje wartość porównawczą oraz klasę statusu dla elementów KPI.
         if ($previous == 0.0) {
             return [
                 'amount' => 'Brak danych',
@@ -348,6 +368,7 @@ class SummaryController
 
     private function formatPaceTrend(float $current, float $previous, int $periodDays): array
     {
+        // Określa zmianę tempa wydatków względem poprzedniego okresu.
         if ($previous == 0.0) {
             return [
                 'text' => $current > 0 ? 'Brak punktu odniesienia' : 'Brak wydatków dziennych',

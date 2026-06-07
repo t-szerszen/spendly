@@ -3,14 +3,15 @@
 /**
  * Klasa HomeController
  * 
- * Odpowiada za wyświetlenie strony głównej serwisu (tzw. landing page).
- * Przygotowuje podstawowe dane, takie jak tytuł strony i treść powitalną,
- * i przekazuje je do widoku głównego 'home.php'.
+ * Odpowiada za przygotowanie publicznej strony głównej aplikacji.
+ * Przekazuje podstawowe dane widoku prezentującego opis produktu,
+ * główne akcje oraz sekcję funkcjonalności.
  */
 class HomeController
 {
     public function show()
     {
+        // Dane widoku strony głównej są statyczne i nie wymagają dostępu do bazy danych.
         $data = [
             'title' => 'Strona Główna',
             'content' => 'Witamy na naszej stronie!'

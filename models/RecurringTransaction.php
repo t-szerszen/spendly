@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Model RecurringTransaction
+ *
+ * Odpowiada za definicje płatności cyklicznych oraz generowanie należnych
+ * transakcji portfelowych na podstawie daty następnego wystąpienia.
+ */
 class RecurringTransaction
 {
     private $db;
@@ -11,6 +17,7 @@ class RecurringTransaction
 
     public function add(array $data): bool
     {
+        // Nowa płatność cykliczna startuje z next_due_date równym dacie początkowej.
         $stmt = $this->db->prepare(
             'INSERT INTO recurring_transactions
                 (user_id, shared_budget_id, category_id, amount, type, description, frequency, start_date, end_date, next_due_date)
@@ -33,6 +40,7 @@ class RecurringTransaction
 
     public function getAllByUser(int $userId): array
     {
+        // Lista definicji cyklicznych zawiera nazwy kategorii i powiązanego budżetu.
         $stmt = $this->db->prepare(
             'SELECT r.*, c.name AS category_name, h.name AS shared_budget_name
              FROM recurring_transactions r
@@ -48,6 +56,7 @@ class RecurringTransaction
 
     public function generateDueForUser(int $userId, Transaction $transactionModel): void
     {
+        // Generator uruchamia wszystkie aktywne definicje, których termin wypada najpóźniej dzisiaj.
         $today = (new DateTimeImmutable('today'))->format('Y-m-d');
         $stmt = $this->db->prepare(
             'SELECT *
@@ -66,6 +75,7 @@ class RecurringTransaction
 
     public function delete(int $id, int $userId): bool
     {
+        // Usuwa wyłącznie definicję należącą do danego użytkownika.
         $stmt = $this->db->prepare(
             'DELETE FROM recurring_transactions
              WHERE id = ? AND user_id = ?'
@@ -76,6 +86,7 @@ class RecurringTransaction
 
     private function generateDueEntries(array $recurring, Transaction $transactionModel, string $today): void
     {
+        // Tworzy brakujące transakcje od next_due_date do dzisiaj lub daty końcowej.
         $nextDueDate = DateTimeImmutable::createFromFormat('!Y-m-d', $recurring['next_due_date']);
         $endDate = !empty($recurring['end_date'])
             ? DateTimeImmutable::createFromFormat('!Y-m-d', $recurring['end_date'])
@@ -87,6 +98,7 @@ class RecurringTransaction
         }
 
         while ($nextDueDate <= $todayDate && ($endDate === null || $nextDueDate <= $endDate)) {
+            // Przed zapisem każdej transakcji sprawdzany jest duplikat tej samej definicji i daty.
             if (!$transactionModel->recurringEntryExists((int) $recurring['id'], $nextDueDate->format('Y-m-d'))) {
                 $transactionModel->add([
                     'user_id' => $recurring['user_id'],
@@ -104,6 +116,7 @@ class RecurringTransaction
             $nextDueDate = $this->advanceDate($nextDueDate, $recurring['frequency']);
         }
 
+        // Po wygenerowaniu wpisów definicja przechodzi na kolejny termin lub status completed.
         $status = ($endDate !== null && $nextDueDate > $endDate) ? 'completed' : 'active';
         $stmt = $this->db->prepare(
             'UPDATE recurring_transactions
@@ -115,6 +128,7 @@ class RecurringTransaction
 
     private function advanceDate(DateTimeImmutable $date, string $frequency): DateTimeImmutable
     {
+        // Mapowanie częstotliwości formularza na interwały DateInterval.
         $intervals = [
             'weekly' => 'P1W',
             'monthly' => 'P1M',

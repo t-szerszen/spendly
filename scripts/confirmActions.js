@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Globalna obsługa elementów wymagających potwierdzenia przed wykonaniem akcji.
     document.addEventListener('click', (event) => {
         const button = event.target.closest('[data-confirm]');
 
@@ -11,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // Anulowanie okna confirm zatrzymuje domyślną akcję formularza lub linku.
         if (!window.confirm(message)) {
             event.preventDefault();
         }

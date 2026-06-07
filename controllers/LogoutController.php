@@ -4,9 +4,9 @@
 /**
  * Klasa LogoutController
  * 
- * Zarządza procesem wylogowywania użytkownika z aplikacji. Upewnia się, że
- * sesja jest otwarta, a następnie niszczy wszystkie dane sesyjne i przekierowuje
- * użytkownika bezpiecznie z powrotem na stronę główną.
+ * Odpowiada za zakończenie sesji użytkownika.
+ * Deleguje usunięcie danych sesyjnych do AuthService, a następnie przekierowuje
+ * użytkownika na stronę główną aplikacji.
  */
 class LogoutController
 {
@@ -19,6 +19,7 @@ class LogoutController
 
     public function index()
     {
+        // Kończy bieżącą sesję użytkownika i wraca do publicznej części aplikacji.
         $this->authService->logout();
         header('Location: ' . url('home'));
         exit;

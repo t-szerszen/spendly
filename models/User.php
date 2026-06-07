@@ -4,7 +4,9 @@
 /**
  * Model User
  * 
- * Odpowiada za komunikację z tabelą 'users' w bazie danych.
+ * Odpowiada za operacje na danych użytkowników.
+ * Udostępnia metody wyszukiwania kont oraz tworzenia nowych rekordów
+ * wykorzystywane przez AuthService.
  */
 class User
 {
@@ -16,7 +18,7 @@ class User
     }
 
     /**
-     * Znajduje użytkownika po adresie email.
+     * Pobiera użytkownika po adresie e-mail używanym przy logowaniu i rejestracji.
      */
     public function findByEmail($email)
     {
@@ -27,16 +29,18 @@ class User
 
     public function findById($id)
     {
+        // Wyszukiwanie po identyfikatorze jest używane m.in. przy akceptacji zaproszeń.
         $stmt = $this->db->prepare("SELECT * FROM users WHERE id = ?");
         $stmt->execute([$id]);
         return $stmt->fetch();
     }
 
     /**
-     * Tworzy nowego użytkownika.
+     * Tworzy nowe konto użytkownika z wcześniej przygotowanym hasłem.
      */
     public function create($data)
     {
+        // Hasło przekazane do modelu powinno być już zahashowane w AuthService.
         $stmt = $this->db->prepare("INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)");
         return $stmt->execute([
             $data['first_name'],

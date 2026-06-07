@@ -3,13 +3,15 @@
 /**
  * Klasa ContactController
  * 
- * Obsługuje wyświetlanie strony kontaktowej. Przekazuje odpowiednie zmienne
- * z tytułem i treścią do widoku 'contact.php'.
+ * Odpowiada za przygotowanie publicznej strony kontaktowej.
+ * Przekazuje statyczne dane do widoku prezentującego dostępne kanały kontaktu
+ * i informacje organizacyjne zespołu.
  */
 class ContactController
 {
     public function show()
     {
+        // Dane widoku są statyczne i służą ustawieniu tytułu strony.
         $data = [
             'title' => 'Kontakt',
             'content' => 'Skontaktuj się z nami.'

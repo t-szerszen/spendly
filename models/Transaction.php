@@ -4,7 +4,9 @@
 /**
  * Model Transaction
  * 
- * Odpowiada za komunikację z tabelą 'transactions'.
+ * Odpowiada za operacje na transakcjach użytkowników.
+ * Obsługuje historię portfela, podsumowania miesięczne, transakcje wspólnych budżetów
+ * oraz techniczne wpisy generowane przez płatności cykliczne i rozliczenia.
  */
 class Transaction
 {
@@ -17,6 +19,7 @@ class Transaction
 
     public function getRecord($tId)
     {
+        // Pobiera transakcję bez ograniczenia użytkownika; metoda pomocnicza do zastosowań wewnętrznych.
         $stmt = $this->db->prepare("SELECT * FROM transactions WHERE id = ?");
         $stmt->execute([$tId]);
         return $stmt->fetch();
@@ -24,13 +27,14 @@ class Transaction
 
     public function getRecordByUser($tId, $userId)
     {
+        // Pobiera transakcję tylko wtedy, gdy należy do wskazanego użytkownika.
         $stmt = $this->db->prepare("SELECT * FROM transactions WHERE id = ? AND user_id = ?");
         $stmt->execute([$tId, $userId]);
         return $stmt->fetch();
     }
 
     /**
-     * Pobiera sumę transakcji danego typu (income/expense) dla użytkownika.
+     * Sumuje transakcje danego typu dla użytkownika.
      */
     public function getTotalByType($userId, $type)
     {
@@ -40,7 +44,7 @@ class Transaction
     }
 
     /**
-     * Pobiera ostatnie transakcje użytkownika z nazwami kategorii.
+     * Pobiera ostatnie transakcje użytkownika wraz z nazwami kategorii i budżetów.
      */
     public function getRecent($userId, $limit = 10)
     {
@@ -59,6 +63,7 @@ class Transaction
 
     public function getTotalByTypeAndMonth($userId, $month, $type)
     {
+        // Suma miesięczna zasila kafelki dashboardu i widok portfela.
         $stmt = $this->db->prepare("
             SELECT SUM(amount) as total
             FROM transactions
@@ -72,6 +77,7 @@ class Transaction
 
     public function getByMonth($userId, $month)
     {
+        // Lista miesięczna obejmuje także nazwę wspólnego budżetu, jeśli transakcja jest z nim powiązana.
         $stmt = $this->db->prepare("
             SELECT t.*, c.name as category_name, h.name as shared_budget_name
             FROM transactions t 
@@ -86,7 +92,7 @@ class Transaction
     }
 
     /**
-     * Pobiera wszystkie transakcje użytkownika.
+     * Pobiera pełną historię transakcji użytkownika.
      */
     public function getAllByUser($userId)
     {
@@ -104,6 +110,7 @@ class Transaction
 
     public function getSharedBudgetTotalByMonth($sharedBudgetId, $year, $month)
     {
+        // Suma wspólnych kosztów obejmuje wyłącznie standardowe wydatki przypisane do budżetu.
         $stmt = $this->db->prepare(
             'SELECT COALESCE(SUM(amount), 0)
              FROM transactions
@@ -120,6 +127,7 @@ class Transaction
 
     public function getSharedBudgetExpensesByMonth($sharedBudgetId, $year, $month)
     {
+        // Szczegółowa lista wydatków wspólnego budżetu pokazuje osobę płacącą i kategorię.
         $stmt = $this->db->prepare(
             'SELECT t.id,
                     t.shared_budget_id,
@@ -149,6 +157,7 @@ class Transaction
 
     public function getUserSharedBudgetCostByMonth($userId, $year, $month)
     {
+        // Wylicza część wspólnych kosztów przypadającą na użytkownika według jego udziałów.
         $stmt = $this->db->prepare(
             'SELECT COALESCE(SUM(t.amount * (hm.share_percent / 100)), 0)
              FROM transactions t
@@ -165,7 +174,7 @@ class Transaction
     }
 
     /**
-     * Dodaje nową transakcję.
+     * Dodaje nową transakcję portfelową.
      */
     public function add($data)
     {
@@ -190,6 +199,7 @@ class Transaction
 
     public function recurringEntryExists(int $recurringTransactionId, string $date): bool
     {
+        // Chroni generator cykliczny przed utworzeniem duplikatu dla tej samej daty.
         $stmt = $this->db->prepare(
             'SELECT COUNT(*)
              FROM transactions
@@ -201,7 +211,7 @@ class Transaction
     }
 
     /**
-     * Usuwa transakcję.
+     * Usuwa transakcję należącą do wskazanego użytkownika.
      */
     public function delete($id, $userId)
     {

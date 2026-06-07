@@ -3,17 +3,18 @@
 /**
  * Klasa Router
  * 
- * Odpowiada za mechanizm routingu w aplikacji. Analizuje przychodzące 
- * adresy URL, usuwa prefiksy folderów projektu i dopasowuje żądanie 
- * do właściwego kontrolera oraz akcji. Obsługuje metody GET i POST, 
- * zapewniając poprawne kierowanie ruchu wewnątrz systemu.
+ * Odpowiada za mapowanie adresów URL na kontrolery aplikacji.
+ * Normalizuje ścieżkę żądania względem katalogu projektu, rozpoznaje wybraną trasę
+ * oraz uruchamia odpowiednią akcję kontrolera dla metod GET i POST.
  */
 class Router
 {
     public function dispatch($uri)
     {
+        // Pobiera wyłącznie ścieżkę adresu, bez parametrów query string.
         $path = parse_url($uri, PHP_URL_PATH);
 
+        // Usuwa prefiks katalogu aplikacji, gdy projekt działa w podfolderze serwera.
         $scriptName = dirname($_SERVER['SCRIPT_NAME']);
 
         if ($scriptName !== '/') {
@@ -21,6 +22,8 @@ class Router
         }
 
         $path = trim($path, '/');
+
+        // Główna tabela tras aplikacji. Każdy przypadek deleguje obsługę do właściwego kontrolera.
         switch ($path) {
             case '':
             case 'home':
@@ -47,6 +50,7 @@ class Router
 
             case 'login':
                 $controller = new LoginController();
+                // Logowanie korzysta z tej samej trasy dla wyświetlenia formularza i obsługi POST.
                 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $controller->login();
                 } else {
@@ -56,6 +60,7 @@ class Router
 
             case 'register':
                 $regController = new RegisterController();
+                // Rejestracja rozróżnia widok formularza i zapis użytkownika na podstawie metody HTTP.
                 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $regController->register();
                 } else {
@@ -133,7 +138,7 @@ class Router
 
 
             default:
-                // Jeśli nie znaleziono dopasowania wywołaj ErrorController
+                // Brak dopasowania trasy przekazuje żądanie do widoku błędu 404.
                 (new ErrorController())->show404();
                 break;
         }

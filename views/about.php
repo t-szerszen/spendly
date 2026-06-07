@@ -1,30 +1,30 @@
 <?php
 /**
- * Widok: O nas (About)
+ * Widok: O nas
  * 
- * Statyczna strona informacyjna przedstawiająca misję projektu Spendly oraz 
- * powody jego powstania. Prezentowana niezalogowanym użytkownikom.
+ * Prezentuje publiczną stronę informacyjną opisującą misję,
+ * założenia produktu oraz wyróżniki aplikacji Spendly.
  */
 $title = $data['title'] ?? 'O nas - Spendly';
 ?>
 <!DOCTYPE html>
 <html lang="pl">
 
-<!-- Head -->
 <?php include comp('head.php'); ?>
 
 <body>
 
-    <!-- Nawigacja -->
     <?php include comp('nav.php'); ?>
 
-    <!-- Sekcja O nas -->
+    <!-- Główna treść informacyjna strony "O nas". -->
     <main class="about-section">
+        <!-- Nagłówek strony wyjaśniający ogólny cel aplikacji. -->
         <div class="about-header">
             <h1>Czym jest Spendly?</h1>
             <p>Spendly to nowoczesna aplikacja do zarządzania finansami osobistymi, stworzona z myślą o osobach, które chcą mieć pełną kontrolę nad swoimi pieniędzmi bez konieczności spędzania godzin nad skomplikowanymi arkuszami kalkulacyjnymi.</p>
         </div>
 
+        <!-- Bloki tekstowe opisujące funkcje, misję i wizję produktu. -->
         <div class="about-content">
             <div class="about-text-block">
                 <h2>Co oferuje Spendly?</h2>

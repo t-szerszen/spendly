@@ -3,11 +3,22 @@
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 
+/**
+ * Klasa MailService
+ *
+ * Odpowiada za wysyłkę wiadomości e-mail z aplikacji.
+ * Aktualnie obsługuje zaproszenia do wspólnych budżetów z użyciem PHPMailer
+ * oraz konfiguracji SMTP pobieranej ze zmiennych środowiskowych.
+ */
 class MailService
 {
+    /**
+     * Wysyła wiadomość z zaproszeniem do wspólnego budżetu.
+     */
     public function sendSharedBudgetInvitation($toEmail, $sharedBudgetName, $inviterName, $inviteUrl)
     {
         try {
+            // Konfiguracja SMTP jest pobierana z pliku środowiskowego aplikacji.
             $mail = new PHPMailer(true);
             $mail->CharSet = 'UTF-8';
             $mail->isSMTP();
@@ -25,6 +36,7 @@ class MailService
             $mail->isHTML(true);
             $mail->Subject = 'Zaproszenie do wspólnego budżetu w Spendly';
 
+            // Wersja HTML korzysta z szablonu widoku, a AltBody zapewnia treść tekstową.
             $mail->Body = $this->renderInvitationTemplate([
                 'sharedBudgetName' => $sharedBudgetName,
                 'inviterName' => $inviterName,
@@ -41,13 +53,18 @@ class MailService
 
             return $mail->send();
         } catch (Exception $e) {
+            // Błąd wysyłki nie ujawnia szczegółów użytkownikowi, ale trafia do logów serwera.
             error_log('Błąd wysyłki maila zaproszenia: ' . $e->getMessage());
             return false;
         }
     }
 
+    /**
+     * Renderuje szablon HTML wiadomości zaproszenia.
+     */
     private function renderInvitationTemplate(array $data)
     {
+        // Bufor wyjścia pozwala wykorzystać plik widoku jako treść wiadomości.
         ob_start();
         $template = __DIR__ . '/../views/emails/shared_budget_invitation.php';
         include $template;

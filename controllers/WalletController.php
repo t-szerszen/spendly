@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Klasa WalletController
+ *
+ * Odpowiada za miesięczny widok portfela zalogowanego użytkownika.
+ * Przygotowuje statystyki przychodów, wydatków, bilansu, udziału we wspólnych budżetach
+ * oraz dane wymagane przez formularz szybkiego dodawania transakcji.
+ */
 class WalletController
 {
     private $transactionModel;
@@ -19,13 +26,17 @@ class WalletController
 
     public function show()
     {
+        // Portfel jest dostępny wyłącznie po zalogowaniu.
         if (!$this->authService->isLoggedIn()) {
             header('Location: ' . url('login'));
             exit;
         }
 
         $userId = $_SESSION['user_id'];
+        // Przed wyświetleniem portfela generowane są zaległe transakcje cykliczne.
         $this->recurringTransactionModel->generateDueForUser($userId, $this->transactionModel);
+
+        // Parametr month pozwala przeglądać historię portfela miesiąc po miesiącu.
         $selectedDate = !empty($_GET['month'])
             ? DateTimeImmutable::createFromFormat('!Y-m', $_GET['month'])
             : false;
@@ -35,6 +46,7 @@ class WalletController
         }
 
         $month = $selectedDate->format('Y-m');
+        // Dane finansowe zasilają kafelki statystyk, tabelę transakcji i komponent quickAdd.
         $categories = $this->categoryModel->getCategories();
         $transactions = $this->transactionModel->getByMonth($userId, $month);
         $totalExpense = $this->transactionModel->getTotalByTypeAndMonth($userId, $month, 'expense');
@@ -47,6 +59,7 @@ class WalletController
         );
         $sharedBudgets = $this->sharedBudgetModel->findByUser($userId);
 
+        // Struktura danych przekazywana do widoku wallet.php i komponentu quickAdd.php.
         $data = [
             'title' => 'Portfel',
             'categories' => $categories,

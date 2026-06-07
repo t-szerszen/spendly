@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Klasa SharedBudgetController
+ *
+ * Odpowiada za pełny przepływ wspólnych budżetów: listę budżetów, tworzenie,
+ * zaproszenia, członkostwo, udziały procentowe oraz księgowanie spłat.
+ * Wszystkie akcje operujące na konkretnym budżecie weryfikują dostęp użytkownika.
+ */
 class SharedBudgetController
 {
     private $authService;
@@ -25,6 +32,7 @@ class SharedBudgetController
 
     public function index()
     {
+        // Lista zawiera wyłącznie budżety, w których bieżący użytkownik jest członkiem.
         $this->requireLogin();
 
         $userId = $_SESSION['user_id'];
@@ -40,6 +48,7 @@ class SharedBudgetController
 
     public function create()
     {
+        // Formularz tworzenia nowego wspólnego budżetu.
         $this->requireLogin();
 
         $data = [
@@ -51,6 +60,7 @@ class SharedBudgetController
 
     public function store()
     {
+        // Tworzy budżet i przypisuje bieżącego użytkownika jako właściciela z udziałem 100%.
         $this->requireLogin();
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -84,6 +94,7 @@ class SharedBudgetController
 
     public function show()
     {
+        // Widok szczegółowy obejmuje saldo członków, wydatki, spłaty i zarządzanie dostępem.
         $this->requireLogin();
 
         $sharedBudgetId = (int) ($_GET['id'] ?? 0);
@@ -103,6 +114,7 @@ class SharedBudgetController
 
     public function invite()
     {
+        // Zaproszenia może wysyłać wyłącznie właściciel budżetu.
         $this->requireLogin();
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -140,6 +152,7 @@ class SharedBudgetController
             return;
         }
 
+        // Token zaproszenia jest jednorazowym identyfikatorem ważnym przez siedem dni.
         $sharedBudget = $this->sharedBudgetModel->find($sharedBudgetId);
         $inviter = $this->userModel->findByEmail($_SESSION['email'] ?? '');
         $inviterName = $inviter ? trim($inviter['first_name'] . ' ' . $inviter['last_name']) : ($_SESSION['first_name'] ?? 'Użytkownik');
@@ -175,6 +188,7 @@ class SharedBudgetController
 
     public function acceptInvite()
     {
+        // Akceptacja zaproszenia wymaga zalogowania na konto z adresem wskazanym w zaproszeniu.
         $token = $_GET['token'] ?? '';
         if ($token === '') {
             header('Location: ' . url('shared_budgets'));
@@ -235,6 +249,7 @@ class SharedBudgetController
 
     public function updateShares()
     {
+        // Aktualizacja udziałów jest ograniczona do właściciela i wymaga sumy dokładnie 100%.
         $this->requireLogin();
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -296,6 +311,7 @@ class SharedBudgetController
 
     public function settle(): void
     {
+        // Księguje spłatę tylko wtedy, gdy odpowiada aktualnie sugerowanemu przelewowi.
         $this->requireLogin();
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -368,6 +384,7 @@ class SharedBudgetController
 
     public function deleteInvitation(): void
     {
+        // Anulowanie aktywnego zaproszenia jest akcją administracyjną właściciela.
         $this->requireLogin();
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -402,6 +419,7 @@ class SharedBudgetController
 
     public function leave(): void
     {
+        // Członek może opuścić budżet, z wyjątkiem ostatniego właściciela.
         $this->requireLogin();
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -436,6 +454,7 @@ class SharedBudgetController
 
     public function removeMember(): void
     {
+        // Właściciel może usuwać zwykłych członków, ale nie siebie ani innych właścicieli.
         $this->requireLogin();
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -480,6 +499,7 @@ class SharedBudgetController
 
     public function delete(): void
     {
+        // Usunięcie całego wspólnego budżetu jest dostępne tylko dla właściciela.
         $this->requireLogin();
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -507,6 +527,7 @@ class SharedBudgetController
 
     private function renderSharedBudget($sharedBudgetId, ?string $period = null, ?string $error = null)
     {
+        // Centralne przygotowanie danych dla widoku szczegółów wspólnego budżetu.
         $sharedBudget = $this->sharedBudgetModel->find($sharedBudgetId);
         if (!$sharedBudget) {
             header('Location: ' . url('shared_budgets'));
@@ -556,6 +577,7 @@ class SharedBudgetController
 
     private function resolvePeriod(?string $period): ?string
     {
+        // Normalizuje okres rozliczeniowy do formatu YYYY-MM.
         if (!$period) {
             return null;
         }
@@ -570,11 +592,13 @@ class SharedBudgetController
 
     private function buildPeriodQuery(?string $period): string
     {
+        // Zachowuje wybrany miesiąc podczas przekierowań po akcjach formularzy.
         return $period ? '&period=' . urlencode($period) : '';
     }
 
     private function currentUserIsOwner($sharedBudgetId): bool
     {
+        // Sprawdza uprawnienia administracyjne bieżącego użytkownika w danym budżecie.
         $member = $this->memberModel->getMember($sharedBudgetId, (int) $_SESSION['user_id']);
 
         return $member && $member['role'] === 'owner';
@@ -582,6 +606,7 @@ class SharedBudgetController
 
     private function requireLogin(): void
     {
+        // Wspólne budżety są dostępne wyłącznie po zalogowaniu.
         if (!$this->authService->isLoggedIn()) {
             header('Location: ' . url('login'));
             exit;

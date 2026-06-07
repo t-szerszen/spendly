@@ -1,24 +1,22 @@
 <?php
 /**
- * Widok: Strona Główna (Home)
+ * Widok: Strona główna
  * 
- * Odpowiada za prezentację publicznej strony głównej (landing page) aplikacji Spendly.
- * Zawiera sekcję Hero, listę kluczowych funkcjonalności oraz odnośniki do logowania/rejestracji.
+ * Prezentuje publiczną stronę startową aplikacji Spendly.
+ * Zawiera sekcję powitalną, główne akcje rejestracji i informacji oraz slider funkcjonalności.
  */
 $title = $data['title'] ?? 'Spendly - Mądrze zarządzaj swoimi finansami';
 ?>
 <!DOCTYPE html>
 <html lang="pl">
 
-<!-- Head -->
 <?php include comp('head.php'); ?>
 
 <body>
 
-    <!-- Nawigacja -->
     <?php include comp('nav.php'); ?>
 
-    <!-- Sekcja Hero -->
+    <!-- Sekcja powitalna z głównym komunikatem i akcjami publicznymi. -->
     <section class="hero">
         <h1>Odzyskaj pełną kontrolę nad budżetem</h1>
         <p>Spendly to nowoczesne narzędzie, z którym w łatwy i przyjemny sposób przeanalizujesz swoje wydatki, ustalisz
@@ -29,7 +27,7 @@ $title = $data['title'] ?? 'Spendly - Mądrze zarządzaj swoimi finansami';
         </div>
     </section>
 
-    <!-- Sekcja Funkcjonalności / O projekcie -->
+    <!-- Slider prezentujący najważniejsze funkcjonalności aplikacji. -->
     <section class="features slider-section">
         <h2 class="section-title">Dlaczego Spendly?</h2>
         <div class="slider">
@@ -74,6 +72,7 @@ $title = $data['title'] ?? 'Spendly - Mądrze zarządzaj swoimi finansami';
 
     <script>
         (function() {
+            // Lokalna logika slidera strony głównej: slajdy, przyciski i automatyczna zmiana.
             const sliderInner = document.getElementById('featureSlider');
             const slides = document.querySelectorAll('#featureSlider .slide');
             const buttons = document.querySelectorAll('.slider-button');
@@ -83,6 +82,7 @@ $title = $data['title'] ?? 'Spendly - Mądrze zarządzaj swoimi finansami';
             let timer = null;
 
             function showSlide(index) {
+                // Indeks jest zawijany, aby nawigacja działała cyklicznie.
                 if (index < 0) index = slides.length - 1;
                 if (index >= slides.length) index = 0;
                 slides.forEach((slide, idx) => {
@@ -98,6 +98,7 @@ $title = $data['title'] ?? 'Spendly - Mądrze zarządzaj swoimi finansami';
             }
 
             function resetTimer() {
+                // Interwał jest resetowany po ręcznej zmianie slajdu.
                 if (timer) clearInterval(timer);
                 timer = setInterval(nextSlide, 7000);
             }

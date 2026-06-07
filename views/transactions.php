@@ -1,16 +1,14 @@
 <?php
 /**
- * Widok: Historia transakcji (Transactions)
+ * Widok: Historia transakcji
  * 
- * Wyświetla pełną listę wszystkich transakcji (przychodów i wydatków) 
- * zalogowanego użytkownika w formie tabeli. Zawiera możliwość usunięcia 
- * wybranej operacji z systemu.
+ * Prezentuje definicje płatności cyklicznych oraz pełną historię transakcji
+ * zalogowanego użytkownika. Udostępnia akcje usuwania wpisów i przejście do portfela.
  */
 ?>
 <!DOCTYPE html>
 <html lang="pl">
 
-<!-- Head -->
 <?php include comp('head.php'); ?>
 
 <body>
@@ -18,17 +16,20 @@
 
     <main class="auth-section transactions-section">
         <div class="container transactions-container">
+            <!-- Nagłówek historii oraz link do formularza dodawania transakcji w portfelu. -->
             <div class="transactions-header">
                 <h1 class="transactions-title">Historia transakcji</h1>
                 <a href="<?= url('wallet') ?>" class="btn-secondary"> + Dodaj nową</a>
             </div>
 
             <div class="transactions-stack">
+                <!-- Sekcja definicji płatności cyklicznych zapisanych przez użytkownika. -->
                 <div class="auth-card transactions-card">
                     <div class="transactions-section-head">
                         <h2>Transakcje cykliczne</h2>
                     </div>
                     <?php if (!empty($data['recurringTransactions'])): ?>
+                        <!-- Tabela pokazuje konfigurację płatności cyklicznych oraz ich status. -->
                         <table class="transactions-table">
                             <thead>
                                 <tr>
@@ -50,8 +51,9 @@
                                         <td><?= !empty($r['end_date']) ? htmlspecialchars($r['end_date']) : 'Bez końca' ?></td>
                                         <td>
                                             <span class="category-badge">
-                                                <?php
-                                                $frequencyLabels = [
+                                            <?php
+                                            // Etykiety zamieniają techniczne wartości frequency na tekst widoczny w interfejsie.
+                                            $frequencyLabels = [
                                                     'weekly' => 'Tygodniowo',
                                                     'monthly' => 'Miesięcznie',
                                                     'quarterly' => 'Kwartalnie',
@@ -100,11 +102,13 @@
                     <?php endif; ?>
                 </div>
 
+                <!-- Sekcja pełnej historii pojedynczych i wygenerowanych transakcji. -->
                 <div class="auth-card transactions-card transactions-history-card">
                     <div class="transactions-section-head">
                         <h2>Historia transakcji</h2>
                     </div>
                     <?php if (!empty($data['transactions'])): ?>
+                        <!-- Tabela historii obejmuje kategorię, budżet, opis, kwotę i akcję usunięcia. -->
                         <table class="transactions-table">
                             <thead>
                                 <tr>

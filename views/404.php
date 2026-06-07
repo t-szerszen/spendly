@@ -1,24 +1,22 @@
 <?php
 /**
- * Widok: Błąd 404 (Not Found)
+ * Widok: Błąd 404
  * 
- * Strona błędu wyświetlana, gdy użytkownik próbuje wejść na nieistniejący URL.
- * Oferuje przyciski pozwalające wrócić na stronę główną lub skontaktować się z pomocą.
+ * Prezentuje publiczny komunikat dla nieistniejącej trasy aplikacji.
+ * Udostępnia akcje powrotu na stronę główną oraz przejścia do kontaktu.
  */
 $title = $data['title'] ?? 'Błąd 404 - Strona nie istnieje';
 ?>
 <!DOCTYPE html>
 <html lang="pl">
 
-<!-- Head -->
 <?php include comp('head.php'); ?>
 
 <body>
 
-    <!-- Nawigacja -->
     <?php include comp('nav.php'); ?>
 
-    <!-- Sekcja 404 -->
+    <!-- Karta błędu z kodem HTTP i akcjami nawigacyjnymi. -->
     <main class="error-section">
         <div class="error-card">
             <div class="error-code">404</div>

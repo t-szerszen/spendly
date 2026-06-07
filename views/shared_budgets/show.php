@@ -1,4 +1,11 @@
 <?php
+/**
+ * Widok: Szczegóły wspólnego budżetu
+ *
+ * Prezentuje miesięczne rozliczenie wspólnych kosztów, salda członków,
+ * sugerowane spłaty, historię wydatków oraz narzędzia administracyjne ownera.
+ */
+
 $sharedBudget = $data['sharedBudget'];
 $members = $data['members'];
 $invitedUsers = $data['invitedUsers'];
@@ -24,6 +31,7 @@ $positiveBalances = array_filter($monthlyBalance, static function ($row) {
 
 <main class="auth-section shared_budgets-section">
     <div class="container shared_budgets-container">
+        <!-- Nagłówek widoku szczegółowego oraz powrót do listy budżetów. -->
         <div class="shared_budgets-header">
             <div>
                 <h1 class="dashboard-title"><?= htmlspecialchars($sharedBudget['name']) ?></h1>
@@ -32,6 +40,7 @@ $positiveBalances = array_filter($monthlyBalance, static function ($row) {
             <a href="<?= url('shared_budgets') ?>" class="btn-secondary">Wróć do listy</a>
         </div>
 
+        <!-- Komunikaty statusu po akcjach administracyjnych, zaproszeniach i rozliczeniach. -->
         <?php if (!empty($_GET['created'])): ?>
             <div class="form-success">Wspólny budżet został utworzony.</div>
         <?php endif; ?>
@@ -111,6 +120,7 @@ $positiveBalances = array_filter($monthlyBalance, static function ($row) {
             <div class="form-error">Nie udało się zaksięgować rozliczenia. Spróbuj ponownie.</div>
         <?php endif; ?>
 
+        <!-- Wybór miesiąca sterujący zakresem danych finansowych na stronie. -->
         <section class="auth-card shared_budgets-hero-card">
             <div class="sharedBudget-hero-copy">
                 <p class="sharedBudget-eyebrow">Miesięczne rozliczenie</p>
@@ -125,6 +135,7 @@ $positiveBalances = array_filter($monthlyBalance, static function ($row) {
             </form>
         </section>
 
+        <!-- Szybkie wskaźniki podsumowujące bieżący miesiąc i rolę użytkownika. -->
         <section class="sharedBudget-kpi-grid">
             <div class="auth-card sharedBudget-kpi-card">
                 <span class="sharedBudget-kpi-label">Suma wydatków</span>
@@ -150,6 +161,7 @@ $positiveBalances = array_filter($monthlyBalance, static function ($row) {
 
         <div class="shared_budgets-show-layout">
             <section class="shared_budgets-main-column">
+                <!-- Bilans netto każdego członka po uwzględnieniu udziału i wykonanych spłat. -->
                 <div class="auth-card shared_budgets-summary-card sharedBudget-full-span">
                     <div class="sharedBudget-summary-row">
                         <div>
@@ -191,6 +203,7 @@ $positiveBalances = array_filter($monthlyBalance, static function ($row) {
                     </div>
                 </div>
 
+                <!-- Lista rekomendowanych przelewów wyrównujących salda członków. -->
                 <div class="auth-card shared_budgets-panel sharedBudget-full-span">
                     <div class="sharedBudget-section-heading">
                         <div>
@@ -231,6 +244,7 @@ $positiveBalances = array_filter($monthlyBalance, static function ($row) {
                     <?php endif; ?>
                 </div>
 
+                <!-- Wydatki przypisane z portfela do tego wspólnego budżetu. -->
                 <div class="auth-card shared_budgets-panel sharedBudget-expenses-panel sharedBudget-full-span">
                     <div class="sharedBudget-section-heading">
                         <div>
@@ -270,6 +284,7 @@ $positiveBalances = array_filter($monthlyBalance, static function ($row) {
                     <?php endif; ?>
                 </div>
 
+                <!-- Historia spłat zaksięgowanych dla aktualnie wybranego miesiąca. -->
                 <div class="auth-card shared_budgets-panel sharedBudget-full-span">
                     <div class="sharedBudget-section-heading">
                         <div>
@@ -299,6 +314,7 @@ $positiveBalances = array_filter($monthlyBalance, static function ($row) {
                     <?php endif; ?>
                 </div>
 
+                <!-- Udziały procentowe decydujące o podziale wspólnych kosztów. -->
                 <div class="auth-card shared_budgets-panel sharedBudget-full-span">
                     <div class="sharedBudget-section-heading">
                         <div>
@@ -349,6 +365,7 @@ $positiveBalances = array_filter($monthlyBalance, static function ($row) {
                     <?php endif; ?>
                 </div>
 
+                <!-- Zaproszenia, lista członków i akcje administracyjne budżetu. -->
                 <div class="auth-card shared_budgets-panel sharedBudget-full-span">
                     <div class="sharedBudget-section-heading">
                         <div>

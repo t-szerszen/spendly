@@ -1,4 +1,5 @@
 document.querySelectorAll('.quick-add-form').forEach((form) => {
+    // Referencje do pól sterujących logiką formularza szybkiego dodawania.
     const typeSelect = form.querySelector('.quick-add-type');
     const categorySelect = form.querySelector('.quick-add-category');
     const budgetSelect = form.querySelector('.quick-add-budget');
@@ -18,6 +19,7 @@ document.querySelectorAll('.quick-add-form').forEach((form) => {
     }
 
     const syncCategoryState = () => {
+        // Lista kategorii jest filtrowana zgodnie z typem transakcji.
         const selectedType = typeSelect.value;
         const categoryOptions = categorySelect.querySelectorAll('option[data-type]');
 
@@ -38,6 +40,7 @@ document.querySelectorAll('.quick-add-form').forEach((form) => {
     };
 
     const syncBudgetState = () => {
+        // Wspólny budżet można przypisać tylko do wydatku i tylko wtedy, gdy użytkownik ma dostępny budżet.
         const isExpense = typeSelect.value === 'expense';
         const checkedScope = form.querySelector('input[name="scope"]:checked');
         const selectedScope = checkedScope ? checkedScope.value : 'private';
@@ -71,6 +74,7 @@ document.querySelectorAll('.quick-add-form').forEach((form) => {
     };
 
     const syncRecurringState = () => {
+        // Tryb cykliczny aktywuje pola częstotliwości oraz opcjonalnej daty końcowej.
         const isRecurring = recurringToggle && recurringToggle.checked === true;
 
         form.classList.toggle('is-recurring', isRecurring);
@@ -104,6 +108,7 @@ document.querySelectorAll('.quick-add-form').forEach((form) => {
     };
 
     if (sharedInput && sharedInput.disabled) {
+        // Flaga rozróżnia brak budżetów od czasowego wyłączenia pola dla przychodu.
         sharedInput.dataset.empty = '1';
     }
 

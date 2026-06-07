@@ -1,3 +1,12 @@
+<?php
+/**
+ * Widok: Raporty i statystyki
+ *
+ * Prezentuje podsumowanie finansów użytkownika dla wybranego zakresu dat.
+ * Zawiera wskaźniki KPI, porównania okresów, wykresy Chart.js,
+ * kalendarz transakcji oraz formularz szybkiego dodawania z poziomu kalendarza.
+ */
+?>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -12,6 +21,7 @@
 
     <main class="dashboard-main">
         <div class="dashboard-container">
+            <!-- Sekcja nagłówkowa z formularzem filtrowania zakresu raportu. -->
             <div class="dashboard-header-zone">
                 <div class="title-section">
                     <h1>Raporty i Statystyki</h1>
@@ -39,6 +49,7 @@
                 </form>
             </div>
 
+            <!-- Główne wskaźniki finansowe przygotowane przez SummaryController. -->
             <div class="kpi-grid">
                 <div class="kpi-card">
                     <h3>Przychody (Incomes)</h3>
@@ -76,6 +87,7 @@
                 </div>
             </div>
 
+            <!-- Wskaźniki uzupełniające: tempo wydatków, prognoza oraz bilans dzienny. -->
             <div class="insight-grid">
                 <div class="kpi-card insight-card">
                     <h3>Tempo wydawania</h3>
@@ -100,6 +112,7 @@
                 </div>
             </div>
 
+            <!-- Obszar analityczny z wykresem kategorii, rankingiem wydatków i kalendarzem. -->
             <div class="dashboard-grid">
                 <div class="grid-col flex-col">
                     <div class="report-card chart-card">
@@ -154,6 +167,7 @@
                 </div>
             </div>
 
+            <!-- Wykres bilansu miesięcznego z niezależną nawigacją po zakresie danych. -->
             <div class="report-card monthly-balance-card">
                 <div class="monthly-balance-header">
                     <div>
@@ -173,6 +187,7 @@
         </div>
     </main>
 
+    <!-- Formularz szybkiego dodawania transakcji inicjowany z poziomu kalendarza. -->
     <div class="calendar-quick-add" id="calendarQuickAdd" hidden>
         <div class="quick-add-head">
             <strong>Dodaj transakcję</strong>
@@ -214,6 +229,7 @@
         </form>
     </div>
 
+    <!-- Kontener danych JSON przekazywanych z PHP do warstwy JavaScript. -->
     <div
         id="summary-data"
         hidden

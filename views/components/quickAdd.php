@@ -1,4 +1,11 @@
 <?php
+/**
+ * Komponent: Szybkie dodawanie transakcji
+ *
+ * Renderuje formularz umożliwiający dodanie prywatnej lub wspólnej transakcji
+ * oraz opcjonalne ustawienie jej jako płatności cyklicznej.
+ */
+
 $sharedBudgets = $data['sharedBudgets'] ?? [];
 $quickAddId = 'quick-add-' . uniqid();
 ?>
@@ -13,6 +20,7 @@ $quickAddId = 'quick-add-' . uniqid();
     <form action="<?= url($data['quickAddPath']) ?>" method="POST" class="auth-form quick-add-form">
         <input type="hidden" name="redirect_to" value="<?= htmlspecialchars($data['quickAddRedirect'] ?? 'dashboard') ?>">
 
+        <!-- Zakres transakcji decyduje, czy koszt pozostaje prywatny, czy trafia do wspólnego budżetu. -->
         <fieldset class="quick-add-scope" aria-label="Zakres transakcji">
             <input id="<?= $quickAddId ?>-private" type="radio" name="scope" value="private" checked>
             <label for="<?= $quickAddId ?>-private">Prywatne</label>
@@ -21,6 +29,7 @@ $quickAddId = 'quick-add-' . uniqid();
         </fieldset>
 
         <input type="hidden" name="transaction_mode" value="single">
+        <!-- Przełącznik zmienia tryb pojedynczej transakcji na płatność cykliczną. -->
         <label class="quick-add-repeat-toggle" for="<?= $quickAddId ?>-recurring">
             <input id="<?= $quickAddId ?>-recurring" type="checkbox" name="transaction_mode" value="recurring">
             <span class="quick-add-repeat-switch" aria-hidden="true"></span>
@@ -63,6 +72,7 @@ $quickAddId = 'quick-add-' . uniqid();
                 </select>
             </label>
 
+            <!-- Pole budżetu jest aktywne wyłącznie dla wydatków oznaczonych jako wspólne. -->
             <label class="quick-add-budget-wrap">
                 <span>Budżet</span>
                 <select name="shared_budget_id" class="auth-input quick-add-budget">
@@ -77,6 +87,7 @@ $quickAddId = 'quick-add-' . uniqid();
                 <span>Opis</span>
                 <input type="text" name="description" placeholder="Opcjonalnie" class="auth-input">
             </label>
+            <!-- Pola cykliczności są włączane dynamicznie przez scripts/quickAddForm.js. -->
             <label class="quick-add-recurring-field" style="display: none;">
                 <span>Powtarzaj</span>
                 <select name="frequency" class="auth-input quick-add-frequency" disabled>

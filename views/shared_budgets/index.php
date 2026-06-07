@@ -1,4 +1,11 @@
 <?php
+/**
+ * Widok: Lista wspólnych budżetów
+ *
+ * Prezentuje budżety dostępne dla zalogowanego użytkownika,
+ * komunikaty po akcjach zaproszeń i członkostwa oraz przejście do tworzenia nowego budżetu.
+ */
+
 $shared_budgets = $data['shared_budgets'];
 $sharedBudgetCount = count($shared_budgets);
 ?>
@@ -10,6 +17,7 @@ $sharedBudgetCount = count($shared_budgets);
 
 <main class="auth-section shared_budgets-section">
     <div class="container shared_budgets-container">
+        <!-- Nagłówek listy oraz główna akcja utworzenia nowego budżetu. -->
         <div class="shared_budgets-header">
             <div>
                 <h1 class="dashboard-title">Wspólne budżety</h1>
@@ -18,6 +26,7 @@ $sharedBudgetCount = count($shared_budgets);
             <a href="<?= url('shared_budgets/create') ?>" class="btn-primary">+ Nowy budżet</a>
         </div>
 
+        <!-- Podsumowanie liczby budżetów dostępnych dla bieżącego użytkownika. -->
         <section class="auth-card shared_budgets-list-hero">
             <div class="shared_budgets-list-copy">
                 <p class="sharedBudget-eyebrow">Twoje budżety</p>
@@ -33,6 +42,7 @@ $sharedBudgetCount = count($shared_budgets);
             </div>
         </section>
 
+        <!-- Komunikaty po akcjach wykonywanych poza widokiem szczegółowym budżetu. -->
         <?php if (!empty($_GET['invite']) && $_GET['invite'] === 'expired'): ?>
             <div class="form-error">To zaproszenie wygasło.</div>
         <?php elseif (!empty($_GET['invite']) && $_GET['invite'] === 'invalid'): ?>
@@ -45,6 +55,7 @@ $sharedBudgetCount = count($shared_budgets);
             <div class="form-success">Wspólny budżet został usunięty.</div>
         <?php endif; ?>
 
+        <!-- Karty prowadzące do szczegółów poszczególnych wspólnych budżetów. -->
         <?php if (!empty($shared_budgets)): ?>
             <div class="shared_budgets-grid">
                 <?php foreach ($shared_budgets as $sharedBudget): ?>
@@ -68,6 +79,7 @@ $sharedBudgetCount = count($shared_budgets);
                 <?php endforeach; ?>
             </div>
         <?php else: ?>
+            <!-- Stan pusty zachęca do utworzenia pierwszego wspólnego budżetu. -->
             <div class="auth-card sharedBudget-empty">
                 <p>Nie masz jeszcze żadnego wspólnego budżetu.</p>
                 <a href="<?= url('shared_budgets/create') ?>" class="btn-primary">Utwórz pierwszy</a>
