@@ -26,16 +26,10 @@ class RegisterController
     public function register()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $firstName = $_POST['first_name'] ?? '';
-            $lastName = $_POST['last_name'] ?? '';
-            $email = $_POST['email'] ?? '';
-            $password = $_POST['password'] ?? '';
-
-            if (empty($firstName) || empty($email) || $password === '') {
-                $error = "Wypełnij wszystkie wymagane pola.";
-                require_once __DIR__ . '/../views/register.php';
-                return;
-            }
+            $firstName = trim((string) ($_POST['first_name'] ?? ''));
+            $lastName = trim((string) ($_POST['last_name'] ?? ''));
+            $email = trim((string) ($_POST['email'] ?? ''));
+            $password = (string) ($_POST['password'] ?? '');
 
             $result = $this->authService->register([
                 'first_name' => $firstName,

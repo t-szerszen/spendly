@@ -27,10 +27,10 @@
 
             <form action="<?= url('register') ?>" method="POST" class="auth-form">
                 <div class="form-row">
-                    <input type="text" name="first_name" placeholder="Imię" required class="auth-input">
-                    <input type="text" name="last_name" placeholder="Nazwisko" required class="auth-input">
+                    <input type="text" name="first_name" placeholder="Imię" required class="auth-input" value="<?= htmlspecialchars($_POST['first_name'] ?? '') ?>">
+                    <input type="text" name="last_name" placeholder="Nazwisko" required class="auth-input" value="<?= htmlspecialchars($_POST['last_name'] ?? '') ?>">
                 </div>
-                <input type="email" name="email" placeholder="Adres e-mail" required class="auth-input">
+                <input type="email" name="email" placeholder="Adres e-mail" required class="auth-input" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
                 <input type="password" name="password" placeholder="Hasło" required class="auth-input">
                 <button type="submit" class="btn-primary">Utwórz konto</button>
             </form>

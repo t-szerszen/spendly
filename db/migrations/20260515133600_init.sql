@@ -19,8 +19,7 @@ CREATE TABLE IF NOT EXISTS `shared_budgets` (
 CREATE TABLE IF NOT EXISTS `categories` (
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `name` VARCHAR(50) NOT NULL,
-    `type` ENUM('expense', 'income') NOT NULL DEFAULT 'expense',
-    `is_system` TINYINT(1) DEFAULT 0
+    `type` ENUM('expense', 'income') NOT NULL DEFAULT 'expense'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `transactions` (
@@ -41,12 +40,12 @@ CREATE TABLE IF NOT EXISTS `transactions` (
 CREATE INDEX `idx_transactions_date` ON `transactions`(`date`);
 CREATE INDEX `idx_transactions_user_type` ON `transactions`(`user_id`, `type`);
 
-INSERT IGNORE INTO `categories` (`id`, `name`, `type`, `is_system`) VALUES 
-(1, 'Jedzenie', 'expense', 1),
-(2, 'Transport', 'expense', 1),
-(3, 'Rozrywka', 'expense', 1),
-(4, 'Mieszkanie', 'expense', 1),
-(5, 'Wynagrodzenie', 'income', 1);
+INSERT IGNORE INTO `categories` (`id`, `name`, `type`) VALUES 
+(1, 'Jedzenie', 'expense'),
+(2, 'Transport', 'expense'),
+(3, 'Rozrywka', 'expense'),
+(4, 'Mieszkanie', 'expense'),
+(5, 'Wynagrodzenie', 'income');
 
 -- migrate:down
 DROP TABLE IF EXISTS `transactions`;
