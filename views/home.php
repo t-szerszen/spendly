@@ -30,56 +30,44 @@ $title = $data['title'] ?? 'Spendly - Mądrze zarządzaj swoimi finansami';
     </section>
 
     <!-- Sekcja Funkcjonalności / O projekcie -->
-    <section class="features">
+    <section class="features slider-section">
         <h2 class="section-title">Dlaczego Spendly?</h2>
-        <div class="features-grid">
-
-            <!-- Karta 1 -->
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <!-- Ikona SVG (portfel) -->
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z">
-                        </path>
-                    </svg>
+        <div class="slider">
+            <button class="slider-arrow slider-prev" aria-label="Poprzedni slajd">&#10094;</button>
+            <div class="slider-inner" id="featureSlider">
+                <div class="slide active" style="background-image: url('<?= asset('slajd-jeden.png') ?>'); display:flex;">
+                    <div class="slide-overlay"></div>
+                    <div class="slide-content">
+                        <h3>Śledzenie wydatków</h3>
+                        <p>Kategoryzuj swoje codzienne zakupy i w automatyczny sposób zobacz, gdzie uciekają Twoje pieniądze. Szybkie i bezbolesne wprowadzanie danych.</p>
+                    </div>
                 </div>
-                <h3>Śledzenie wydatków</h3>
-                <p>Kategoryzuj swoje codzienne zakupy i w automatyczny sposób zobacz, gdzie uciekają Twoje pieniądze.
-                    Szybkie i bezbolesne wprowadzanie danych.</p>
-            </div>
-
-            <!-- Karta 2 -->
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <!-- Ikona SVG (wykres) -->
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>
-                    </svg>
+                <div class="slide" style="background-image: url('<?= asset('slajd-dwa.png') ?>'); display:none;">
+                    <div class="slide-overlay"></div>
+                    <div class="slide-content">
+                        <h3>Dokładne Analizy</h3>
+                        <p>Korzystaj z przejrzystych wykresów, które pomogą Ci zrozumieć Twoje nawyki finansowe i prognozować wydatki na nadchodzące miesiące.</p>
+                    </div>
                 </div>
-                <h3>Dokładne Analizy</h3>
-                <p>Korzystaj z przejrzystych wykresów, które pomogą Ci zrozumieć Twoje nawyki finansowe i prognozować
-                    wydatki na nadchodzące miesiące.</p>
-            </div>
-
-            <!-- Karta 3 -->
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <!-- Ikona SVG (cel/tarcza) -->
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
+                <div class="slide" style="background-image: url('<?= asset('slajd-trzy.png') ?>'); display:none;">
+                    <div class="slide-overlay"></div>
+                    <div class="slide-content">
+                        <h3>Planowanie i Cele</h3>
+                        <p>Wyznaczaj realistyczne limity budżetowe oraz cele oszczędnościowe (np. na wymarzony wyjazd). Spendly przypilnuje, żebyś mieścił się w limitach.</p>
+                    </div>
                 </div>
-                <h3>Planowanie i Cele</h3>
-                <p>Wyznaczaj realistyczne limity budżetowe oraz cele oszczędnościowe (np. na wymarzony wyjazd). Spendly
-                    przypilnuje, żebyś mieścił się w limitach.</p>
             </div>
-
+            <button class="slider-arrow slider-next" aria-label="Następny slajd">&#10095;</button>
         </div>
+        <div class="slider-controls">
+            <button class="slider-button active" data-slide="0" aria-label="Slajd 1"></button>
+            <button class="slider-button" data-slide="1" aria-label="Slajd 2"></button>
+            <button class="slider-button" data-slide="2" aria-label="Slajd 3"></button>
+        </div>
+    </section>
+
+    <section class="bottom-highlight">
+        <h2 class="bottom-highlight-heading">Spendly — bo świadomość finansowa zaczyna się od zrozumienia własnych wydatków.</h2>
     </section>
 
     <!-- Stopka -->
@@ -87,6 +75,63 @@ $title = $data['title'] ?? 'Spendly - Mądrze zarządzaj swoimi finansami';
         <p>&copy; <?php echo date('Y'); ?> Spendly. Wszelkie prawa zastrzeżone.</p>
     </footer>
 
+    <script>
+        (function() {
+            const sliderInner = document.getElementById('featureSlider');
+            const slides = document.querySelectorAll('#featureSlider .slide');
+            const buttons = document.querySelectorAll('.slider-button');
+            const prevButton = document.querySelector('.slider-prev');
+            const nextButton = document.querySelector('.slider-next');
+            let currentIndex = 0;
+            let timer = null;
+
+            function showSlide(index) {
+                if (index < 0) index = slides.length - 1;
+                if (index >= slides.length) index = 0;
+                slides.forEach((slide, idx) => {
+                    slide.style.display = idx === index ? 'flex' : 'none';
+                    slide.classList.toggle('active', idx === index);
+                });
+                buttons.forEach((btn, idx) => btn.classList.toggle('active', idx === index));
+                currentIndex = index;
+            }
+
+            function nextSlide() {
+                showSlide(currentIndex + 1);
+            }
+
+            function resetTimer() {
+                if (timer) clearInterval(timer);
+                timer = setInterval(nextSlide, 7000);
+            }
+
+            buttons.forEach((button, index) => {
+                button.addEventListener('click', () => {
+                    showSlide(index);
+                    resetTimer();
+                });
+            });
+
+            if (prevButton) {
+                prevButton.addEventListener('click', () => {
+                    showSlide(currentIndex - 1);
+                    resetTimer();
+                });
+            }
+
+            if (nextButton) {
+                nextButton.addEventListener('click', () => {
+                    showSlide(currentIndex + 1);
+                    resetTimer();
+                });
+            }
+
+            if (slides.length) {
+                showSlide(0);
+                resetTimer();
+            }
+        })();
+    </script>
 </body>
 
 </html>

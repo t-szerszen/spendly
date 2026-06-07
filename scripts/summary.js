@@ -188,11 +188,18 @@ document.addEventListener("DOMContentLoaded", function () {
     renderCalendar();
 
     // --- 4. WYKRESY (Chart.js Config Shared) ---
+    const chartTextColor = '#60707d';
+    const chartGridColor = 'rgba(18, 52, 95, 0.08)';
+    const chartBlue = '#12345f';
+    const chartCyan = '#247c93';
+    const chartGreen = '#4a8f3d';
+    const chartRed = '#d45245';
+
     const commonScales = {
-        x: { grid: { display: false }, ticks: { color: '#b2bec3' } },
+        x: { grid: { display: false }, ticks: { color: chartTextColor } },
         y: { 
-            grid: { color: 'rgba(255,255,255,0.05)' }, 
-            ticks: { color: '#b2bec3', callback: val => formatMoneyShort(expandMoney(val)) } 
+            grid: { color: chartGridColor }, 
+            ticks: { color: chartTextColor, callback: val => formatMoneyShort(expandMoney(val)) } 
         }
     };
     const commonPlugins = (rawDataSource) => ({
@@ -208,9 +215,9 @@ document.addEventListener("DOMContentLoaded", function () {
             type: 'line',
             data: {
                 labels: dataContainer.dailyBalanceLabels,
-                datasets: [{ data: raw.map(compressMoney), borderColor: '#00cec9', backgroundColor: 'rgba(0, 206, 201, 0.14)', fill: true, tension: 0.35, pointRadius: 2 }]
+                datasets: [{ data: raw.map(compressMoney), borderColor: chartCyan, backgroundColor: 'rgba(36, 124, 147, 0.14)', fill: true, tension: 0.35, pointRadius: 2 }]
             },
-            options: { responsive: true, maintainAspectRatio: false, scales: { ...commonScales, x: { ...commonScales.x, ticks: { color: '#b2bec3', maxTicksLimit: 8 } } }, plugins: commonPlugins(raw) }
+            options: { responsive: true, maintainAspectRatio: false, scales: { ...commonScales, x: { ...commonScales.x, ticks: { color: chartTextColor, maxTicksLimit: 8 } } }, plugins: commonPlugins(raw) }
         });
     }
 
@@ -249,13 +256,13 @@ document.addEventListener("DOMContentLoaded", function () {
             if (!monthlyChart) {
                 monthlyChart = new Chart(monthlyCtx.getContext('2d'), {
                     type: 'bar',
-                    data: { labels: slice.labels, datasets: [{ data: slice.values, backgroundColor: slice.raws.map(v => v >= 0 ? '#4cd137' : '#ff7675'), borderRadius: 6 }] },
+                    data: { labels: slice.labels, datasets: [{ data: slice.values, backgroundColor: slice.raws.map(v => v >= 0 ? chartGreen : chartRed), borderRadius: 6 }] },
                     options: { responsive: true, maintainAspectRatio: false, scales: commonScales, plugins: commonPlugins(slice.raws) }
                 });
             } else {
                 monthlyChart.data.labels = slice.labels;
                 monthlyChart.data.datasets[0].data = slice.values;
-                monthlyChart.data.datasets[0].backgroundColor = slice.raws.map(v => v >= 0 ? '#4cd137' : '#ff7675');
+                monthlyChart.data.datasets[0].backgroundColor = slice.raws.map(v => v >= 0 ? chartGreen : chartRed);
                 monthlyChart.options.plugins.tooltip.callbacks.label = ctx => `Bilans: ${formatMoney(slice.raws[ctx.dataIndex] || 0)}`;
                 monthlyChart.update();
             }
@@ -273,9 +280,9 @@ document.addEventListener("DOMContentLoaded", function () {
             type: 'doughnut',
             data: {
                 labels: dataContainer.categories,
-                datasets: [{ data: dataContainer.amounts, backgroundColor: ['#ff7675', '#00b894', '#0984e3', '#fdcb6e', '#6c5ce7', '#e17055', '#00cec9'], borderWidth: 2, borderColor: '#1e272e' }]
+                datasets: [{ data: dataContainer.amounts, backgroundColor: [chartRed, chartGreen, chartBlue, '#f2c94c', chartCyan, '#7d8f3d', '#20836f'], borderWidth: 2, borderColor: '#ffffff' }]
             },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { color: '#b2bec3', font: { size: 12, family: "'Inter', sans-serif" } } } } }
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { color: chartTextColor, font: { size: 12, family: "'Manrope', sans-serif" } } } } }
         });
     }
 });

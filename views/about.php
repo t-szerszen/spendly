@@ -22,25 +22,45 @@ $title = $data['title'] ?? 'O nas - Spendly';
     <main class="about-section">
         <div class="about-header">
             <h1>Czym jest Spendly?</h1>
-            <p>Projekt zrodzony z potrzeby prostego i zautomatyzowanego kontrolowania finansów osobistych bez ogromnych,
-                przytłaczających tabel w Excelu.</p>
+            <p>Spendly to nowoczesna aplikacja do zarządzania finansami osobistymi, stworzona z myślą o osobach, które chcą mieć pełną kontrolę nad swoimi pieniędzmi bez konieczności spędzania godzin nad skomplikowanymi arkuszami kalkulacyjnymi.</p>
         </div>
 
         <div class="about-content">
             <div class="about-text-block">
-                <h2>Nasza Misja</h2>
-                <p>Uważamy, że każdy powinien mieć możliwość świadomego zarządzania swoimi pieniędzmi. Spendly powstało,
-                    aby zapewnić przyjazny, szybki i przede wszystkim bezpieczny sposób na monitorowanie wydatków.
-                    Koniec z zastanawianiem się "Gdzie podziały się moje pieniądze?". Z nami każdy grosz ma swoje
-                    miejsce.</p>
+                <h2>Co oferuje Spendly?</h2>
+                <p>Projekt narodził się z codziennej potrzeby łatwego, przejrzystego i możliwie najbardziej zautomatyzowanego monitorowania wydatków. Dzięki Spendly możesz w prosty sposób śledzić przepływ pieniędzy, analizować wydatki i podejmować lepsze decyzje finansowe na podstawie rzeczywistych danych.</p>
             </div>
 
             <div class="about-text-block">
-                <h2>Dlaczego stworzyliśmy aplikację?</h2>
-                <p>Istniejące rozwiązania były albo zbyt skomplikowane i naszpikowane setkami zbędnych ustawień, albo
-                    zbyt proste, by cokolwiek z nich wywnioskować. Zdecydowaliśmy się zbudować system "dokładnie w
-                    punkt" – piękny, nowoczesny, przypisujący transakcje do elastycznych kategorii i dający klarowne,
-                    wykresowe analizy w czasie rzeczywistym.</p>
+                <h2>Nasza misja</h2>
+                <p>Naszą misją jest umożliwienie każdemu świadomego i odpowiedzialnego zarządzania własnymi finansami. Chcemy, aby użytkownicy dokładnie wiedzieli, na co przeznaczają swoje środki, mogli skutecznie planować budżet oraz budować zdrowe nawyki finansowe.</p>
+            </div>
+
+            <div class="about-text-block">
+                <h2>Dlaczego stworzyliśmy Spendly?</h2>
+                <p>Podczas poszukiwania idealnego narzędzia do kontroli wydatków zauważyliśmy, że większość dostępnych rozwiązań znajduje się na dwóch skrajnościach: albo są to rozbudowane systemy finansowe pełne zaawansowanych funkcji i skomplikowanych raportów, albo bardzo proste aplikacje, które pozwalają jedynie zapisywać wydatki. Postanowiliśmy stworzyć rozwiązanie, które wypełni tę lukę.</p>
+            </div>
+
+            <div class="about-text-block">
+                <h2>Co wyróżnia Spendly?</h2>
+                <ul>
+                    <li>Intuicyjny i nowoczesny interfejs, który nie wymaga długiego wdrażania.</li>
+                    <li>Automatyczna organizacja wydatków w przejrzyste i konfigurowalne kategorie.</li>
+                    <li>Analizy i statystyki w czasie rzeczywistym, dostępne zawsze wtedy, gdy ich potrzebujesz.</li>
+                    <li>Przejrzyste wizualizacje danych, które pomagają zrozumieć strukturę wydatków.</li>
+                    <li>Bezpieczeństwo danych jako jeden z fundamentów projektu.</li>
+                    <li>Skupienie na tym, co najważniejsze — bez zbędnych funkcji i złożoności.</li>
+                </ul>
+            </div>
+
+            <div class="about-text-block">
+                <h2>Nasza wizja</h2>
+                <p>Chcemy, aby Spendly stało się codziennym narzędziem wspierającym użytkowników w podejmowaniu świadomych decyzji finansowych. W świecie, w którym coraz więcej płatności odbywa się cyfrowo, łatwo stracić kontrolę nad przepływem pieniędzy. Naszą wizją jest stworzenie miejsca, w którym każda transakcja ma swoje znaczenie, każdy wydatek jest zrozumiały, a zarządzanie budżetem staje się prostym i naturalnym elementem codziennego życia.</p>
+            </div>
+
+            <div class="about-text-block about-highlight">
+                <h2>Spendly</h2>
+                <p>Świadomość finansowa zaczyna się od zrozumienia własnych wydatków. Spendly pomaga zamienić chaotyczne zestawienia liczb w jasne, wartościowe informacje, które wspierają lepsze decyzje każdego dnia.</p>
             </div>
         </div>
     </main>

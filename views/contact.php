@@ -66,7 +66,7 @@ $title = $data['title'] ?? 'Kontakt - Spendly';
                     </svg>
                 </div>
                 <h3>Siedziba</h3>
-                <p>Zespół pracuje zdalnie,<br>głównie w obrębie Warszawy.</p>
+                <p>Zespół pracuje zdalnie,<br>głównie w obrębie Leszna.</p>
             </div>
         </div>
     </main>

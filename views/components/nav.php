@@ -9,7 +9,7 @@
 <header>
 	<div class="nav-container">
 		<a href="<?= url('/') ?>" class="logo">
-			<img src="<?= asset('logo-napis.png') ?>" alt="Spendly Logo">
+			<img src="<?= asset('logo_napis.png') ?>" alt="Spendly Logo">
 		</a>
 		<nav class="nav-links">
 			<a href="<?= url('/') ?>">Strona Główna</a>
