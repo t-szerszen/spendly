@@ -50,10 +50,15 @@ $quickAddId = 'quick-add-' . uniqid();
 
             <label>
                 <span>Kategoria</span>
-                <select name="category_id" class="auth-input" required>
+                <select name="category_id" class="auth-input quick-add-category" required>
                     <option value="" disabled selected>Wybierz kategorię</option>
                     <?php foreach ($data['categories'] as $cat): ?>
-                        <option value="<?= (int) $cat['id'] ?>"><?= htmlspecialchars($cat['name']) ?></option>
+                        <option
+                            value="<?= (int) $cat['id'] ?>"
+                            data-type="<?= htmlspecialchars($cat['type'] ?? 'expense') ?>"
+                        >
+                            <?= htmlspecialchars($cat['name']) ?>
+                        </option>
                     <?php endforeach; ?>
                 </select>
             </label>
@@ -98,101 +103,4 @@ $quickAddId = 'quick-add-' . uniqid();
     </form>
 </div>
 
-<script>
-document.querySelectorAll('.quick-add-form').forEach((form) => {
-    const typeSelect = form.querySelector('.quick-add-type');
-    const budgetSelect = form.querySelector('.quick-add-budget');
-    const budgetWrap = form.querySelector('.quick-add-budget-wrap');
-    const scopeFieldset = form.querySelector('.quick-add-scope');
-    const scopeInputs = form.querySelectorAll('input[name="scope"]');
-    const sharedInput = form.querySelector('input[name="scope"][value="shared"]');
-    const sharedCopy = form.querySelector('.quick-add-shared-copy');
-    const recurringToggle = form.querySelector('input[name="transaction_mode"][value="recurring"]');
-    const recurringFields = form.querySelectorAll('.quick-add-recurring-field');
-    const frequencySelect = form.querySelector('.quick-add-frequency');
-    const endDateInput = form.querySelector('.quick-add-end-date');
-    const dateLabel = form.querySelector('.quick-add-date-label');
-
-    if (!typeSelect || !budgetSelect || !budgetWrap) {
-        return;
-    }
-
-    const syncBudgetState = () => {
-        const isExpense = typeSelect.value === 'expense';
-        const checkedScope = form.querySelector('input[name="scope"]:checked');
-        const selectedScope = checkedScope ? checkedScope.value : 'private';
-        const sharedAvailable = sharedInput && sharedInput.dataset.empty !== '1';
-        const canUseShared = isExpense && sharedAvailable;
-        const isShared = selectedScope === 'shared' && canUseShared;
-
-        budgetWrap.hidden = !isShared;
-        budgetSelect.disabled = !isShared;
-        budgetSelect.required = isShared;
-
-        if (sharedInput) {
-            sharedInput.disabled = !isExpense || sharedInput.dataset.empty === '1';
-        }
-
-        if (scopeFieldset) {
-            scopeFieldset.classList.toggle('is-income', !isExpense);
-        }
-
-        if (!isShared) {
-            budgetSelect.value = '';
-        }
-
-        if (!isExpense && sharedInput) {
-            form.querySelector('input[name="scope"][value="private"]').checked = true;
-        }
-
-        if (sharedCopy) {
-            sharedCopy.hidden = !isShared;
-        }
-    };
-
-    const syncRecurringState = () => {
-        const isRecurring = recurringToggle && recurringToggle.checked === true;
-
-        form.classList.toggle('is-recurring', isRecurring);
-
-        recurringFields.forEach((field) => {
-            field.style.display = isRecurring ? '' : 'none';
-        });
-
-        if (recurringToggle) {
-            const repeatToggle = recurringToggle.closest('.quick-add-repeat-toggle');
-            if (repeatToggle) {
-                repeatToggle.classList.toggle('is-recurring', isRecurring);
-            }
-        }
-
-        if (frequencySelect) {
-            frequencySelect.disabled = !isRecurring;
-            frequencySelect.required = isRecurring;
-        }
-
-        if (endDateInput) {
-            endDateInput.disabled = !isRecurring;
-            if (!isRecurring) {
-                endDateInput.value = '';
-            }
-        }
-
-        if (dateLabel) {
-            dateLabel.textContent = isRecurring ? 'Data początkowa' : 'Data';
-        }
-    };
-
-    if (sharedInput && sharedInput.disabled) {
-        sharedInput.dataset.empty = '1';
-    }
-
-    typeSelect.addEventListener('change', syncBudgetState);
-    scopeInputs.forEach((input) => input.addEventListener('change', syncBudgetState));
-    if (recurringToggle) {
-        recurringToggle.addEventListener('change', syncRecurringState);
-    }
-    syncBudgetState();
-    syncRecurringState();
-});
-</script>
+<script src="<?= url('scripts/quickAddForm.js') ?>"></script>

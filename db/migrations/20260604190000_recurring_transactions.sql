@@ -21,9 +21,41 @@ CREATE TABLE IF NOT EXISTS `recurring_transactions` (
     CONSTRAINT `fk_recurring_category` FOREIGN KEY (`category_id`) REFERENCES `categories`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-ALTER TABLE `transactions`
-    ADD COLUMN IF NOT EXISTS `recurring_transaction_id` INT UNSIGNED DEFAULT NULL AFTER `shared_budget_id`,
-    ADD INDEX IF NOT EXISTS `idx_transactions_recurring_date` (`recurring_transaction_id`, `date`);
+SET @recurring_column_exists = (
+    SELECT COUNT(*)
+    FROM information_schema.COLUMNS
+    WHERE TABLE_SCHEMA = DATABASE()
+      AND TABLE_NAME = 'transactions'
+      AND COLUMN_NAME = 'recurring_transaction_id'
+);
+
+SET @add_recurring_column_sql = IF(
+    @recurring_column_exists = 0,
+    'ALTER TABLE `transactions` ADD COLUMN `recurring_transaction_id` INT UNSIGNED DEFAULT NULL AFTER `shared_budget_id`',
+    'SELECT 1'
+);
+
+PREPARE add_recurring_column_stmt FROM @add_recurring_column_sql;
+EXECUTE add_recurring_column_stmt;
+DEALLOCATE PREPARE add_recurring_column_stmt;
+
+SET @recurring_index_exists = (
+    SELECT COUNT(*)
+    FROM information_schema.STATISTICS
+    WHERE TABLE_SCHEMA = DATABASE()
+      AND TABLE_NAME = 'transactions'
+      AND INDEX_NAME = 'idx_transactions_recurring_date'
+);
+
+SET @add_recurring_index_sql = IF(
+    @recurring_index_exists = 0,
+    'ALTER TABLE `transactions` ADD INDEX `idx_transactions_recurring_date` (`recurring_transaction_id`, `date`)',
+    'SELECT 1'
+);
+
+PREPARE add_recurring_index_stmt FROM @add_recurring_index_sql;
+EXECUTE add_recurring_index_stmt;
+DEALLOCATE PREPARE add_recurring_index_stmt;
 
 SET @fk_exists = (
     SELECT COUNT(*)

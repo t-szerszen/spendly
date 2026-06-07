@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <?php include 'components/navDashboard.php'; ?>
+    <?php include comp('navDashboard.php'); ?>
 
     <main class="dashboard-main">
         <div class="dashboard-container">
@@ -214,13 +214,18 @@
         </form>
     </div>
 
-    <script>
-        window.dashboardData = <?= json_encode(
-            $data['jsData'],
-            JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT
-        ) ?: '{}' ?>;
-    </script>
+    <div
+        id="summary-data"
+        hidden
+        data-dashboard="<?= htmlspecialchars(
+            json_encode($data['jsData'], JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?: '{}',
+            ENT_QUOTES | ENT_SUBSTITUTE,
+            'UTF-8'
+        ) ?>"
+    ></div>
 
     <script src="<?= url('scripts/summary.js') ?>"></script>
+
+    <?php include comp('footer.php'); ?>
 </body>
 </html>

@@ -171,13 +171,13 @@
     font-weight: 800;
 }
 
-.quick-add-scope input:checked + label {
+.quick-add-scope input:checked+label {
     color: #fff;
     background: var(--color-blue);
     box-shadow: var(--shadow-sm);
 }
 
-.quick-add-scope input:disabled + label {
+.quick-add-scope input:disabled+label {
     opacity: 0.45;
     cursor: not-allowed;
 }
@@ -249,12 +249,12 @@
     box-shadow: 0 12px 28px rgba(35, 185, 126, 0.12);
 }
 
-.quick-add-repeat-toggle input:checked + .quick-add-repeat-switch,
+.quick-add-repeat-toggle input:checked+.quick-add-repeat-switch,
 .quick-add-repeat-toggle.is-recurring .quick-add-repeat-switch {
     background: var(--color-green);
 }
 
-.quick-add-repeat-toggle input:checked + .quick-add-repeat-switch::after,
+.quick-add-repeat-toggle input:checked+.quick-add-repeat-switch::after,
 .quick-add-repeat-toggle.is-recurring .quick-add-repeat-switch::after {
     transform: translateX(1.2rem);
 }
@@ -264,7 +264,7 @@
 }
 
 .quick-add-scope.is-income input[value="shared"],
-.quick-add-scope.is-income input[value="shared"] + label {
+.quick-add-scope.is-income input[value="shared"]+label {
     display: none;
 }
 
@@ -573,6 +573,7 @@
 }
 
 @media (max-width: 980px) {
+
     .dashboard-hero,
     .wallet-hero,
     .dashboard-card-header {
