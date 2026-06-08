@@ -239,6 +239,12 @@ class TransactionsController
             exit;
         }
 
+        if ($redirectTo === 'summary') {
+            $summaryMonth = $_POST['summary_calendar_month'] ?? $month;
+            header('Location: ' . url('summary?calendar_month=' . urlencode($summaryMonth) . '&transaction=' . urlencode($status)));
+            exit;
+        }
+
         header('Location: ' . url('dashboard?transaction=' . urlencode($status)));
         exit;
     }

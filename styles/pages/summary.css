@@ -390,8 +390,6 @@
 .calendar-day.day-net-even { background: rgba(36, 124, 147, 0.11); border-color: rgba(36, 124, 147, 0.26); }
 .calendar-day.has-transaction .day-num { color: var(--color-blue); }
 .calendar-day.no-expense { border-color: rgba(113, 128, 147, 0.16); }
-.calendar-day.future-day { opacity: 0.55; }
-
 /* Przycisk szybkiego dodawania pojawia się dopiero po najechaniu na dzień kalendarza. */
 .calendar-add-link {
     align-items: center;
