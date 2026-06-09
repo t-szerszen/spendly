@@ -14,13 +14,6 @@ class Router
         // Pobiera wyłącznie ścieżkę adresu, bez parametrów query string.
         $path = parse_url($uri, PHP_URL_PATH);
 
-        // Usuwa prefiks katalogu aplikacji, gdy projekt działa w podfolderze serwera.
-        $scriptName = dirname($_SERVER['SCRIPT_NAME']);
-
-        if ($scriptName !== '/') {
-            $path = str_replace($scriptName, '', $path);
-        }
-
         $path = trim($path, '/');
 
         // Główna tabela tras aplikacji. Każdy przypadek deleguje obsługę do właściwego kontrolera.

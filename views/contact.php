@@ -5,7 +5,6 @@
  * Prezentuje publiczną stronę kontaktową z kanałami komunikacji,
  * społecznością oraz informacją o trybie pracy zespołu.
  */
-$title = $data['title'] ?? 'Kontakt - Spendly';
 $pageStyles = ['styles/pages/contact.css'];
 ?>
 <!DOCTYPE html>

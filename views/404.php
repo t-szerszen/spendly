@@ -5,7 +5,6 @@
  * Prezentuje publiczny komunikat dla nieistniejącej trasy aplikacji.
  * Udostępnia akcje powrotu na stronę główną oraz przejścia do kontaktu.
  */
-$title = $data['title'] ?? 'Błąd 404 - Strona nie istnieje';
 $pageStyles = ['styles/pages/error.css'];
 ?>
 <!DOCTYPE html>
@@ -26,8 +25,8 @@ $pageStyles = ['styles/pages/error.css'];
                 nie istniała. Pieniądze potrafią znikać, ale podstron postaramy się pilnować!</p>
 
             <div class="error-actions">
-                <a href="/" class="btn-primary">Wróć na stronę główną</a>
-                <a href="/contact" class="btn-secondary">Zgłoś problem</a>
+                <a href="<?= url('/') ?>" class="btn-primary">Wróć na stronę główną</a>
+                <a href="<?= url('contact') ?>" class="btn-secondary">Zgłoś problem</a>
             </div>
         </div>
     </main>

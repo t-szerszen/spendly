@@ -5,7 +5,6 @@
  * Prezentuje publiczną stronę startową aplikacji Spendly.
  * Zawiera sekcję powitalną, główne akcje rejestracji i informacji oraz slider funkcjonalności.
  */
-$title = $data['title'] ?? 'Spendly - Mądrze zarządzaj swoimi finansami';
 $pageStyles = ['styles/pages/home.css'];
 ?>
 <!DOCTYPE html>
