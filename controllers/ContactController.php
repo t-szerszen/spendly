@@ -14,7 +14,6 @@ class ContactController
         // Dane widoku są statyczne i służą ustawieniu tytułu strony.
         $data = [
             'title' => 'Kontakt',
-            'content' => 'Skontaktuj się z nami.'
         ];
 
         require_once __DIR__ . '/../views/contact.php';

@@ -14,7 +14,6 @@ class ErrorController
         // Dane widoku opisują błąd prezentowany użytkownikowi.
         $data = [
             'title' => 'Błąd 404',
-            'content' => 'Nie znaleziono strony.'
         ];
 
         // Kod HTTP musi odpowiadać stanowi strony, aby przeglądarka i roboty poprawnie rozpoznały błąd.
