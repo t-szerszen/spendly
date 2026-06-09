@@ -31,7 +31,7 @@ class SummaryController
 
         $userId = $_SESSION['user_id'];
         $today = date('Y-m-d');
-        $range = $this->getSelectedRange($today);
+        $range = $this->getSelectedRange();
         $previousRange = $this->getPreviousRange($range['start'], $range['days']);
         $calendarMonth = $this->getCalendarMonth($today);
 
@@ -49,9 +49,9 @@ class SummaryController
             'labels' => array_column($summary = $this->getCategorySummary($userId, $range['start'], $range['end']), 'category_name'),
             'data' => array_map('floatval', array_column($summary, 'total_amount')),
         ];
-        $calendarTransactions = $this->getCalendarTransactions($userId, $today);
+        $calendarTransactions = $this->getCalendarTransactions($userId);
         $dailyBalanceChart = $this->getDailyBalanceChart($userId, $range['start'], $range['end']);
-        $monthlyBalanceChart = $this->getMonthlyBalanceChart($userId, $today);
+        $monthlyBalanceChart = $this->getMonthlyBalanceChart($userId);
 
         $data = [
             'title' => 'Dashboard Raportów',
@@ -102,9 +102,9 @@ class SummaryController
         require_once __DIR__ . '/../views/summary.php';
     }
 
-    private function getSelectedRange(string $today): array
+    private function getSelectedRange(): array
     {
-        // Wyznacza zakres raportu na podstawie parametrów GET z ograniczeniem do bieżącej daty.
+        // Wyznacza zakres raportu na podstawie parametrów GET.
         $month = isset($_GET['month']) ? (int) $_GET['month'] : (int) date('m');
         $year = isset($_GET['year']) ? (int) $_GET['year'] : (int) date('Y');
         $month = max(1, min(12, $month));
@@ -114,14 +114,6 @@ class SummaryController
 
         $start = !empty($_GET['start_date']) ? $_GET['start_date'] : $defaultStart;
         $end = !empty($_GET['end_date']) ? $_GET['end_date'] : $defaultEnd;
-
-        if ($start > $today) {
-            $start = $today;
-        }
-
-        if ($end > $today) {
-            $end = $today;
-        }
 
         if ($start > $end) {
             $start = $end;
@@ -154,7 +146,7 @@ class SummaryController
         $requested = $_GET['calendar_month'] ?? date('Y-m');
         $calendarMonth = DateTimeImmutable::createFromFormat('Y-m-d', $requested . '-01');
 
-        if ($calendarMonth === false || $calendarMonth->format('Y-m') > date('Y-m')) {
+        if ($calendarMonth === false) {
             return new DateTimeImmutable('first day of this month');
         }
 
@@ -234,7 +226,7 @@ class SummaryController
         return $stmt->fetchAll();
     }
 
-    private function getCalendarTransactions(int $userId, string $today): array
+    private function getCalendarTransactions(int $userId): array
     {
         // Przygotowuje dzienne sumy przychodów i wydatków używane w kalendarzu transakcji.
         $stmt = $this->db->prepare("
@@ -242,11 +234,11 @@ class SummaryController
                 SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END) as expense_total,
                 SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END) as income_total
             FROM transactions
-            WHERE user_id = ? AND date <= ?
+            WHERE user_id = ?
             GROUP BY date
             ORDER BY date ASC
         ");
-        $stmt->execute([$userId, $today]);
+        $stmt->execute([$userId]);
 
         $transactions = [];
         foreach ($stmt->fetchAll() as $row) {
@@ -291,27 +283,30 @@ class SummaryController
         return ['labels' => $labels, 'data' => $data];
     }
 
-    private function getMonthlyBalanceChart(int $userId, string $today): array
+    private function getMonthlyBalanceChart(int $userId): array
     {
-        // Agreguje bilans miesięczny dla wykresu obejmującego kolejne miesiące.
+        // Agreguje bilans miesięczny dla wykresu obejmującego także zaplanowane transakcje.
         $stmt = $this->db->prepare("
             SELECT DATE_FORMAT(date, '%Y-%m') as month_key,
                 SUM(CASE WHEN type = 'income' THEN amount ELSE -amount END) as monthly_balance
             FROM transactions
-            WHERE user_id = ? AND date <= ?
+            WHERE user_id = ?
             GROUP BY DATE_FORMAT(date, '%Y-%m')
             ORDER BY month_key ASC
         ");
-        $stmt->execute([$userId, $today]);
+        $stmt->execute([$userId]);
 
         $totals = [];
         foreach ($stmt->fetchAll() as $row) {
             $totals[$row['month_key']] = (float) $row['monthly_balance'];
         }
 
+        $lastMonth = !empty($totals) ? max(array_keys($totals)) : date('Y-m');
+        $currentMonth = max(date('Y-m'), $lastMonth);
+
         return [
             'totals' => $totals,
-            'currentMonth' => date('Y-m'),
+            'currentMonth' => $currentMonth,
         ];
     }
 

@@ -22,11 +22,11 @@
                     <div class="summary-date-inputs">
                         <div class="summary-input-group">
                             <label>Od:</label>
-                            <input type="date" name="start_date" id="startDateInput" value="<?= $data['startDate'] ?>" max="<?= $data['today'] ?>">
+                            <input type="date" name="start_date" id="startDateInput" value="<?= $data['startDate'] ?>">
                         </div>
                         <div class="summary-input-group">
                             <label>Do:</label>
-                            <input type="date" name="end_date" id="endDateInput" value="<?= $data['endDate'] ?>" max="<?= $data['today'] ?>">
+                            <input type="date" name="end_date" id="endDateInput" value="<?= $data['endDate'] ?>">
                         </div>
                     </div>
 
@@ -177,7 +177,7 @@
             <button type="button" id="closeQuickAdd" aria-label="Zamknij">&times;</button>
         </div>
         <form action="<?= url('transaction/add') ?>" method="POST" class="summary-quick-add-form">
-            <input type="hidden" name="return_to" value="summary">
+            <input type="hidden" name="redirect_to" value="summary">
             <input type="hidden" name="summary_start_date" value="<?= htmlspecialchars($data['startDate']) ?>">
             <input type="hidden" name="summary_end_date" value="<?= htmlspecialchars($data['endDate']) ?>">
             <input type="hidden" name="summary_calendar_month" id="quickAddCalendarMonth" value="<?= sprintf('%04d-%02d', $data['calendarYear'], $data['calendarMonth']) ?>">

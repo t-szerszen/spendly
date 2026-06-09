@@ -45,7 +45,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // --- Funkcje pomocnicze do obsługi dat i wartości pieniężnych ---
     const formatDateString = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
     const formatMonthKey = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
-    const clampToToday = d => d > today ? new Date(today) : d;
     
     const formatMoney = v => `${v.toLocaleString('pl-PL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} zł`;
     const compressMoney = v => v === 0 ? 0 : Math.sign(v) * Math.log10(Math.abs(v) + 1);
@@ -101,8 +100,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // --- Walidacja zakresu dat i nawigacja miesięczna ---
     function handleDateChange(isStart) {
         if (!elements.startDate.value || !elements.endDate.value) return;
-        let start = clampToToday(new Date(elements.startDate.value));
-        let end = clampToToday(new Date(elements.endDate.value));
+        let start = new Date(elements.startDate.value);
+        let end = new Date(elements.endDate.value);
 
         if (isStart && start >= end) {
             end = new Date(start);
@@ -113,26 +112,20 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         elements.startDate.value = formatDateString(start);
-        elements.endDate.value = formatDateString(clampToToday(end));
+        elements.endDate.value = formatDateString(end);
         elements.filterForm.submit();
     }
 
     if (elements.startDate) elements.startDate.addEventListener('change', () => handleDateChange(true));
     if (elements.endDate) elements.endDate.addEventListener('change', () => handleDateChange(false));
 
-    if (elements.nextMonth && elements.endDate && new Date(elements.endDate.value) >= today) {
-        elements.nextMonth.disabled = true;
-    }
-
     function changeMonth(offset) {
         if (!elements.startDate.value) return;
         const current = new Date(elements.startDate.value);
         const newDate = new Date(current.getFullYear(), current.getMonth() + offset, 1);
-        
-        if (newDate > today) return;
 
         elements.startDate.value = formatDateString(newDate);
-        elements.endDate.value = formatDateString(clampToToday(new Date(newDate.getFullYear(), newDate.getMonth() + 1, 0)));
+        elements.endDate.value = formatDateString(new Date(newDate.getFullYear(), newDate.getMonth() + 1, 0));
         
         const hMonth = document.getElementById('hiddenMonth'), hYear = document.getElementById('hiddenYear');
         if (hMonth) hMonth.value = newDate.getMonth() + 1;
@@ -145,7 +138,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // --- Kalendarz transakcji ---
     let displayedMonth = new Date(dataContainer.calendarYear, dataContainer.calendarMonth - 1, 1);
-    const maxCalendarMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 
     function renderCalendar() {
         if (!elements.calendarGrid) return;
@@ -155,7 +147,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const totalDays = new Date(year, month + 1, 0).getDate();
 
         if (elements.calendarLabel) elements.calendarLabel.textContent = `${monthNames[month]} ${year}`;
-        if (elements.nextCal) elements.nextCal.disabled = !sameOrBeforeMonth(new Date(year, month + 1, 1), maxCalendarMonth);
 
         elements.calendarGrid.innerHTML = '';
 
@@ -181,15 +172,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 dayCell.classList.add('no-expense');
             }
 
-            if (new Date(year, month, day) <= today) {
-                const btn = createEl('button', ['calendar-add-link'], '+');
-                btn.type = 'button';
-                btn.title = `Dodaj transakcję: ${dateKey}`;
-                btn.addEventListener('click', e => { e.stopPropagation(); openQuickAdd(dateKey, dayCell); });
-                dayCell.appendChild(btn);
-            } else {
-                dayCell.classList.add('future-day');
-            }
+            const btn = createEl('button', ['calendar-add-link'], '+');
+            btn.type = 'button';
+            btn.title = `Dodaj transakcję: ${dateKey}`;
+            btn.addEventListener('click', e => { e.stopPropagation(); openQuickAdd(dateKey, dayCell); });
+            dayCell.appendChild(btn);
             elements.calendarGrid.appendChild(dayCell);
         }
 
